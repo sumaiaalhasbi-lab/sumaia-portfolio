@@ -41,7 +41,7 @@ const VIDEO_TABS = [
 ] as const;
 
 const VIDEOS: { tab: 'script' | 'ai'; ar: string; en: string; poster: string }[] = [
-  {
+
     tab: 'script',
     ar: 'سكربت إعلاني لمنتج عناية',
     en: 'Skincare product ad script',
