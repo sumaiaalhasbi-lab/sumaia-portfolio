@@ -1,17 +1,37 @@
 import { useState } from 'react';
-import { Play, Pause, X, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Play, Pause, X } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const SHOWCASE = [
   {
     img: 'https://images.pexels.com/photos/3850271/pexels-photo-3850271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-    ar: { title: 'إدارة حسابات السوشيال ميديا', metric: '+180% نمو التفاعل', sub: 'إدارة كاملة للنشر والمحتوى والتقارير' },
-    en: { title: 'Social Media Account Management', metric: '+180% Engagement Growth', sub: 'Full posting, content & reporting' },
+    ar: { title: 'إدارة حسابات السوشيال ميديا', sub: 'إدارة كاملة للنشر والمحتوى والتقارير' },
+    en: { title: 'Social Media Management', sub: 'Full posting, content & reporting' },
   },
   {
     img: 'https://images.pexels.com/photos/15525898/pexels-photo-15525898.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
-    ar: { title: 'نمو المتابعين والمشاركة', metric: '+12K متابع جديد', sub: 'خطط تحريرية مدروسة لزيادة الوصول' },
-    en: { title: 'Follower & Engagement Growth', metric: '+12K New Followers', sub: 'Data-driven editorial plans for reach' },
+    ar: { title: 'نمو المتابعين والمشاركة', sub: 'خطط تحريرية مدروسة لزيادة الوصول' },
+    en: { title: 'Follower & Reach Growth', sub: 'Data-driven editorial plans for reach' },
+  },
+  {
+    img: 'https://images.pexels.com/photos/36339062/pexels-photo-36339062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    ar: { title: 'إدارة حسابات المتاجر', sub: 'تنظيم الهوية البصرية والمحتوى البيعي' },
+    en: { title: 'E-commerce Social Accounts', sub: 'Visual identity & sales content' },
+  },
+  {
+    img: 'https://images.pexels.com/photos/33525723/pexels-photo-33525723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    ar: { title: 'تقويم المحتوى الشهري', sub: 'جدولة دقيقة ومتابعة التفاعل اليومي' },
+    en: { title: 'Monthly Content Calendar', sub: 'Precise scheduling & daily engagement' },
+  },
+  {
+    img: 'https://images.pexels.com/photos/4841273/pexels-photo-4841273.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    ar: { title: 'حملات الإطلاق الموسمية', sub: 'إدارة متكاملة لحملات العروض والمواسم' },
+    en: { title: 'Seasonal Launch Campaigns', sub: 'End-to-end management for seasonal offers' },
+  },
+  {
+    img: 'https://images.pexels.com/photos/35976902/pexels-photo-35976902.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    ar: { title: 'تحليل الأداء والتقارير', sub: 'تقارير دورية لتحسين النتائج والوصول' },
+    en: { title: 'Analytics & Reporting', sub: 'Periodic reports to optimize reach' },
   },
 ];
 
@@ -20,11 +40,43 @@ const VIDEO_TABS = [
   { key: 'ai', ar: 'فيديوهات إعلانية و UGC (بالذكاء الاصطناعي)', en: 'Ad & UGC Videos (AI-Powered)' },
 ] as const;
 
-const VIDEOS: { tab: 'script' | 'ai'; ar: string; en: string }[] = [
-  { tab: 'script', ar: 'سكربت إعلاني لمنتج عناية', en: 'Skincare product ad script' },
-  { tab: 'script', ar: 'سكربت حملة إطلاق براند', en: 'Brand launch campaign script' },
-  { tab: 'ai', ar: 'فيديو AI إعلاني لمنتج متجر', en: 'AI ad video for store product' },
-  { tab: 'ai', ar: 'فيديو UGC بأسلوب تجريبي', en: 'UGC-style testimonial video' },
+const VIDEOS: { tab: 'script' | 'ai'; ar: string; en: string; poster: string }[] = [
+  {
+    tab: 'script',
+    ar: 'سكربت إعلاني لمنتج عناية',
+    en: 'Skincare product ad script',
+    poster: 'https://images.pexels.com/photos/36339062/pexels-photo-36339062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
+  {
+    tab: 'script',
+    ar: 'سكربت حملة إطلاق براند',
+    en: 'Brand launch campaign script',
+    poster: 'https://images.pexels.com/photos/33525723/pexels-photo-33525723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
+  {
+    tab: 'script',
+    ar: 'سكربت إعلان متجر إلكتروني',
+    en: 'E-commerce store ad script',
+    poster: 'https://images.pexels.com/photos/4841273/pexels-photo-4841273.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
+  {
+    tab: 'ai',
+    ar: 'فيديو AI إعلاني لمنتج متجر',
+    en: 'AI ad video for store product',
+    poster: 'https://images.pexels.com/photos/35976902/pexels-photo-35976902.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
+  {
+    tab: 'ai',
+    ar: 'فيديو UGC بأسلوب تجريبي',
+    en: 'UGC-style testimonial video',
+    poster: 'https://images.pexels.com/photos/19117855/pexels-photo-19117855.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
+  {
+    tab: 'ai',
+    ar: 'فيديو إعلاني بالذكاء الاصطناعي',
+    en: 'AI promotional product video',
+    poster: 'https://images.pexels.com/photos/3850271/pexels-photo-3850271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  },
 ];
 
 const POSTS = [
@@ -62,9 +114,9 @@ export default function Portfolio() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
   const filteredVideos = VIDEOS.filter((v) => v.tab === videoTab);
-  const videosLoop = [...filteredVideos, ...filteredVideos, ...filteredVideos];
-
-  const postsLoop = [...POSTS, ...POSTS, ...POSTS];
+  // مضاعفة العناصر 4 مرات لضمان عدم وجود أي فراغ أثناء الحركة المستمرة
+  const videosLoop = [...filteredVideos, ...filteredVideos, ...filteredVideos, ...filteredVideos];
+  const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
@@ -77,12 +129,12 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* Part A: Social showcase */}
+      {/* Part A: Social showcase (6 بطاقات متراصة بجانب بعضها) */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
         </h3>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {SHOWCASE.map((s, i) => {
             const data = lang === 'ar' ? s.ar : s.en;
             return (
@@ -96,10 +148,10 @@ export default function Portfolio() {
                     alt={data.title}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 p-4">
-                    <h4 className="text-sm font-bold text-white">{data.title}</h4>
-                    <p className="mt-1 text-[11px] text-white/70">{data.sub}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                  <div className="absolute bottom-0 p-3">
+                    <h4 className="text-xs font-bold leading-snug text-white">{data.title}</h4>
+                    <p className="mt-1 text-[10px] leading-tight text-white/75">{data.sub}</p>
                   </div>
                 </div>
               </div>
@@ -108,14 +160,17 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Part B: Videos marquee */}
+      {/* Part B: Videos marquee (حركة مستمرة في نفس الاتجاه بدون فراغات) */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-5 flex flex-wrap gap-2">
           {VIDEO_TABS.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setVideoTab(tab.key)}
+              onClick={() => {
+                setVideoTab(tab.key);
+                setPlayingVideo(null);
+              }}
               className={`rounded-xl px-4 py-2 text-xs font-bold transition ${
                 videoTab === tab.key
                   ? 'bg-accent text-white shadow-lg shadow-accent/30'
@@ -127,106 +182,17 @@ export default function Portfolio() {
           ))}
         </div>
 
-        <div className="overflow-hidden">
-          <div className="flex w-max gap-4 animate-marquee">
+        <div dir="ltr" className="overflow-hidden py-2">
+          <div className="flex w-max gap-4 animate-marquee hover:[animation-play-state:paused]">
             {videosLoop.map((v, i) => {
               const isPlaying = playingVideo === i;
-              const poster = POSTS[i % POSTS.length].img;
               return (
                 <button
                   key={i}
                   type="button"
                   aria-label={isPlaying ? t('إيقاف الفيديو', 'Pause video') : t('تشغيل الفيديو', 'Play video')}
                   onClick={() => setPlayingVideo(isPlaying ? null : i)}
-                  className="group relative aspect-[9/16] w-[220px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
+                  className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
                 >
                   <img
-                    src={poster}
-                    alt=""
-                    className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${isPlaying ? 'scale-110 opacity-60' : 'group-hover:scale-105'}`}
-                  />
-                  <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
-                  <span className={`absolute inset-0 grid place-items-center transition ${isPlaying ? 'bg-accent/10' : ''}`}>
-                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent/90 text-white shadow-lg shadow-accent/40 transition group-hover:scale-110">
-                      {isPlaying ? <Pause className="h-6 w-6 fill-white" /> : <Play className="h-6 w-6 fill-white" />}
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Part C: Posts marquee */}
-      <div id="posts">
-        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">
-          {t('محتوى منشورات السوشيال ميديا', 'Social Media Post Content')}
-        </h3>
-        <div className="overflow-hidden">
-          <div className="flex w-max gap-4 animate-marquee" style={{ animationDirection: 'reverse' }}>
-            {postsLoop.map((p, i) => {
-              const data = lang === 'ar' ? p.ar : p.en;
-              return (
-                <button
-                  key={i}
-                  onClick={() => setLightbox(p)}
-                  className="group relative aspect-[9/16] w-[220px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark text-left transition hover:border-accent/50 hover:-translate-y-1"
-                >
-                  <img
-                    src={p.img}
-                    alt={data.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent opacity-0 transition group-hover:opacity-100" />
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Lightbox */}
-      {lightbox && (
-        <PostLightbox post={lightbox} onClose={() => setLightbox(null)} />
-      )}
-    </section>
-  );
-}
-
-function PostLightbox({ post, onClose }: { post: (typeof POSTS)[number]; onClose: () => void }) {
-  const { lang } = useApp();
-  const data = lang === 'ar' ? post.ar : post.en;
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fade-up" />
-      <div
-        className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-accent/30 bg-bg-light dark:bg-bg-dark shadow-2xl shadow-accent/20 animate-fade-up"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute left-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-black/40 text-white backdrop-blur transition hover:bg-accent"
-        >
-          <X className="h-4 w-4" />
-        </button>
-        <div className="grid sm:grid-cols-2">
-          <img src={post.img} alt={data.title} className="h-64 w-full object-cover sm:h-full" />
-          <div className="p-6">
-            <h3 className="text-base font-extrabold text-ink-light dark:text-ink-dark">{data.title}</h3>
-            <div className="mt-3 flex gap-4 text-xs text-ink-light/50 dark:text-ink-dark/50">
-              <span className="flex items-center gap-1"><Heart className="h-3.5 w-3.5 text-accent" /> 2.4K</span>
-              <span className="flex items-center gap-1"><MessageCircle className="h-3.5 w-3.5 text-accent" /> 318</span>
-              <span className="flex items-center gap-1"><Share2 className="h-3.5 w-3.5 text-accent" /> 902</span>
-            </div>
-            <p className="mt-4 text-sm leading-relaxed text-ink-light/75 dark:text-ink-dark/75">{data.caption}</p>
-            <span className="mt-4 inline-block rounded-lg bg-accent/10 px-3 py-1 text-[11px] font-bold text-accent">
-              {lang === 'ar' ? 'كاتبة المحتوى: سمية الحاصبي' : 'Content Writer: Sumaia Al-Hasbi'}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+                    src={v.poster}
