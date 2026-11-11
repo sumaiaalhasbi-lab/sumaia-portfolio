@@ -4,32 +4,32 @@ import { useApp } from '@/context/AppContext';
 
 const SHOWCASE = [
   {
-    img: 'https://images.pexels.com/photos/3850271/pexels-photo-3850271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'إدارة حسابات السوشيال ميديا', sub: 'إدارة كاملة للنشر والمحتوى والتقارير' },
     en: { title: 'Social Media Management', sub: 'Full posting, content & reporting' },
   },
   {
-    img: 'https://images.pexels.com/photos/15525898/pexels-photo-15525898.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'نمو المتابعين والمشاركة', sub: 'خطط تحريرية مدروسة لزيادة الوصول' },
     en: { title: 'Follower & Reach Growth', sub: 'Data-driven editorial plans for reach' },
   },
   {
-    img: 'https://images.pexels.com/photos/36339062/pexels-photo-36339062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'إدارة حسابات المتاجر', sub: 'تنظيم الهوية البصرية والمحتوى البيعي' },
     en: { title: 'E-commerce Social Accounts', sub: 'Visual identity & sales content' },
   },
   {
-    img: 'https://images.pexels.com/photos/33525723/pexels-photo-33525723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'تقويم المحتوى الشهري', sub: 'جدولة دقيقة ومتابعة التفاعل اليومي' },
     en: { title: 'Monthly Content Calendar', sub: 'Precise scheduling & daily engagement' },
   },
   {
-    img: 'https://images.pexels.com/photos/4841273/pexels-photo-4841273.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'حملات الإطلاق الموسمية', sub: 'إدارة متكاملة لحملات العروض والمواسم' },
     en: { title: 'Seasonal Launch Campaigns', sub: 'End-to-end management for seasonal offers' },
   },
   {
-    img: 'https://images.pexels.com/photos/35976902/pexels-photo-35976902.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'تحليل الأداء والتقارير', sub: 'تقارير دورية لتحسين النتائج والوصول' },
     en: { title: 'Analytics & Reporting', sub: 'Periodic reports to optimize reach' },
   },
@@ -45,63 +45,63 @@ const VIDEOS: { tab: 'script' | 'ai'; ar: string; en: string; poster: string }[]
     tab: 'script',
     ar: 'سكربت إعلاني لمنتج عناية',
     en: 'Skincare product ad script',
-    poster: 'https://images.pexels.com/photos/36339062/pexels-photo-36339062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
   {
     tab: 'script',
     ar: 'سكربت حملة إطلاق براند',
     en: 'Brand launch campaign script',
-    poster: 'https://images.pexels.com/photos/33525723/pexels-photo-33525723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
   {
     tab: 'script',
     ar: 'سكربت إعلان متجر إلكتروني',
     en: 'E-commerce store ad script',
-    poster: 'https://images.pexels.com/photos/4841273/pexels-photo-4841273.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو AI إعلاني لمنتج متجر',
     en: 'AI ad video for store product',
-    poster: 'https://images.pexels.com/photos/35976902/pexels-photo-35976902.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو UGC بأسلوب تجريبي',
     en: 'UGC-style testimonial video',
-    poster: 'https://images.pexels.com/photos/19117855/pexels-photo-19117855.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو إعلاني بالذكاء الاصطناعي',
     en: 'AI promotional product video',
-    poster: 'https://images.pexels.com/photos/3850271/pexels-photo-3850271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    poster: 'https://pexels.com',
   },
 ];
 
 const POSTS = [
   {
-    img: 'https://images.pexels.com/photos/36339062/pexels-photo-36339062.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة — وصف جذاب يتصدر نتائج البحث.' },
     en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products — engaging descriptions that rank.' },
   },
   {
-    img: 'https://images.pexels.com/photos/33525723/pexels-photo-33525723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي لمتجر إلكتروني.' },
     en: { title: 'Shampoo & Conditioner Content', caption: 'Product description aligned with search and AI engines for an e-commerce store.' },
   },
   {
-    img: 'https://images.pexels.com/photos/4841273/pexels-photo-4841273.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' },
     en: { title: 'Skincare Routine Post', caption: 'Marketing post with a compelling narrative structure built for conversion.' },
   },
   {
-    img: 'https://images.pexels.com/photos/35976902/pexels-photo-35976902.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب ويدفع للشراء.' },
     en: { title: 'New Product Launch', caption: 'Launch campaign content in an advertising style that builds anticipation and drives sales.' },
   },
   {
-    img: 'https://images.pexels.com/photos/19117855/pexels-photo-19117855.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    img: 'https://pexels.com',
     ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي لبوكس هدية يبرز القيمة ويحفّز الطلب.' },
     en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description for a gift box that highlights value and drives demand.' },
   },
@@ -114,12 +114,26 @@ export default function Portfolio() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
   const filteredVideos = VIDEOS.filter((v) => v.tab === videoTab);
-  // مضاعفة العناصر 4 مرات لضمان عدم وجود أي فراغ أثناء الحركة المستمرة
   const videosLoop = [...filteredVideos, ...filteredVideos, ...filteredVideos, ...filteredVideos];
   const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+      <style>{`
+        @keyframes smoothScrollLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          display: flex;
+          width: max-content;
+          animation: smoothScrollLeft 35s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
       <div className="mb-10 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">
           {t('أعمالي', 'Portfolio')}
@@ -160,7 +174,7 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Part B: Videos marquee (حركة مستمرة في نفس الاتجاه بدون فراغات) */}
+      {/* Part B: Videos marquee */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-5 flex flex-wrap gap-2">
@@ -183,7 +197,7 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="overflow-hidden py-2">
-          <div className="flex w-max gap-4 animate-marquee hover:[animation-play-state:paused]">
+          <div className="marquee-track gap-4">
             {videosLoop.map((v, i) => {
               const isPlaying = playingVideo === i;
               return (
@@ -192,7 +206,3 @@ export default function Portfolio() {
                   type="button"
                   aria-label={isPlaying ? t('إيقاف الفيديو', 'Pause video') : t('تشغيل الفيديو', 'Play video')}
                   onClick={() => setPlayingVideo(isPlaying ? null : i)}
-                  className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
-                >
-                  <img
-                    src={v.poster}
