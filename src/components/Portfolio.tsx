@@ -4,32 +4,32 @@ import { useApp } from '@/context/AppContext';
 
 const SHOWCASE = [
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'إدارة حسابات السوشيال ميديا', sub: 'إدارة كاملة للنشر والمحتوى والتقارير' },
     en: { title: 'Social Media Management', sub: 'Full posting, content & reporting' },
   },
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'نمو المتابعين والمشاركة', sub: 'خطط تحريرية مدروسة لزيادة الوصول' },
     en: { title: 'Follower & Reach Growth', sub: 'Data-driven editorial plans for reach' },
   },
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'إدارة حسابات المتاجر', sub: 'تنظيم الهوية البصرية والمحتوى البيعي' },
     en: { title: 'E-commerce Social Accounts', sub: 'Visual identity & sales content' },
   },
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'تقويم المحتوى الشهري', sub: 'جدولة دقيقة ومتابعة التفاعل اليومي' },
     en: { title: 'Monthly Content Calendar', sub: 'Precise scheduling & daily engagement' },
   },
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'حملات الإطلاق الموسمية', sub: 'إدارة متكاملة لحملات العروض والمواسم' },
     en: { title: 'Seasonal Launch Campaigns', sub: 'End-to-end management for seasonal offers' },
   },
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'تحليل الأداء والتقارير', sub: 'تقارير دورية لتحسين النتائج والوصول' },
     en: { title: 'Analytics & Reporting', sub: 'Periodic reports to optimize reach' },
   },
@@ -45,44 +45,68 @@ const VIDEOS: { tab: 'script' | 'ai'; ar: string; en: string; poster: string }[]
     tab: 'script',
     ar: 'سكربت إعلاني لمنتج عناية',
     en: 'Skincare product ad script',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
   {
     tab: 'script',
     ar: 'سكربت حملة إطلاق براند',
     en: 'Brand launch campaign script',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
   {
     tab: 'script',
     ar: 'سكربت إعلان متجر إلكتروني',
     en: 'E-commerce store ad script',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو AI إعلاني لمنتج متجر',
     en: 'AI ad video for store product',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو UGC بأسلوب تجريبي',
     en: 'UGC-style testimonial video',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
   {
     tab: 'ai',
     ar: 'فيديو إعلاني بالذكاء الاصطناعي',
     en: 'AI promotional product video',
-    poster: 'https://pexels.com',
+    poster: 'https://unsplash.com',
   },
 ];
 
 const POSTS = [
   {
-    img: 'https://pexels.com',
+    img: 'https://unsplash.com',
     ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة — وصف جذاب يتصدر نتائج البحث.' },
+    en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products — engaging descriptions that rank.' },
+  },
+  {
+    img: 'https://unsplash.com',
+    ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي لمتجر إلكتروني.' },
+    en: { title: 'Shampoo & Conditioner Content', caption: 'Product description aligned with search and AI engines for an e-commerce store.' },
+  },
+  {
+    img: 'https://unsplash.com',
+    ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' },
+    en: { title: 'Skincare Routine Post', caption: 'Marketing post with a compelling narrative structure built for conversion.' },
+  },
+  {
+    img: 'https://unsplash.com',
+    ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب ويدفع للشراء.' },
+    en: { title: 'New Product Launch', caption: 'Launch campaign content in an advertising style that builds anticipation and drives sales.' },
+  },
+  {
+    img: 'https://unsplash.com',
+    ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي لبوكس هدية يبرز القيمة ويحفّز الطلب.' },
+    en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description for a gift box that highlights value and drives demand.' },
+  },
+];
+
     en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products — engaging descriptions that rank.' },
   },
   {
