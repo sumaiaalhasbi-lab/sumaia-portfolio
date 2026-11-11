@@ -30,7 +30,7 @@ export default function Hero() {
             <span className="mt-1.5 block" style={{ color: '#7c3aed' }}>{t('إدارة حسابات التواصل الاجتماعي وإعداد الخطط', 'Social Media Management & Strategy')}</span>
             <span className="mt-1.5 block" style={{ color: '#d4d4d8' }}>
               {t('كتابة محتوى المتاجر المتوافق مع', 'E-commerce content aligned with')}{' '}
-              <span dir="ltr" style={{ color: '#7c3aed' }}>(SEO / GEO / AEO)</span>
+              <span dir="ltr" style={{ color: '#ffffff' }}>(SEO / GEO / AEO)</span>
             </span>
           </h1>
 
