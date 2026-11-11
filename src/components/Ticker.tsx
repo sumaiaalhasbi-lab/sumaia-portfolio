@@ -26,20 +26,35 @@ const ITEMS = [
 
 export default function Ticker() {
   const { lang, t } = useApp();
-  const items = [...ITEMS, ...ITEMS]; // duplicate for seamless loop
+  const items = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
 
   return (
     <section className="relative border-y border-accent/15 bg-card-light/50 dark:bg-card-dark/50 py-5">
-      <div className="overflow-hidden">
-        <div
-          className="flex w-max gap-8 animate-marquee"
-          style={{ animationDirection: lang === 'ar' ? 'reverse' : 'normal' }}
-        >
+      <style>{`
+        @keyframes tickerSmooth {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: tickerSmooth 30s linear infinite;
+        }
+        .ticker-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+      <div dir="ltr" className="overflow-hidden">
+        <div className="ticker-track gap-8">
           {items.map((item, i) => {
             const Icon = item.icon;
             const txt = lang === 'ar' ? item.ar : item.en;
             return (
-              <div key={i} className="flex items-center gap-3 whitespace-nowrap px-2">
+              <div
+                key={i}
+                dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                className="flex items-center gap-3 whitespace-nowrap px-2"
+              >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
                   <Icon className="h-5 w-5" />
                 </span>
