@@ -30,7 +30,7 @@ export default function Navbar() {
           <span className="grid h-9 w-9 place-items-center rounded-lg bg-accent text-white font-extrabold text-sm shadow-lg shadow-accent/40">
             س
           </span>
-          <span className="hidden sm:block text-sm font-bold tracking-tight text-ink-light dark:text-ink-dark">
+          <span className="hidden sm:block text-sm font-bold tracking-tight text-ink-light dark:text-white">
             {t('سمية الحاصبي', 'Sumaia Al-Hasbi')}
           </span>
         </a>
@@ -41,7 +41,7 @@ export default function Navbar() {
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className="rounded-lg px-3.5 py-2 text-sm font-bold text-accent/80 transition hover:text-accent hover:bg-accent/5"
+                className="rounded-lg px-3.5 py-2 text-sm font-bold text-ink-light dark:text-white transition hover:text-accent dark:hover:text-accent hover:bg-accent/5"
               >
                 {t(s.ar, s.en)}
               </a>
@@ -59,7 +59,7 @@ export default function Navbar() {
           <button
             onClick={toggleLang}
             aria-label="Toggle language"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-accent transition hover:bg-accent/15"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition hover:bg-accent/15 hover:text-accent"
           >
             <span className="flex items-center gap-1 text-[11px] font-bold">
               <Languages className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-accent transition hover:bg-accent/15"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition hover:bg-accent/15 hover:text-accent"
           >
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
@@ -78,7 +78,7 @@ export default function Navbar() {
           <button
             onClick={() => setOpen((p) => !p)}
             aria-label="Menu"
-            className="lg:hidden grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-accent transition hover:bg-accent/15"
+            className="lg:hidden grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition hover:bg-accent/15"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -94,7 +94,7 @@ export default function Navbar() {
                 <a
                   href={`#${s.id}`}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-4 py-2.5 text-sm font-semibold text-ink-light/80 dark:text-ink-dark/80 transition hover:bg-accent/10 hover:text-accent"
+                  className="block rounded-lg px-4 py-2.5 text-sm font-semibold text-ink-light dark:text-white transition hover:bg-accent/10 hover:text-accent"
                 >
                   {t(s.ar, s.en)}
                 </a>
