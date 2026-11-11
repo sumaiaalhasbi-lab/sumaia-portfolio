@@ -116,7 +116,6 @@ export default function Portfolio() {
   const filteredVideos = VIDEOS.filter((v) => v.tab === videoTab);
   const videosLoop = [...filteredVideos, ...filteredVideos, ...filteredVideos, ...filteredVideos];
   const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -143,7 +142,6 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* Part A: Social showcase (6 بطاقات متراصة بجانب بعضها) */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -174,7 +172,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Part B: Videos marquee */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-5 flex flex-wrap gap-2">
@@ -206,3 +203,87 @@ export default function Portfolio() {
                   type="button"
                   aria-label={isPlaying ? t('إيقاف الفيديو', 'Pause video') : t('تشغيل الفيديو', 'Play video')}
                   onClick={() => setPlayingVideo(isPlaying ? null : i)}
+                  className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
+                >
+                  <img
+                    src={v.poster}
+                    alt={lang === 'ar' ? v.ar : v.en}
+                    className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${
+                      isPlaying ? 'scale-110 opacity-60' : 'group-hover:scale-105'
+                    }`}
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
+                  <span className={`absolute inset-0 grid place-items-center transition ${isPlaying ? 'bg-accent/10' : ''}`}>
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent/90 text-white shadow-lg shadow-accent/40 transition group-hover:scale-110">
+                      {isPlaying ? <Pause className="h-6 w-6 fill-white" /> : <Play className="h-6 w-6 fill-white ms-0.5" />}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div id="posts">
+        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">
+          {t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}
+        </h3>
+        <div dir="ltr" className="overflow-hidden py-2">
+          <div className="marquee-track gap-4">
+            {postsLoop.map((post, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setLightbox(post)}
+                className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/60"
+              >
+                <img
+                  src={post.img}
+                  alt={lang === 'ar' ? post.ar.title : post.en.title}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={() => setLightbox(null)}
+        >
+          <div
+            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+            className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-5 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setLightbox(null)}
+              aria-label="Close"
+              className="absolute top-4 end-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="aspect-[4/5] w-full overflow-hidden rounded-2xl">
+              <img
+                src={lightbox.img}
+                alt={lang === 'ar' ? lightbox.ar.title : lightbox.en.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <h4 className="mt-4 text-lg font-bold text-ink-light dark:text-ink-dark">
+              {lang === 'ar' ? lightbox.ar.title : lightbox.en.title}
+            </h4>
+            <p className="mt-2 text-sm leading-relaxed text-ink-light/70 dark:text-ink-dark/70">
+              {lang === 'ar' ? lightbox.ar.caption : lightbox.en.caption}
+            </p>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
