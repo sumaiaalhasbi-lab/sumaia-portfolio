@@ -233,3 +233,5 @@ export default function Portfolio() {
                 className="instagram-media"
                 data-instgrm-permalink={activeInsta.url}
                 data-instgrm-version="14"
+                style={{ width: '100%', maxWidth: '400px', margin: 0 }}
+              />
