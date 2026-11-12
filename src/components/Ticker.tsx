@@ -4,23 +4,47 @@ import { Award, Users, ShoppingCart, Briefcase } from 'lucide-react';
 const ITEMS = [
   {
     icon: Award,
-    ar: { title: '+4 سنوات خبرة', sub: 'في السوق الخليجي · كتابة المحتوى والتسويق' },
-    en: { title: '+4 Years Experience', sub: 'Gulf market · Content & Marketing' },
+    ar: {
+      title: '+4 سنوات خبرة',
+      sub: 'في السوق الخليجي · كتابة المحتوى والتسويق وإدارة حسابات التواصل والمتاجر',
+    },
+    en: {
+      title: '+4 Years Experience',
+      sub: 'Gulf market · Content, Marketing, Social Media & E-commerce Management',
+    },
   },
   {
     icon: Users,
-    ar: { title: '+15 شركة وعميل', sub: 'مشاريع ناجحة عن بُعد' },
-    en: { title: '+15 Clients & Companies', sub: 'Successful remote projects' },
+    ar: {
+      title: '+15 شركة وعميل',
+      sub: 'مشاريع ناجحة عن بُعد في السوق الخليجي واليمن وتركيا',
+    },
+    en: {
+      title: '+15 Clients & Companies',
+      sub: 'Successful remote projects across the Gulf, Yemen & Turkey',
+    },
   },
   {
     icon: ShoppingCart,
-    ar: { title: 'إدارة متكاملة لمتجر إلكتروني', sub: 'محتوى · إدخال بيانات · صور · SEO' },
-    en: { title: 'Full E-commerce Management', sub: 'Content · Data · Images · SEO' },
+    ar: {
+      title: 'إدارة متكاملة للمتاجر الإلكترونية و SEO',
+      sub: 'محتوى بيعي · إدخال بيانات · صور · تحسين الظهور (SEO / GEO / AEO)',
+    },
+    en: {
+      title: 'Full E-commerce Management & SEO',
+      sub: 'Sales copy · Data entry · Images · Visibility (SEO / GEO / AEO)',
+    },
   },
   {
     icon: Briefcase,
-    ar: { title: 'نموذج عمل مرن', sub: 'توظيف شهري عن بُعد · تنفيذ مشاريع مستقلة' },
-    en: { title: 'Flexible Work Model', sub: 'Monthly remote · Freelance projects' },
+    ar: {
+      title: 'نموذج عمل مرن',
+      sub: 'توظيف شهري عن بُعد · تنفيذ مشاريع مستقلة',
+    },
+    en: {
+      title: 'Flexible Work Model',
+      sub: 'Monthly remote hiring · Freelance project execution',
+    },
   },
 ];
 
@@ -38,7 +62,7 @@ export default function Ticker() {
         .ticker-track {
           display: flex;
           width: max-content;
-          animation: tickerSmooth 30s linear infinite;
+          animation: tickerSmooth 35s linear infinite;
         }
         .ticker-track:hover {
           animation-play-state: paused;
@@ -60,7 +84,7 @@ export default function Ticker() {
                 </span>
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-ink-light dark:text-ink-dark">{txt.title}</span>
-                  <span className="text-[11px] text-ink-light/50 dark:text-ink-dark/50">{txt.sub}</span>
+                  <span className="text-[11px] text-ink-light/60 dark:text-ink-dark/60">{txt.sub}</span>
                 </div>
                 <span className="mx-3 h-1.5 w-1.5 rounded-full bg-accent/50" />
               </div>
