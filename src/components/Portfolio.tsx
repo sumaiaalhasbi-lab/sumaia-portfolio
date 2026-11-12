@@ -18,25 +18,23 @@ const SHOWCASE = [
   { img: IMG_6, title: 'Social Media 6' },
 ];
 
-// 1. فيديوهات من الفكرة للإنتاج بالـ AI (10 روابط فعلية من إنستغرام)
 const AI_INSTAGRAM_VIDEOS = [
-  { id: 'ai1', ar: 'فيديو AI من الفكرة للإنتاج 1', en: 'AI Video Concept to Production 1', embedUrl: 'https://instagram.com' },
-  { id: 'ai2', ar: 'فيديو AI من الفكرة للإنتاج 2', en: 'AI Video Concept to Production 2', embedUrl: 'https://instagram.com' },
-  { id: 'ai3', ar: 'فيديو AI من الفكرة للإنتاج 3', en: 'AI Video Concept to Production 3', embedUrl: 'https://instagram.com' },
-  { id: 'ai4', ar: 'فيديو AI من الفكرة للإنتاج 4', en: 'AI Video Concept to Production 4', embedUrl: 'https://instagram.com' },
-  { id: 'ai5', ar: 'فيديو AI من الفكرة للإنتاج 5', en: 'AI Video Concept to Production 5', embedUrl: 'https://instagram.com' },
-  { id: 'ai6', ar: 'فيديو AI من الفكرة للإنتاج 6', en: 'AI Video Concept to Production 6', embedUrl: 'https://instagram.com' },
-  { id: 'ai7', ar: 'فيديو AI من الفكرة للإنتاج 7', en: 'AI Video Concept to Production 7', embedUrl: 'https://instagram.com' },
-  { id: 'ai8', ar: 'فيديو AI من الفكرة للإنتاج 8', en: 'AI Video Concept to Production 8', embedUrl: 'https://instagram.com' },
-  { id: 'ai9', ar: 'فيديو AI من الفكرة للإنتاج 9', en: 'AI Video Concept to Production 9', embedUrl: 'https://instagram.com' },
-  { id: 'ai10', ar: 'فيديو AI من الفكرة للإنتاج 10', en: 'AI Video Concept to Production 10', embedUrl: 'https://instagram.com' },
+  { id: 'ai1', ar: 'فيديو AI ترند و UGC 1', en: 'AI Trend & UGC Video 1', embedUrl: 'https://instagram.com' },
+  { id: 'ai2', ar: 'فيديو AI ترند و UGC 2', en: 'AI Trend & UGC Video 2', embedUrl: 'https://instagram.com' },
+  { id: 'ai3', ar: 'فيديو AI ترند و UGC 3', en: 'AI Trend & UGC Video 3', embedUrl: 'https://instagram.com' },
+  { id: 'ai4', ar: 'فيديو AI ترند و UGC 4', en: 'AI Trend & UGC Video 4', embedUrl: 'https://instagram.com' },
+  { id: 'ai5', ar: 'فيديو AI ترند و UGC 5', en: 'AI Trend & UGC Video 5', embedUrl: 'https://instagram.com' },
+  { id: 'ai6', ar: 'فيديو AI ترند و UGC 6', en: 'AI Trend & UGC Video 6', embedUrl: 'https://instagram.com' },
+  { id: 'ai7', ar: 'فيديو AI ترند و UGC 7', en: 'AI Trend & UGC Video 7', embedUrl: 'https://instagram.com' },
+  { id: 'ai8', ar: 'فيديو AI ترند و UGC 8', en: 'AI Trend & UGC Video 8', embedUrl: 'https://instagram.com' },
+  { id: 'ai9', ar: 'فيديو AI ترند و UGC 9', en: 'AI Trend & UGC Video 9', embedUrl: 'https://instagram.com' },
+  { id: 'ai10', ar: 'فيديو AI ترند و UGC 10', en: 'AI Trend & UGC Video 10', embedUrl: 'https://instagram.com' },
 ];
 
-// 2. فيديوهات ترند في المجال و UGC (جاهزة لإضافة روابط فيديوهات Cloudinary الخاصة بك)
-const TREND_UGC_VIDEOS = [
-  { id: 't1', ar: 'فيديو ترند في المجال 1', en: 'Industry Trend Video 1', poster: IMG_3, videoUrl: '' },
-  { id: 't2', ar: 'فيديو UGC إعلاني 2', en: 'UGC Ad Video 2', poster: IMG_4, videoUrl: '' },
-  { id: 't3', ar: 'فيديو ترند و UGC 3', en: 'Trend & UGC Video 3', poster: IMG_5, videoUrl: '' },
+const SCRIPT_VIDEOS = [
+  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script Writing 1', poster: IMG_3, videoUrl: '' },
+  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script Writing 2', poster: IMG_4, videoUrl: '' },
+  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script Writing 3', poster: IMG_5, videoUrl: '' },
 ];
 
 const POSTS = [
@@ -49,12 +47,12 @@ const POSTS = [
 
 export default function Portfolio() {
   const { lang, t } = useApp();
-  const [videoTab, setVideoTab] = useState<'ai' | 'trend'>('ai');
+  const [videoTab, setVideoTab] = useState<'ai' | 'script'>('ai');
   const [lightbox, setLightbox] = useState<(typeof POSTS)[number] | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   const aiLoop = [...AI_INSTAGRAM_VIDEOS, ...AI_INSTAGRAM_VIDEOS];
-  const trendLoop = [...TREND_UGC_VIDEOS, ...TREND_UGC_VIDEOS, ...TREND_UGC_VIDEOS, ...TREND_UGC_VIDEOS];
+  const scriptLoop = [...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS];
   const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
@@ -73,7 +71,7 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* إدارة حسابات السوشيال ميديا - 6 بطاقات متراصة في صف واحد بمقاس الستوري */}
+      {/* إدارة حسابات السوشيال ميديا */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -97,7 +95,7 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* قسم الفيديوهات المفصول بالكامل */}
+      {/* قسم الفيديوهات المفصول بالكامل في نفس المسار */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-6 flex flex-wrap gap-2.5">
@@ -105,17 +103,17 @@ export default function Portfolio() {
             onClick={() => { setVideoTab('ai'); setPlayingId(null); }}
             className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'ai' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
           >
-            {t('فيديوهات من الفكرة للإنتاج بالـ AI', 'AI Videos: Concept to Production')}
+            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
           </button>
           <button
-            onClick={() => { setVideoTab('trend'); setPlayingId(null); }}
-            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'trend' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
+            onClick={() => { setVideoTab('script'); setPlayingId(null); }}
+            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'script' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
           >
-            {t('فيديوهات ترند في المجال و UGC', 'Industry Trend & UGC Videos')}
+            {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
           </button>
         </div>
 
-        {/* التبويب الأول: فيديوهات من الفكرة للإنتاج بالـ AI (إنستغرام الفعلي) */}
+        {/* التبويب الأول: فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC */}
         {videoTab === 'ai' && (
           <div dir="ltr" className="overflow-hidden py-2">
             <div className={`marquee-track gap-5 ${playingId ? 'marquee-paused' : ''}`}>
@@ -142,11 +140,11 @@ export default function Portfolio() {
           </div>
         )}
 
-        {/* التبويب الثاني: فيديوهات ترند في المجال و UGC */}
-        {videoTab === 'trend' && (
+        {/* التبويب الثاني: فيديوهات إعلانية (كتابة السكربت) */}
+        {videoTab === 'script' && (
           <div dir="ltr" className="overflow-hidden py-2">
             <div className={`marquee-track gap-4 ${playingId ? 'marquee-paused' : ''}`}>
-              {trendLoop.map((v, idx) => {
+              {scriptLoop.map((v, idx) => {
                 const uniqueKey = `${v.id}-${idx}`;
                 const isPlaying = playingId === uniqueKey;
                 return (
