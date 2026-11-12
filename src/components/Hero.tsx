@@ -72,7 +72,6 @@ export default function Hero() {
       </div>
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:gap-10">
-        {/* القسم النصي */}
         <div className="order-1 flex flex-col gap-6 animate-fade-up">
           <span
             style={{
@@ -114,11 +113,8 @@ export default function Hero() {
             </a>
           </div>
         </div>
-
-        {/* القسم البصري: هالة ضوئية موحدة مع 3 شارات عائمة مرتبة حول الصورة */}
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
           <div className="relative flex h-[400px] w-full max-w-[460px] items-end justify-center sm:h-[440px]">
-            {/* هالة دائرية ناعمة خلف الصورة تعطي إضاءة حواف برتقالية */}
             <div
               className="absolute top-6 h-[320px] w-[320px] rounded-full blur-3xl opacity-75 sm:h-[360px] sm:w-[360px]"
               style={{
@@ -126,10 +122,8 @@ export default function Hero() {
               }}
             />
 
-            {/* حلقة ضوئية رفيعة خفيفة خلف الرأس */}
             <div className="absolute top-10 h-[280px] w-[280px] rounded-full border border-[#f47b20]/20 bg-[#f47b20]/[0.03] sm:h-[310px] sm:w-[310px]" />
 
-            {/* شارة 1: أعلى اليمين (نمو المبيعات والنتائج) */}
             <div
               style={{
                 background: 'rgba(15, 15, 18, 0.85)',
@@ -143,7 +137,6 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('نمو المبيعات', 'Sales Growth')}</span>
             </div>
 
-            {/* شارة 2: أعلى اليسار (كتابة المحتوى الإبداعي) */}
             <div
               style={{
                 animationDelay: '1.1s',
@@ -158,7 +151,6 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('محتوى إبداعي', 'Creative Copy')}</span>
             </div>
 
-            {/* شارة 3: منتصف اليسار (المتاجر وفيديوهات AI) */}
             <div
               style={{
                 animationDelay: '1.8s',
@@ -174,18 +166,18 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
-            {/* صورتك الشخصية المفرغة في المقدمة مع تلاشي ناعم من الأسفل */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
               style={{
-                WebkitMaskImage: 'linear-gradient(to bottom, black 72%, transparent 98%)',
-                maskImage: 'linear-gradient(to bottom, black 72%, transparent 98%)',
+                WebkitMaskImage:
+                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
+                maskImage:
+                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
               }}
               className="relative z-10 h-[350px] w-auto object-contain object-bottom drop-shadow-[0_12px_35px_rgba(244,123,32,0.3)] sm:h-[400px]"
             />
 
-            {/* طبقة تلاشي إضافية في أسفل الصورة لدمجها تماماً مع الخلفية */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg-light via-bg-light/60 to-transparent dark:from-bg-dark dark:via-bg-dark/60" />
           </div>
         </div>
