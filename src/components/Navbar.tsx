@@ -39,7 +39,7 @@ export default function Navbar() {
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className="relative rounded-lg px-3.5 py-2 text-sm font-bold text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:text-accent dark:hover:text-accent hover:bg-accent/10 hover:shadow-[0_4px_15px_rgba(124,58,237,0.25)] after:absolute after:bottom-1 after:inset-x-3 after:h-0.5 after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100"
+                className="relative rounded-lg px-3.5 py-2 text-sm font-bold text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:text-accent dark:hover:text-accent hover:bg-accent/10 hover:shadow-[0_4px_15px_rgba(245,158,11,0.25)] after:absolute after:bottom-1 after:inset-x-3 after:h-0.5 after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:after:scale-x-100"
               >
                 {t(s.ar, s.en)}
               </a>
@@ -50,7 +50,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <span
             style={{ color: theme === 'dark' ? '#ffffff' : '#09090b' }}
-            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[11px] font-bold transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_15px_rgba(124,58,237,0.35)]"
+            className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[11px] font-bold transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_15px_rgba(245,158,11,0.35)]"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
             {t('متاحة للعمل عن بُعد', 'Available for Remote')}
@@ -59,7 +59,7 @@ export default function Navbar() {
           <button
             onClick={toggleLang}
             aria-label="Toggle language"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-white hover:shadow-[0_4px_15px_rgba(124,58,237,0.35)]"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-white hover:shadow-[0_4px_15px_rgba(245,158,11,0.35)]"
           >
             <span className="flex items-center gap-1 text-[11px] font-bold">
               <Languages className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-white hover:shadow-[0_4px_15px_rgba(124,58,237,0.35)]"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-ink-light dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-white hover:shadow-[0_4px_15px_rgba(245,158,11,0.35)]"
           >
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
