@@ -27,37 +27,42 @@ export default function Hero() {
   const { lang, t } = useApp();
   const [wordIndex, setWordIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
 
   const words = lang === 'ar' ? TYPING_WORDS_AR : TYPING_WORDS_EN;
 
   useEffect(() => {
     const currentWord = words[wordIndex % words.length];
-    const speed = isDeleting ? 20 : 38;
 
+    if (phase === 'pausing') {
+      const pauseTimer = setTimeout(() => setPhase('deleting'), 900);
+      return () => clearTimeout(pauseTimer);
+    }
+
+    const speed = phase === 'deleting' ? 22 : 40;
     const timer = setTimeout(() => {
-      if (!isDeleting) {
-        const nextText = currentWord.slice(0, displayedText.length + 1);
-        setDisplayedText(nextText);
-        if (nextText.length === currentWord.length) {
-          setTimeout(() => setIsDeleting(true), 850);
+      if (phase === 'typing') {
+        const next = currentWord.slice(0, displayedText.length + 1);
+        setDisplayedText(next);
+        if (next.length >= currentWord.length) {
+          setPhase('pausing');
         }
       } else {
-        const nextText = currentWord.slice(0, displayedText.length - 1);
-        setDisplayedText(nextText);
-        if (nextText.length === 0) {
-          setIsDeleting(false);
+        const next = currentWord.slice(0, Math.max(0, displayedText.length - 1));
+        setDisplayedText(next);
+        if (next.length === 0) {
           setWordIndex((prev) => (prev + 1) % words.length);
+          setPhase('typing');
         }
       }
     }, speed);
 
     return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, wordIndex, words]);
+  }, [displayedText, phase, wordIndex, words]);
 
   useEffect(() => {
     setDisplayedText('');
-    setIsDeleting(false);
+    setPhase('typing');
     setWordIndex(0);
   }, [lang]);
 
