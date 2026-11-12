@@ -10,12 +10,12 @@ const IMG_5 = 'https://pexels.com';
 const IMG_6 = 'https://pexels.com';
 
 const SHOWCASE = [
-  { img: IMG_1, ar: { title: 'إدارة حسابات السوشيال ميديا', sub: 'إدارة كاملة للنشر والمحتوى والتقارير' }, en: { title: 'Social Media Management', sub: 'Full posting, content & reporting' } },
-  { img: IMG_2, ar: { title: 'نمو المتابعين والمشاركة', sub: 'خطط تحريرية مدروسة لزيادة الوصول' }, en: { title: 'Follower & Reach Growth', sub: 'Data-driven editorial plans for reach' } },
-  { img: IMG_3, ar: { title: 'إدارة حسابات المتاجر', sub: 'تنظيم الهوية البصرية والمحتوى البيعي' }, en: { title: 'E-commerce Social Accounts', sub: 'Visual identity & sales content' } },
-  { img: IMG_4, ar: { title: 'تقويم المحتوى الشهري', sub: 'جدولة دقيقة ومتابعة التفاعل اليومي' }, en: { title: 'Monthly Content Calendar', sub: 'Precise scheduling & daily engagement' } },
-  { img: IMG_5, ar: { title: 'حملات الإطلاق الموسمية', sub: 'إدارة متكاملة لحملات العروض والمواسم' }, en: { title: 'Seasonal Launch Campaigns', sub: 'End-to-end management for seasonal offers' } },
-  { img: IMG_6, ar: { title: 'تحليل الأداء والتقارير', sub: 'تقارير دورية لتحسين النتائج والوصول' }, en: { title: 'Analytics & Reporting', sub: 'Periodic reports to optimize reach' } },
+  { img: IMG_1, title: 'Social Media 1' },
+  { img: IMG_2, title: 'Social Media 2' },
+  { img: IMG_3, title: 'Social Media 3' },
+  { img: IMG_4, title: 'Social Media 4' },
+  { img: IMG_5, title: 'Social Media 5' },
+  { img: IMG_6, title: 'Social Media 6' },
 ];
 
 const VIDEOS = [
@@ -34,6 +34,7 @@ const POSTS = [
   { img: IMG_6, ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
   { img: IMG_1, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description that highlights value.' } },
 ];
+
 
 export default function Portfolio() {
   const { lang, t } = useApp();
