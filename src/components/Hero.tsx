@@ -1,36 +1,83 @@
+import { useEffect, useState } from 'react';
 import { Sparkles, Check } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { WhatsAppButton } from '@/components/ui/ContactButtons';
 import { WhatsAppIcon, LinkedInIcon } from '@/components/icons/BrandIcons';
 import { WHATSAPP_URL, LINKEDIN_URL } from '@/data/links';
 
-const PROFILE_PHOTO = '/images/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const PROFILE_PHOTO = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+
+const TYPING_WORDS_AR = [
+  'كتابة المحتوى الإعلاني والتسويقي للمنصات',
+  'إدارة حسابات التواصل الاجتماعي والخطط',
+  'محتوى المتاجر المتوافق مع (SEO / GEO / AEO)',
+  'صناعة فيديوهات الذكاء الاصطناعي والـ UGC',
+];
+
+const TYPING_WORDS_EN = [
+  'Advertising & Marketing Copywriting',
+  'Social Media Management & Strategy',
+  'E-commerce Content (SEO / GEO / AEO)',
+  'AI Video Production & UGC Content',
+];
 
 export default function Hero() {
   const { lang, t } = useApp();
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const words = lang === 'ar' ? TYPING_WORDS_AR : TYPING_WORDS_EN;
+
+  useEffect(() => {
+    const currentWord = words[wordIndex % words.length];
+    const speed = isDeleting ? 35 : 65;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setDisplayedText(currentWord.slice(0, displayedText.length + 1));
+        if (displayedText.length + 1 === currentWord.length) {
+          setTimeout(() => setIsDeleting(true), 1800);
+        }
+      } else {
+        setDisplayedText(currentWord.slice(0, displayedText.length - 1));
+        if (displayedText.length === 0) {
+          setIsDeleting(false);
+          setWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, wordIndex, words]);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setIsDeleting(false);
+    setWordIndex(0);
+  }, [lang]);
 
   return (
     <section id="home" className="relative overflow-hidden pt-28 pb-10 sm:pt-32">
-      {/* Background glows */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-24 right-1/4 h-72 w-72 rounded-full bg-accent/20 blur-[120px]" />
         <div className="absolute top-40 left-0 h-72 w-72 rounded-full bg-accent/10 blur-[120px]" />
       </div>
 
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-12">
-        {/* Right side (text) — first in RTL */}
         <div className="order-1 flex flex-col gap-6 animate-fade-up">
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-bold text-accent">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-bold text-ink-light dark:text-white">
             <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             {t('متاحة للعمل عن بُعد', 'Available for Remote Work')}
           </span>
 
-          <h1 className="text-[20px] font-bold leading-[1.5] tracking-tight sm:text-[26px] sm:leading-[1.45]">
-            <span className="block text-white">{t('كاتبة محتوى إعلاني وتسويقي للمنصات', 'Advertising & Marketing Content Writer')}</span>
-            <span className="mt-1.5 block" style={{ color: '#7c3aed' }}>{t('إدارة حسابات التواصل الاجتماعي وإعداد الخطط', 'Social Media Management & Strategy')}</span>
-            <span className="mt-1.5 block" style={{ color: '#d4d4d8' }}>
-              {t('كتابة محتوى المتاجر المتوافق مع', 'E-commerce content aligned with')}{' '}
-              <span dir="ltr" style={{ color: '#ffffff' }}>(SEO / GEO / AEO)</span>
+          <h1 className="text-[22px] font-bold leading-[1.5] tracking-tight sm:text-[28px] sm:leading-[1.45]">
+            <span className="block text-ink-light dark:text-white">
+              {t('تبحث عن شريك تسويقي ينفذ أعمالك باحتراف؟', 'Looking for a marketing partner to grow your brand?')}
+            </span>
+            <span className="mt-2 block min-h-[1.6em]" style={{ color: '#f47b20' }}>
+              {displayedText}
+              <span className="ms-0.5 inline-block animate-pulse font-normal text-ink-light dark:text-white">|</span>
             </span>
           </h1>
 
@@ -53,22 +100,19 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Left side (interactive digital card) */}
         <div className="order-2 flex justify-center lg:justify-start animate-fade-up" style={{ animationDelay: '0.15s' }}>
           <div className="relative w-full max-w-md">
-            {/* glow ring */}
             <div className="absolute -inset-2 rounded-[28px] bg-gradient-to-br from-accent/30 via-accent/10 to-transparent blur-2xl" />
 
             <div className="relative rounded-[24px] border border-accent/30 bg-card-light dark:bg-card-dark p-6 shadow-2xl shadow-accent/10 glow-soft">
-              {/* Avatar */}
               <div className="flex flex-col items-center text-center">
                 <div className="relative">
-                  <div className="absolute -inset-1 rounded-2xl blur-md" style={{ backgroundColor: 'rgba(124, 58, 237, 0.4)' }} />
+                  <div className="absolute -inset-1 rounded-2xl blur-md" style={{ backgroundColor: 'rgba(244, 123, 32, 0.4)' }} />
                   <img
                     src={PROFILE_PHOTO}
                     alt="Sumaia Al-Hasbi"
                     className="relative rounded-2xl object-cover object-top"
-                    style={{ width: '100px', height: '125px', boxShadow: '0 0 0 2px #7c3aed' }}
+                    style={{ width: '100px', height: '125px', boxShadow: '0 0 0 2px #f47b20' }}
                   />
                 </div>
                 <h2 className="mt-4 text-lg font-extrabold text-ink-light dark:text-ink-dark">
@@ -80,7 +124,6 @@ export default function Hero() {
                 </span>
               </div>
 
-              {/* Bullets */}
               <ul className="mt-6 space-y-3">
                 {[
                   { ar: 'كتابة المحتوى التسويقي والإعلاني للمنصات', en: 'Marketing & advertising content for platforms' },
@@ -102,7 +145,6 @@ export default function Hero() {
                 ))}
               </ul>
 
-              {/* Social icons */}
               <div className="mt-6 flex items-center justify-center gap-3 border-t border-accent/15 pt-5">
                 <a
                   href={WHATSAPP_URL}
