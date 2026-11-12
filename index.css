@@ -4,18 +4,18 @@
 
 :root {
   --bg: #ffffff;
-  --card: #fafaf9;
-  --ink: #09090b;
-  --accent: #f59e0b;
-  --contact-card-bg: #fafaf9;
+  --card: #f8f9fa;
+  --ink: #000000;
+  --accent: #f47b20;
+  --contact-card-bg: #f8f9fa;
 }
 
 .dark {
-  --bg: #09090b;
-  --card: #121214;
+  --bg: #000000;
+  --card: #0d0d0d;
   --ink: #ffffff;
-  --accent: #f59e0b;
-  --contact-card-bg: #121214;
+  --accent: #f47b20;
+  --contact-card-bg: #0d0d0d;
 }
 
 * {
@@ -40,11 +40,10 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 158, 11, 0.3);
+  background: rgba(244, 123, 32, 0.3);
   color: inherit;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -53,14 +52,13 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #f59e0b66;
+  background: #f47b2066;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #f59e0b;
+  background: #f47b20;
 }
 
-/* Hide scrollbar for marquee rows */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -69,15 +67,14 @@ body {
   scrollbar-width: none;
 }
 
-/* Glow border utility */
 .glow-border {
-  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.5), 0 0 24px -2px rgba(245, 158, 11, 0.45);
+  box-shadow: 0 0 0 1px rgba(244, 123, 32, 0.5), 0 0 24px -2px rgba(244, 123, 32, 0.45);
 }
 
 .glow-text {
-  text-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
+  text-shadow: 0 0 18px rgba(244, 123, 32, 0.55);
 }
 
 .glow-soft {
-  box-shadow: 0 0 40px -8px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 40px -8px rgba(244, 123, 32, 0.4);
 }
