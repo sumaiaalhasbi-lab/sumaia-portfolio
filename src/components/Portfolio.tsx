@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Play, Pause, X } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
-const IMG_1 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
-const IMG_2 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
-const IMG_3 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
-const IMG_4 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
-const IMG_5 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
-const IMG_6 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_1 = '/images/social-1.jpg';
+const IMG_2 = '/images/social-2.jpg';
+const IMG_3 = '/images/social-3.jpg';
+const IMG_4 = '/images/social-4.jpg';
+const IMG_5 = '/images/social-5.jpg';
+const IMG_6 = '/images/social-6.jpg';
 
 const SHOWCASE = [
   { img: IMG_1, title: 'Social Media 1' },
@@ -49,7 +49,7 @@ export default function Portfolio() {
       <style>{`
         @keyframes smoothScrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .marquee-track { display: flex; width: max-content; animation: smoothScrollLeft 35s linear infinite; }
-        .marquee-track:hover { animation-play-state: paused; }
+        .marquee-track:hover, .marquee-paused { animation-play-state: paused !important; }
       `}</style>
 
       <div className="mb-10 text-center">
@@ -87,7 +87,7 @@ export default function Portfolio() {
           </button>
         </div>
         <div dir="ltr" className="overflow-hidden py-2">
-          <div className="marquee-track gap-4">
+          <div className={`marquee-track gap-4 ${playingVideo !== null ? 'marquee-paused' : ''}`}>
             {videosLoop.map((v, i) => {
               const isPlaying = playingVideo === i;
               return (
