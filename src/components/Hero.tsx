@@ -33,17 +33,19 @@ export default function Hero() {
 
   useEffect(() => {
     const currentWord = words[wordIndex % words.length];
-    const speed = isDeleting ? 35 : 65;
+    const speed = isDeleting ? 20 : 38;
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
-        setDisplayedText(currentWord.slice(0, displayedText.length + 1));
-        if (displayedText.length + 1 === currentWord.length) {
-          setTimeout(() => setIsDeleting(true), 1800);
+        const nextText = currentWord.slice(0, displayedText.length + 1);
+        setDisplayedText(nextText);
+        if (nextText.length === currentWord.length) {
+          setTimeout(() => setIsDeleting(true), 850);
         }
       } else {
-        setDisplayedText(currentWord.slice(0, displayedText.length - 1));
-        if (displayedText.length === 0) {
+        const nextText = currentWord.slice(0, displayedText.length - 1);
+        setDisplayedText(nextText);
+        if (nextText.length === 0) {
           setIsDeleting(false);
           setWordIndex((prev) => (prev + 1) % words.length);
         }
