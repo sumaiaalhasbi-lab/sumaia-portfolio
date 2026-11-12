@@ -1,222 +1,185 @@
-import { useState } from 'react';
-import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Sparkles, PenTool, ShoppingBag, Video, TrendingUp } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { WhatsAppButton } from '@/components/ui/ContactButtons';
 
-const IMG_1 = '/images/social-1.jpg';
-const IMG_2 = '/images/social-2.jpg';
-const IMG_3 = '/images/social-3.jpg';
-const IMG_4 = '/images/social-4.jpg';
-const IMG_5 = '/images/social-5.jpg';
-const IMG_6 = '/images/social-6.jpg';
+const PROFILE_PHOTO = '/images/sumaia-cutout.png';
 
-const SHOWCASE = [
-  { img: IMG_1, title: 'Social Media 1' },
-  { img: IMG_2, title: 'Social Media 2' },
-  { img: IMG_3, title: 'Social Media 3' },
-  { img: IMG_4, title: 'Social Media 4' },
-  { img: IMG_5, title: 'Social Media 5' },
-  { img: IMG_6, title: 'Social Media 6' },
+const TYPING_WORDS_AR = [
+  'لإدارة المحتوى التسويقي؟',
+  'لإدارة حسابات التواصل الاجتماعي؟',
+  'لرفع ووصف منتجات المتاجر الإلكترونية؟',
+  'لإنتاج فيديوهات الذكاء الاصطناعي؟',
+  'لصياغة محتوى الحملات الإبداعية؟',
 ];
 
-const AI_INSTAGRAM_VIDEOS = [
-  { id: 'ai1', ar: 'فيديو AI ترند و UGC #1', en: 'AI Trend & UGC Video #1', poster: IMG_1, url: 'https://instagram.com' },
-  { id: 'ai2', ar: 'فيديو AI ترند و UGC #2', en: 'AI Trend & UGC Video #2', poster: IMG_2, url: 'https://instagram.com' },
-  { id: 'ai3', ar: 'فيديو AI ترند و UGC #3', en: 'AI Trend & UGC Video #3', poster: IMG_3, url: 'https://instagram.com' },
-  { id: 'ai4', ar: 'فيديو AI ترند و UGC #4', en: 'AI Trend & UGC Video #4', poster: IMG_4, url: 'https://instagram.com' },
-  { id: 'ai5', ar: 'فيديو AI ترند و UGC #5', en: 'AI Trend & UGC Video #5', poster: IMG_5, url: 'https://instagram.com' },
-  { id: 'ai6', ar: 'فيديو AI ترند و UGC #6', en: 'AI Trend & UGC Video #6', poster: IMG_6, url: 'https://instagram.com' },
-  { id: 'ai7', ar: 'فيديو AI ترند و UGC #7', en: 'AI Trend & UGC Video #7', poster: IMG_1, url: 'https://instagram.com' },
-  { id: 'ai8', ar: 'فيديو AI ترند و UGC #8', en: 'AI Trend & UGC Video #8', poster: IMG_2, url: 'https://instagram.com' },
-  { id: 'ai9', ar: 'فيديو AI ترند و UGC #9', en: 'AI Trend & UGC Video #9', poster: IMG_3, url: 'https://instagram.com' },
-  { id: 'ai10', ar: 'فيديو AI ترند و UGC #10', en: 'AI Trend & UGC Video #10', poster: IMG_4, url: 'https://instagram.com' },
+const TYPING_WORDS_EN = [
+  'to manage your marketing content?',
+  'to manage your social media accounts?',
+  'to write & upload e-commerce products?',
+  'to produce AI advertising videos?',
+  'to craft creative campaign copy?',
 ];
 
-const SCRIPT_VIDEOS = [
-  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script Writing 1', poster: IMG_3, videoUrl: '' },
-  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script Writing 2', poster: IMG_4, videoUrl: '' },
-  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script Writing 3', poster: IMG_5, videoUrl: '' },
-];
-
-const POSTS = [
-  { img: IMG_3, ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة.' }, en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products.' } },
-  { img: IMG_4, ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي.' }, en: { title: 'Shampoo & Conditioner Content', caption: 'Product description aligned with search and AI engines.' } },
-  { img: IMG_5, ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' }, en: { title: 'Skincare Routine Post', caption: 'Marketing post built for conversion.' } },
-  { img: IMG_6, ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
-  { img: IMG_1, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description that highlights value.' } },
-];
-
-export default function Portfolio() {
+export default function Hero() {
   const { lang, t } = useApp();
-  const [videoTab, setVideoTab] = useState<'ai' | 'script'>('ai');
-  const [lightbox, setLightbox] = useState<(typeof POSTS)[number] | null>(null);
-  const [activeInsta, setActiveInsta] = useState<(typeof AI_INSTAGRAM_VIDEOS)[number] | null>(null);
-  const [playingScript, setPlayingScript] = useState<string | null>(null);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
 
-  const aiLoop = [...AI_INSTAGRAM_VIDEOS, ...AI_INSTAGRAM_VIDEOS];
-  const scriptLoop = [...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS];
-  const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
+  const words = lang === 'ar' ? TYPING_WORDS_AR : TYPING_WORDS_EN;
+
+  useEffect(() => {
+    const currentWord = words[wordIndex % words.length];
+
+    if (phase === 'pausing') {
+      const pauseTimer = setTimeout(() => setPhase('deleting'), 900);
+      return () => clearTimeout(pauseTimer);
+    }
+
+    const speed = phase === 'deleting' ? 22 : 40;
+    const timer = setTimeout(() => {
+      if (phase === 'typing') {
+        const next = currentWord.slice(0, displayedText.length + 1);
+        setDisplayedText(next);
+        if (next.length >= currentWord.length) {
+          setPhase('pausing');
+        }
+      } else {
+        const next = currentWord.slice(0, Math.max(0, displayedText.length - 1));
+        setDisplayedText(next);
+        if (next.length === 0) {
+          setWordIndex((prev) => (prev + 1) % words.length);
+          setPhase('typing');
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [displayedText, phase, wordIndex, words]);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setPhase('typing');
+    setWordIndex(0);
+  }, [lang]);
+
   return (
-    <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
-      <style>{`
-        @keyframes smoothScrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .marquee-track { display: flex; width: max-content; animation: smoothScrollLeft 45s linear infinite; }
-        .marquee-track:hover, .marquee-paused { animation-play-state: paused !important; }
-      `}</style>
-
-      <div className="mb-10 text-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">
-          {t('أعمالي', 'Portfolio')}
-        </span>
-        <h2 className="mt-4 text-2xl font-extrabold text-ink-light dark:text-ink-dark sm:text-[32px]">
-          {t('مشاريع وأعمال تثبت النتائج', 'Projects that prove results')}
-        </h2>
+    <section id="home" className="relative overflow-hidden pt-28 pb-14 sm:pt-36">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-24 right-1/4 h-80 w-80 rounded-full bg-accent/15 blur-[130px]" />
+        <div className="absolute top-32 left-10 h-96 w-96 rounded-full bg-accent/20 blur-[140px]" />
       </div>
 
-      {/* إدارة حسابات السوشيال ميديا */}
-      <div id="social" className="mb-16">
-        <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
-          {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
-        </h3>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {SHOWCASE.map((s, i) => (
-            <div
-              key={i}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl border border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition-all duration-300 ease-out hover:-translate-y-2.5 hover:scale-[1.03] hover:border-[#f47b20] hover:shadow-[0_12px_30px_rgba(244,123,32,0.35)]"
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:gap-10">
+        <div className="order-1 flex flex-col gap-6 animate-fade-up">
+          <span
+            style={{
+              backgroundColor: 'rgba(244, 123, 32, 0.14)',
+              borderColor: '#f47b20',
+              boxShadow: '0 4px 20px rgba(244, 123, 32, 0.25)',
+            }}
+            className="inline-flex w-fit items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-bold text-ink-light dark:text-white"
+          >
+            <span className="h-2.5 w-2.5 rounded-full bg-green-400 animate-pulse" />
+            {t('متاحة للعمل عن بُعد', 'Available for Remote Work')}
+          </span>
+
+          <h1 className="text-[24px] font-bold leading-[1.45] tracking-tight sm:text-[32px] sm:leading-[1.4]">
+            <span className="block text-ink-light dark:text-white">
+              {t('تبحث عن شريك محترف', 'Looking for a professional partner')}
+            </span>
+            <span className="mt-2 block min-h-[1.6em]" style={{ color: '#f47b20' }}>
+              {displayedText}
+              <span className="ms-0.5 inline-block animate-pulse font-normal text-ink-light dark:text-white">|</span>
+            </span>
+          </h1>
+
+          <p className="max-w-xl text-base leading-relaxed text-ink-light/75 dark:text-ink-dark/75">
+            {t(
+              'أساعدك في بناء حضور رقمي قوي لعلامتك التجارية من خلال كتابة المحتوى الإعلاني والتسويقي لمنصات التواصل الاجتماعي، وإعداد الخطط التحريرية للحملات، وصياغة محتوى ووصف منتجات المتاجر الإلكترونية بأسلوب بيعي متوافق مع محركات البحث والذكاء الاصطناعي.',
+              'I help you build a strong digital presence for your brand through advertising and marketing content for social platforms, editorial plans for campaigns, and e-commerce product copy optimized for search engines and AI.'
+            )}
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <WhatsAppButton variant="solid" />
+            <a
+              href="#services"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/60 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
             >
-              <div className="relative aspect-[9/16] overflow-hidden">
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#f47b20]/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* قسم الفيديوهات المفصول بالكامل */}
-      <div id="videos" className="mb-16">
-        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
-        <div className="mb-6 flex flex-wrap gap-2.5">
-          <button
-            onClick={() => { setVideoTab('ai'); setPlayingScript(null); }}
-            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'ai' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
-          >
-            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
-          </button>
-          <button
-            onClick={() => { setVideoTab('script'); setPlayingScript(null); }}
-            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'script' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
-          >
-            {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
-          </button>
-        </div>
-
-        {/* التبويب الأول: بطاقات إنستغرام سريعة التحميل وتفتح الفيديو داخل نافذة أنيقة */}
-        {videoTab === 'ai' && (
-          <div dir="ltr" className="overflow-hidden py-2">
-            <div className={`marquee-track gap-4 ${activeInsta ? 'marquee-paused' : ''}`}>
-              {aiLoop.map((item, idx) => (
-                <div
-                  key={`${item.id}-${idx}`}
-                  onClick={() => setActiveInsta(item)}
-                  className="group relative aspect-[9/16] w-[225px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-[#f47b20] hover:shadow-[0_12px_30px_rgba(244,123,32,0.35)]"
-                >
-                  <img
-                    src={item.poster}
-                    alt={lang === 'ar' ? item.ar : item.en}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
-                  
-                  {/* شارة إنستغرام في الأعلى */}
-                  <div className="absolute top-3 inset-x-3 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/15">
-                      <Sparkles className="h-3 w-3 text-[#f47b20]" />
-                      Instagram Reel
-                    </span>
-                  </div>
-
-                  {/* زر التشغيل في المنتصف */}
-                  <div className="absolute inset-0 grid place-items-center">
-                    <span className="grid h-14 w-14 place-items-center rounded-full bg-[#f47b20] text-white shadow-lg shadow-[#f47b20]/50 transition group-hover:scale-110">
-                      <Play className="h-6 w-6 fill-white ms-0.5" />
-                    </span>
-                  </div>
-
-                  {/* عنوان الفيديو في الأسفل */}
-                  <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="absolute bottom-3 inset-x-3">
-                    <p className="text-xs font-bold text-white line-clamp-1">{lang === 'ar' ? item.ar : item.en}</p>
-                    <p className="mt-0.5 text-[10px] text-white/75">{t('اضغط للمشاهدة والتأكد من الحساب', 'Click to watch & verify')}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+              <Sparkles className="h-4 w-4" />
+              {t('استعرض خدماتي', 'Explore My Services')}
+            </a>
           </div>
-        )}
+        </div>
+        <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
+          <div className="relative flex h-[400px] w-full max-w-[460px] items-end justify-center sm:h-[440px]">
+            <div
+              className="absolute top-6 h-[320px] w-[320px] rounded-full blur-3xl opacity-75 sm:h-[360px] sm:w-[360px]"
+              style={{
+                background: 'radial-gradient(circle, rgba(244,123,32,0.5) 0%, rgba(244,123,32,0.15) 50%, transparent 75%)',
+              }}
+            />
 
-        {/* التبويب الثاني: فيديوهات إعلانية (كتابة السكربت) */}
-        {videoTab === 'script' && (
-          <div dir="ltr" className="overflow-hidden py-2">
-            <div className={`marquee-track gap-4 ${playingScript ? 'marquee-paused' : ''}`}>
-              {scriptLoop.map((v, idx) => {
-                const uniqueKey = `${v.id}-${idx}`;
-                const isPlaying = playingScript === uniqueKey;
-                return (
-                  <button
-                    key={uniqueKey}
-                    type="button"
-                    onClick={() => setPlayingScript(isPlaying ? null : uniqueKey)}
-                    className="group relative aspect-[9/16] w-[220px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
-                  >
-                    {isPlaying && v.videoUrl ? (
-                      <video src={v.videoUrl} controls autoPlay className="h-full w-full object-cover" />
-                    ) : (
-                      <>
-                        <img
-                          src={v.poster}
-                          alt={lang === 'ar' ? v.ar : v.en}
-                          className={`absolute inset-0 h-full w-full object-cover transition duration-500 ${isPlaying ? 'scale-105 opacity-70' : 'group-hover:scale-105'}`}
-                        />
-                        <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
-                        <span className="absolute inset-0 grid place-items-center">
-                          <span className="grid h-14 w-14 place-items-center rounded-full bg-accent/90 text-white shadow-lg shadow-accent/40 transition group-hover:scale-110">
-                            <Play className="h-6 w-6 fill-white ms-0.5" />
-                          </span>
-                        </span>
-                      </>
-                    )}
-                  </button>
-                );
-              })}
+            <div
+              style={{
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
+              }}
+              className="animate-float absolute top-14 right-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:right-4"
+            >
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-[#f47b20]/20 text-[#f47b20]">
+                <TrendingUp className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('نمو المبيعات', 'Sales Growth')}</span>
             </div>
-          </div>
-        )}
-      </div>
 
-      {/* محتوى منشورات السوشيال ميديا */}
-      <div id="posts">
-        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
-        <div dir="ltr" className="overflow-hidden py-2">
-          <div className="marquee-track gap-4">
-            {postsLoop.map((post, i) => (
-              <button key={i} type="button" onClick={() => setLightbox(post)} className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/60">
-                <img src={post.img} alt={lang === 'ar' ? post.ar.title : post.en.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-              </button>
-            ))}
+            <div
+              style={{
+                animationDelay: '1.1s',
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
+              }}
+              className="animate-float absolute top-10 left-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-4"
+            >
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-[#f47b20]/20 text-[#f47b20]">
+                <PenTool className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('محتوى إبداعي', 'Creative Copy')}</span>
+            </div>
+
+            <div
+              style={{
+                animationDelay: '1.8s',
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
+              }}
+              className="animate-float absolute bottom-28 left-0 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-2"
+            >
+              <span className="flex items-center gap-1 text-[#f47b20]">
+                <ShoppingBag className="h-4 w-4" />
+                <Video className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
+            </div>
+
+            <img
+              src={PROFILE_PHOTO}
+              alt="Sumaia Al-Hasbi"
+              style={{
+                WebkitMaskImage:
+                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
+                maskImage:
+                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
+              }}
+              className="relative z-10 h-[350px] w-auto object-contain object-bottom drop-shadow-[0_12px_35px_rgba(244,123,32,0.3)] sm:h-[400px]"
+            />
+
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg-light via-bg-light/60 to-transparent dark:from-bg-dark dark:via-bg-dark/60" />
           </div>
         </div>
       </div>
-
-      {/* نافذة تشغيل فيديو إنستغرام داخل الموقع مع زر زيارة الحساب الأصلي */}
-      {activeInsta && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveInsta(null)}>
-          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md overflow-hidden rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between">
-              <h4 className="text-sm font-bold text-ink-light dark:text-white">{lang === 'ar' ? activeInsta.ar : activeInsta.en}</h4>
-              <button type="button" onClick={() => setActiveInsta(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white">
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+    </section>
+  );
+}
