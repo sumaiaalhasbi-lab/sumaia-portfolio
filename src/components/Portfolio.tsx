@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
@@ -51,6 +51,20 @@ export default function Portfolio() {
   const [lightbox, setLightbox] = useState<(typeof POSTS)[number] | null>(null);
   const [activeInsta, setActiveInsta] = useState<(typeof AI_INSTAGRAM_VIDEOS)[number] | null>(null);
   const [playingScript, setPlayingScript] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!activeInsta) return;
+    const win = window as unknown as { instgrm?: { Embeds?: { process?: () => void } } };
+    if (win.instgrm?.Embeds?.process) {
+      win.instgrm.Embeds.process();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://instagram.com';
+      script.async = true;
+      script.onload = () => win.instgrm?.Embeds?.process?.();
+      document.body.appendChild(script);
+    }
+  }, [activeInsta]);
 
   const aiLoop = [...AI_INSTAGRAM_VIDEOS, ...AI_INSTAGRAM_VIDEOS];
   const scriptLoop = [...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS];
@@ -204,20 +218,18 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* نافذة تشغيل فيديو إنستغرام داخل الموقع */}
+      {/* نافذة التضمين الرسمي من إنستغرام داخل الموقع */}
       {activeInsta && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveInsta(null)}>
-          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md overflow-hidden rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
               <h4 className="text-sm font-bold text-ink-light dark:text-white">{lang === 'ar' ? activeInsta.ar : activeInsta.en}</h4>
               <button type="button" onClick={() => setActiveInsta(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white">
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="h-[460px] w-full overflow-hidden rounded-2xl border border-accent/20 bg-white">
-              <iframe
-                src={`${activeInsta.url}embed`}
-                title={activeInsta.ar}
-                className="h-full w-full border-0"
-                allowFullScreen
-                scrolling="no"
+            <div className="flex justify-center overflow-hidden rounded-2xl bg-white p-1">
+              <blockquote
+                className="instagram-media"
+                data-instgrm-permalink={activeInsta.url}
+                data-instgrm-version="14"
