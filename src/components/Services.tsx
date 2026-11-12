@@ -67,20 +67,72 @@ const PLATFORMS: {
   { key: 'facebook', Icon: FacebookIcon, ar: { name: 'فيسبوك', title: 'خدمات فيسبوك' }, en: { name: 'Facebook', title: 'Facebook Services' } },
 ];
 
-function platformServices(key: PlatformKey, lang: 'ar' | 'en') {
-  const base = {
-    ar: ['كتابة المحتوى', 'الخطط التحريرية', 'النشر والتقارير', 'سكربتات فيديو AI/UGC'],
-    en: ['Content Writing', 'Editorial Plans', 'Posting & Reports', 'AI/UGC Video Scripts'],
-  };
-  const list = lang === 'ar' ? base.ar : base.en;
-  if (key === 'instagram' || key === 'facebook') {
-    list.push(lang === 'ar' ? 'إعلانات مدفوعة مستهدفة' : 'Targeted Paid Ads');
-  } else {
-    list.push(lang === 'ar' ? 'استراتيجية نمو المنصة' : 'Platform Growth Strategy');
-  }
-  return list;
-}
-
+const PLATFORM_DETAILS: Record<PlatformKey, { ar: string[]; en: string[] }> = {
+  instagram: {
+    ar: [
+      'تخطيط وإدارة محتوى إنستغرام وتقويم النشر الشهري',
+      'كتابة نصوص المنشورات والكاروسيل بأسلوب بيعي وجذاب',
+      'إنتاج ريلز وفيديوهات AI و UGC عالية التفاعل',
+      'تخطيط وإدارة حملات إنستغرام الإعلانية واستهداف الجمهور بدقة',
+      'تحليل الأداء وتقديم تقارير دورية لزيادة الوصول والمبيعات',
+    ],
+    en: [
+      'Instagram content planning & monthly editorial calendar',
+      'Sales-driven posts & engaging carousel copywriting',
+      'High-converting AI & UGC Reels production',
+      'Targeted Instagram ad campaigns & audience optimization',
+      'Performance analytics & periodic growth reports',
+    ],
+  },
+  tiktok: {
+    ar: [
+      'تخطيط محتوى تيك توك الإبداعي ومواكبة الترندات بذكاء',
+      'كتابة اسكربتات قصيرة بخطافات بيعية (Hooks) تخطف الانتباه',
+      'صناعة فيديوهات AI و UGC عفوية وإعلانية مخصصة للتيك توك',
+      'تخطيط وإدارة حملات تيك توك الإعلانية (TikTok Ads) واستهداف الشرائح',
+      'تحسين الكابشن والهاشتاقات وتحليل نتائج الوصول والتحويلات',
+    ],
+    en: [
+      'Creative TikTok content planning & smart trend adaptation',
+      'Short scripts with high-retention sales hooks',
+      'Authentic AI & UGC video creation tailored for TikTok',
+      'TikTok Ads campaign management & precise audience targeting',
+      'Caption & hashtag optimization with conversion reporting',
+    ],
+  },
+  snapchat: {
+    ar: [
+      'تخطيط وإدارة محتوى سناب شات والقصص اليومية القريبة من الجمهور',
+      'صياغة سيناريوهات الإعلانات السريعة المحفزة للسحب للأعلى (Swipe Up)',
+      'إنتاج فيديوهات ترويجية بالذكاء الاصطناعي و UGC لجمهور الخليج',
+      'تخطيط وإدارة حملات سناب شات الإعلانية واستهداف الاهتمامات والمواقع',
+      'تغطية العروض الموسمية وتحليل أداء الحملات لتحقيق أعلى عائد',
+    ],
+    en: [
+      'Snapchat content & daily Stories management for local engagement',
+      'Fast-paced ad scripts optimized for Swipe-Up actions',
+      'AI & UGC promotional videos tailored for Gulf audiences',
+      'Targeted Snapchat ad campaigns by location & interests',
+      'Seasonal offer coverage & ROI performance tracking',
+    ],
+  },
+  facebook: {
+    ar: [
+      'تخطيط وإدارة صفحات فيسبوك وبناء محتوى يعزز ثقة العملاء',
+      'كتابة النصوص الإعلانية والبيعية (Ad Copy) المرتبطة بالمتجر',
+      'تخطيط وإدارة حملات فيسبوك الإعلانية وبناء الجماهير المستهدفة',
+      'تحفيز التحويلات بعبارات حث واضحة (CTA) ومتابعة التفاعل',
+      'تحليل الحملات وتقارير العائد لخفض تكلفة الإعلان وزيادة الطلبات',
+    ],
+    en: [
+      'Facebook page management & trust-building content strategy',
+      'Persuasive Ad Copy linked directly to your e-commerce store',
+      'Facebook Ads management & lookalike audience targeting',
+      'Clear CTA optimization & active audience engagement',
+      'Campaign analytics to lower ad costs and boost orders',
+    ],
+  },
+};
 export default function Services() {
   const { lang, t } = useApp();
   const [active, setActive] = useState<PlatformKey | null>(null);
@@ -90,7 +142,6 @@ export default function Services() {
 
   return (
     <section id="services" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
-      {/* Heading */}
       <div className="mb-10 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">
           {t('خدماتي', 'My Services')}
@@ -100,7 +151,6 @@ export default function Services() {
         </h2>
       </div>
 
-      {/* Part A: 3 pillars */}
       <div className="grid gap-5 md:grid-cols-3">
         {PILLARS.map((p, i) => {
           const Icon = p.icon;
@@ -132,7 +182,6 @@ export default function Services() {
         })}
       </div>
 
-      {/* Part B: Social platforms */}
       <div className="mt-12">
         <h3 className="mb-6 text-center text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('خدمات السوشيال ميديا', 'Social Media Services')}
@@ -162,7 +211,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Modal */}
       {activePlatform && (
         <PlatformModal
           platform={activePlatform}
@@ -183,52 +231,49 @@ function PlatformModal({
   const { lang, t } = useApp();
   const Icon = platform.Icon;
   const data = lang === 'ar' ? platform.ar : platform.en;
-  const services = platformServices(platform.key, lang);
+  const services = PLATFORM_DETAILS[platform.key][lang];
 
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-up" />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fade-up" />
       <div
-        className="relative w-full max-w-md rounded-3xl border border-accent/30 bg-bg-light dark:bg-bg-dark p-7 shadow-2xl shadow-accent/20 animate-fade-up"
+        className="relative w-full max-w-lg rounded-3xl border border-accent/30 bg-bg-light dark:bg-bg-dark p-7 shadow-2xl shadow-accent/20 animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute left-4 top-4 grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/5 text-accent transition hover:bg-accent/15"
+          className="absolute left-4 top-4 grid h-9 w-9 place-items-center rounded-lg border border-accent/30 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
 
         <div className="flex flex-col items-center text-center">
-          <span className="grid h-16 w-16 place-items-center rounded-2xl bg-accent/15 text-accent">
+          <span className="grid h-16 w-16 place-items-center rounded-2xl bg-accent/15 text-accent shadow-lg shadow-accent/20">
             <Icon className="h-8 w-8" />
           </span>
-          <h3 className="mt-4 text-lg font-extrabold text-ink-light dark:text-ink-dark">{data.title}</h3>
+          <h4 className="mt-4 text-xl font-extrabold text-ink-light dark:text-ink-dark">{data.title}</h4>
         </div>
 
         <ul className="mt-6 space-y-3">
-          {services.map((s, i) => (
+          {services.map((item, idx) => (
             <li
-              key={i}
-              className="flex items-center gap-3 rounded-xl border border-accent/15 bg-card-light dark:bg-card-dark px-4 py-3 text-sm font-semibold text-ink-light/80 dark:text-ink-dark/80"
+              key={idx}
+              className="flex items-start gap-3 rounded-xl border border-accent/15 bg-card-light dark:bg-card-dark p-3.5 text-sm font-medium text-ink-light/90 dark:text-ink-dark/90"
             >
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
-                <Check className="h-3.5 w-3.5" />
+              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
+                <Check className="h-3 w-3" />
               </span>
-              {s}
+              <span>{item}</span>
             </li>
           ))}
         </ul>
 
         <div className="mt-6 flex justify-center">
-          <WhatsAppButton
-            variant="solid"
-            label={t('اسأل عن هذه الخدمات', 'Ask About These Services')}
-          />
+          <WhatsAppButton variant="solid" label={t('اسأل عن هذه الخدمات', 'Ask About These Services')} />
         </div>
       </div>
     </div>
