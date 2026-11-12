@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Pause, X } from 'lucide-react';
+import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMG_1 = '/images/social-1.jpg';
@@ -19,16 +19,16 @@ const SHOWCASE = [
 ];
 
 const AI_INSTAGRAM_VIDEOS = [
-  { id: 'ai1', ar: 'فيديو AI ترند و UGC 1', en: 'AI Trend & UGC Video 1', embedUrl: 'https://instagram.com' },
-  { id: 'ai2', ar: 'فيديو AI ترند و UGC 2', en: 'AI Trend & UGC Video 2', embedUrl: 'https://instagram.com' },
-  { id: 'ai3', ar: 'فيديو AI ترند و UGC 3', en: 'AI Trend & UGC Video 3', embedUrl: 'https://instagram.com' },
-  { id: 'ai4', ar: 'فيديو AI ترند و UGC 4', en: 'AI Trend & UGC Video 4', embedUrl: 'https://instagram.com' },
-  { id: 'ai5', ar: 'فيديو AI ترند و UGC 5', en: 'AI Trend & UGC Video 5', embedUrl: 'https://instagram.com' },
-  { id: 'ai6', ar: 'فيديو AI ترند و UGC 6', en: 'AI Trend & UGC Video 6', embedUrl: 'https://instagram.com' },
-  { id: 'ai7', ar: 'فيديو AI ترند و UGC 7', en: 'AI Trend & UGC Video 7', embedUrl: 'https://instagram.com' },
-  { id: 'ai8', ar: 'فيديو AI ترند و UGC 8', en: 'AI Trend & UGC Video 8', embedUrl: 'https://instagram.com' },
-  { id: 'ai9', ar: 'فيديو AI ترند و UGC 9', en: 'AI Trend & UGC Video 9', embedUrl: 'https://instagram.com' },
-  { id: 'ai10', ar: 'فيديو AI ترند و UGC 10', en: 'AI Trend & UGC Video 10', embedUrl: 'https://instagram.com' },
+  { id: 'ai1', ar: 'فيديو AI ترند و UGC #1', en: 'AI Trend & UGC Video #1', poster: IMG_1, url: 'https://instagram.com' },
+  { id: 'ai2', ar: 'فيديو AI ترند و UGC #2', en: 'AI Trend & UGC Video #2', poster: IMG_2, url: 'https://instagram.com' },
+  { id: 'ai3', ar: 'فيديو AI ترند و UGC #3', en: 'AI Trend & UGC Video #3', poster: IMG_3, url: 'https://instagram.com' },
+  { id: 'ai4', ar: 'فيديو AI ترند و UGC #4', en: 'AI Trend & UGC Video #4', poster: IMG_4, url: 'https://instagram.com' },
+  { id: 'ai5', ar: 'فيديو AI ترند و UGC #5', en: 'AI Trend & UGC Video #5', poster: IMG_5, url: 'https://instagram.com' },
+  { id: 'ai6', ar: 'فيديو AI ترند و UGC #6', en: 'AI Trend & UGC Video #6', poster: IMG_6, url: 'https://instagram.com' },
+  { id: 'ai7', ar: 'فيديو AI ترند و UGC #7', en: 'AI Trend & UGC Video #7', poster: IMG_1, url: 'https://instagram.com' },
+  { id: 'ai8', ar: 'فيديو AI ترند و UGC #8', en: 'AI Trend & UGC Video #8', poster: IMG_2, url: 'https://instagram.com' },
+  { id: 'ai9', ar: 'فيديو AI ترند و UGC #9', en: 'AI Trend & UGC Video #9', poster: IMG_3, url: 'https://instagram.com' },
+  { id: 'ai10', ar: 'فيديو AI ترند و UGC #10', en: 'AI Trend & UGC Video #10', poster: IMG_4, url: 'https://instagram.com' },
 ];
 
 const SCRIPT_VIDEOS = [
@@ -49,7 +49,8 @@ export default function Portfolio() {
   const { lang, t } = useApp();
   const [videoTab, setVideoTab] = useState<'ai' | 'script'>('ai');
   const [lightbox, setLightbox] = useState<(typeof POSTS)[number] | null>(null);
-  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [activeInsta, setActiveInsta] = useState<(typeof AI_INSTAGRAM_VIDEOS)[number] | null>(null);
+  const [playingScript, setPlayingScript] = useState<string | null>(null);
 
   const aiLoop = [...AI_INSTAGRAM_VIDEOS, ...AI_INSTAGRAM_VIDEOS];
   const scriptLoop = [...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS, ...SCRIPT_VIDEOS];
@@ -58,7 +59,7 @@ export default function Portfolio() {
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes smoothScrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .marquee-track { display: flex; width: max-content; animation: smoothScrollLeft 55s linear infinite; }
+        .marquee-track { display: flex; width: max-content; animation: smoothScrollLeft 45s linear infinite; }
         .marquee-track:hover, .marquee-paused { animation-play-state: paused !important; }
       `}</style>
 
@@ -95,47 +96,63 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* قسم الفيديوهات المفصول بالكامل في نفس المسار */}
+      {/* قسم الفيديوهات المفصول بالكامل */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-6 flex flex-wrap gap-2.5">
           <button
-            onClick={() => { setVideoTab('ai'); setPlayingId(null); }}
+            onClick={() => { setVideoTab('ai'); setPlayingScript(null); }}
             className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'ai' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
           >
             {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
           </button>
           <button
-            onClick={() => { setVideoTab('script'); setPlayingId(null); }}
+            onClick={() => { setVideoTab('script'); setPlayingScript(null); }}
             className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${videoTab === 'script' ? 'bg-accent text-white shadow-lg shadow-accent/30' : 'border border-accent/30 bg-accent/5 text-accent hover:bg-accent/15'}`}
           >
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
           </button>
         </div>
 
-        {/* التبويب الأول: فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC */}
+        {/* التبويب الأول: بطاقات إنستغرام سريعة التحميل وتفتح الفيديو داخل نافذة أنيقة */}
         {videoTab === 'ai' && (
           <div dir="ltr" className="overflow-hidden py-2">
-            <div className={`marquee-track gap-5 ${playingId ? 'marquee-paused' : ''}`}>
-              {aiLoop.map((item, idx) => {
-                const uniqueKey = `${item.id}-${idx}`;
-                return (
-                  <div
-                    key={uniqueKey}
-                    onMouseEnter={() => setPlayingId(uniqueKey)}
-                    onMouseLeave={() => setPlayingId(null)}
-                    className="relative h-[480px] w-[315px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
-                  >
-                    <iframe
-                      src={item.embedUrl}
-                      title={lang === 'ar' ? item.ar : item.en}
-                      className="h-full w-full border-0"
-                      allowFullScreen
-                      scrolling="no"
-                    />
+            <div className={`marquee-track gap-4 ${activeInsta ? 'marquee-paused' : ''}`}>
+              {aiLoop.map((item, idx) => (
+                <div
+                  key={`${item.id}-${idx}`}
+                  onClick={() => setActiveInsta(item)}
+                  className="group relative aspect-[9/16] w-[225px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-[#f47b20] hover:shadow-[0_12px_30px_rgba(244,123,32,0.35)]"
+                >
+                  <img
+                    src={item.poster}
+                    alt={lang === 'ar' ? item.ar : item.en}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
+                  
+                  {/* شارة إنستغرام في الأعلى */}
+                  <div className="absolute top-3 inset-x-3 flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/15">
+                      <Sparkles className="h-3 w-3 text-[#f47b20]" />
+                      Instagram Reel
+                    </span>
                   </div>
-                );
-              })}
+
+                  {/* زر التشغيل في المنتصف */}
+                  <div className="absolute inset-0 grid place-items-center">
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-[#f47b20] text-white shadow-lg shadow-[#f47b20]/50 transition group-hover:scale-110">
+                      <Play className="h-6 w-6 fill-white ms-0.5" />
+                    </span>
+                  </div>
+
+                  {/* عنوان الفيديو في الأسفل */}
+                  <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="absolute bottom-3 inset-x-3">
+                    <p className="text-xs font-bold text-white line-clamp-1">{lang === 'ar' ? item.ar : item.en}</p>
+                    <p className="mt-0.5 text-[10px] text-white/75">{t('اضغط للمشاهدة والتأكد من الحساب', 'Click to watch & verify')}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -143,15 +160,15 @@ export default function Portfolio() {
         {/* التبويب الثاني: فيديوهات إعلانية (كتابة السكربت) */}
         {videoTab === 'script' && (
           <div dir="ltr" className="overflow-hidden py-2">
-            <div className={`marquee-track gap-4 ${playingId ? 'marquee-paused' : ''}`}>
+            <div className={`marquee-track gap-4 ${playingScript ? 'marquee-paused' : ''}`}>
               {scriptLoop.map((v, idx) => {
                 const uniqueKey = `${v.id}-${idx}`;
-                const isPlaying = playingId === uniqueKey;
+                const isPlaying = playingScript === uniqueKey;
                 return (
                   <button
                     key={uniqueKey}
                     type="button"
-                    onClick={() => setPlayingId(isPlaying ? null : uniqueKey)}
+                    onClick={() => setPlayingScript(isPlaying ? null : uniqueKey)}
                     className="group relative aspect-[9/16] w-[220px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark"
                   >
                     {isPlaying && v.videoUrl ? (
@@ -166,7 +183,7 @@ export default function Portfolio() {
                         <span className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
                         <span className="absolute inset-0 grid place-items-center">
                           <span className="grid h-14 w-14 place-items-center rounded-full bg-accent/90 text-white shadow-lg shadow-accent/40 transition group-hover:scale-110">
-                            {isPlaying ? <Pause className="h-6 w-6 fill-white" /> : <Play className="h-6 w-6 fill-white ms-0.5" />}
+                            <Play className="h-6 w-6 fill-white ms-0.5" />
                           </span>
                         </span>
                       </>
@@ -193,16 +210,13 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {lightbox && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightbox(null)}>
-          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setLightbox(null)} className="absolute top-4 end-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
-            <div className="aspect-[9/16] max-h-[70vh] mx-auto overflow-hidden rounded-2xl"><img src={lightbox.img} alt={lang === 'ar' ? lightbox.ar.title : lightbox.en.title} className="h-full w-full object-cover" /></div>
-            <h4 className="mt-4 text-lg font-bold text-ink-light dark:text-ink-dark">{lang === 'ar' ? lightbox.ar.title : lightbox.en.title}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-ink-light/70 dark:text-ink-dark/70">{lang === 'ar' ? lightbox.ar.caption : lightbox.en.caption}</p>
-          </div>
-        </div>
-      )}
-    </section>
-  );
-}
+      {/* نافذة تشغيل فيديو إنستغرام داخل الموقع مع زر زيارة الحساب الأصلي */}
+      {activeInsta && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveInsta(null)}>
+          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md overflow-hidden rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-3 flex items-center justify-between">
+              <h4 className="text-sm font-bold text-ink-light dark:text-white">{lang === 'ar' ? activeInsta.ar : activeInsta.en}</h4>
+              <button type="button" onClick={() => setActiveInsta(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
