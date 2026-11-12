@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Sparkles, PenTool, Users, ShoppingBag, Video, TrendingUp } from 'lucide-react';
+import { Sparkles, PenTool, ShoppingBag, Video, TrendingUp } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { WhatsAppButton } from '@/components/ui/ContactButtons';
 
@@ -115,77 +115,78 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* القسم البصري: دوائر متوهجة خلف صورتك مباشرة بنفس إخراج الصورة المرجعية */}
+        {/* القسم البصري: هالة ضوئية موحدة مع 3 شارات عائمة مرتبة حول الصورة */}
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
-          <div className="relative flex h-[400px] w-full max-w-[480px] items-end justify-center sm:h-[450px]">
-            {/* الإضاءة الخلفية الدائرية المتدرجة */}
+          <div className="relative flex h-[400px] w-full max-w-[460px] items-end justify-center sm:h-[440px]">
+            {/* هالة دائرية ناعمة خلف الصورة تعطي إضاءة حواف برتقالية */}
             <div
-              className="absolute inset-0 rounded-full blur-3xl opacity-80"
+              className="absolute top-6 h-[320px] w-[320px] rounded-full blur-3xl opacity-75 sm:h-[360px] sm:w-[360px]"
               style={{
-                background: 'radial-gradient(circle, rgba(244,123,32,0.5) 0%, rgba(244,123,32,0.15) 45%, transparent 72%)',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.55) 0%, rgba(244,123,32,0.18) 50%, transparent 75%)',
               }}
             />
 
-            {/* الدائرة الخلفية المتوهجة 1 (يمين - رسم بياني لنمو المبيعات والأرباح) */}
+            {/* حلقة ضوئية رفيعة خفيفة خلف الرأس */}
+            <div className="absolute top-10 h-[280px] w-[280px] rounded-full border border-[#f47b20]/20 bg-[#f47b20]/[0.03] sm:h-[310px] sm:w-[310px]" />
+
+            {/* شارة 1: أعلى اليمين (نمو المبيعات والنتائج) */}
             <div
               style={{
-                background: 'radial-gradient(circle, rgba(244,123,32,0.35) 0%, rgba(244,123,32,0.06) 70%)',
-                boxShadow: '0 0 35px rgba(244,123,32,0.35), inset 0 0 20px rgba(244,123,32,0.3)',
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
-              className="animate-float absolute top-14 right-2 sm:right-4 grid h-28 w-28 sm:h-32 sm:w-32 place-items-center rounded-full border-2 border-[#f47b20]/60 backdrop-blur-sm"
+              className="animate-float absolute top-14 right-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:right-4"
             >
-              <TrendingUp className="h-12 w-12 sm:h-14 sm:w-14 text-[#f47b20] drop-shadow-[0_0_12px_rgba(244,123,32,0.8)]" />
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-[#f47b20]/20 text-[#f47b20]">
+                <TrendingUp className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('نمو المبيعات', 'Sales Growth')}</span>
             </div>
 
-            {/* الدائرة الخلفية المتوهجة 2 (يسار علوي - الجمهور والعملاء والوصول) */}
+            {/* شارة 2: أعلى اليسار (كتابة المحتوى الإبداعي) */}
             <div
               style={{
-                animationDelay: '1.2s',
-                background: 'radial-gradient(circle, rgba(244,123,32,0.35) 0%, rgba(244,123,32,0.06) 70%)',
-                boxShadow: '0 0 35px rgba(244,123,32,0.35), inset 0 0 20px rgba(244,123,32,0.3)',
+                animationDelay: '1.1s',
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
-              className="animate-float absolute top-8 left-4 sm:left-6 grid h-28 w-28 sm:h-32 sm:w-32 place-items-center rounded-full border-2 border-[#f47b20]/60 backdrop-blur-sm"
+              className="animate-float absolute top-10 left-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-4"
             >
-              <Users className="h-12 w-12 sm:h-14 sm:w-14 text-[#f47b20] drop-shadow-[0_0_12px_rgba(244,123,32,0.8)]" />
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-[#f47b20]/20 text-[#f47b20]">
+                <PenTool className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('محتوى إبداعي', 'Creative Copy')}</span>
             </div>
 
-            {/* الدائرة الخلفية المتوهجة 3 (أسفل يمين - كتابة المحتوى الإبداعي) */}
+            {/* شارة 3: منتصف اليسار (المتاجر وفيديوهات AI) */}
             <div
               style={{
                 animationDelay: '1.8s',
-                background: 'radial-gradient(circle, rgba(244,123,32,0.3) 0%, rgba(244,123,32,0.05) 70%)',
-                boxShadow: '0 0 30px rgba(244,123,32,0.3), inset 0 0 15px rgba(244,123,32,0.25)',
+                background: 'rgba(15, 15, 18, 0.85)',
+                boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
-              className="animate-float absolute bottom-12 right-4 sm:right-6 grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-full border-2 border-[#f47b20]/50 backdrop-blur-sm"
+              className="animate-float absolute bottom-28 left-0 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-2"
             >
-              <PenTool className="h-10 w-10 sm:h-12 sm:w-12 text-[#f47b20] drop-shadow-[0_0_10px_rgba(244,123,32,0.8)]" />
+              <span className="flex items-center gap-1 text-[#f47b20]">
+                <ShoppingBag className="h-4 w-4" />
+                <Video className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
-            {/* الدائرة الخلفية المتوهجة 4 (أسفل يسار - المتاجر الإلكترونية وفيديوهات AI) */}
-            <div
-              style={{
-                animationDelay: '0.7s',
-                background: 'radial-gradient(circle, rgba(244,123,32,0.3) 0%, rgba(244,123,32,0.05) 70%)',
-                boxShadow: '0 0 30px rgba(244,123,32,0.3), inset 0 0 15px rgba(244,123,32,0.25)',
-              }}
-              className="animate-float absolute bottom-10 left-4 sm:left-6 grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-full border-2 border-[#f47b20]/50 backdrop-blur-sm"
-            >
-              <div className="flex items-center gap-1.5 text-[#f47b20] drop-shadow-[0_0_10px_rgba(244,123,32,0.8)]">
-                <ShoppingBag className="h-8 w-8 sm:h-9 sm:w-9" />
-                <Video className="h-8 w-8 sm:h-9 sm:w-9" />
-              </div>
-            </div>
-
-            {/* صورتك الشخصية المفرغة في المقدمة ومندمجة بسلاسة من الأسفل */}
+            {/* صورتك الشخصية المفرغة في المقدمة مع تلاشي ناعم من الأسفل */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
               style={{
-                WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-                maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 72%, transparent 98%)',
+                maskImage: 'linear-gradient(to bottom, black 72%, transparent 98%)',
               }}
-              className="relative z-10 h-[360px] w-auto object-contain object-bottom drop-shadow-[0_0_30px_rgba(244,123,32,0.45)] sm:h-[420px]"
+              className="relative z-10 h-[350px] w-auto object-contain object-bottom drop-shadow-[0_12px_35px_rgba(244,123,32,0.3)] sm:h-[400px]"
             />
+
+            {/* طبقة تلاشي إضافية في أسفل الصورة لدمجها تماماً مع الخلفية */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg-light via-bg-light/60 to-transparent dark:from-bg-dark dark:via-bg-dark/60" />
           </div>
         </div>
       </div>
