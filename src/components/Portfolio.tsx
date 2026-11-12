@@ -2,40 +2,40 @@ import { useEffect, useState } from 'react';
 import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
-const IMGS = [
-  '/images/social-1.jpg',
-  '/images/social-2.jpg',
-  '/images/social-3.jpg',
-  '/images/social-4.jpg',
-  '/images/social-5.jpg',
-  '/images/social-6.jpg',
-];
+const IMG_1 = '/images/social-1.jpg';
+const IMG_2 = '/images/social-2.jpg';
+const IMG_3 = '/images/social-3.jpg';
+const IMG_4 = '/images/social-4.jpg';
+const IMG_5 = '/images/social-5.jpg';
+const IMG_6 = '/images/social-6.jpg';
 
-const REELS = [
-  'DfSMTJbt4-X', 'DfILeBKN6_2', 'DfUQAh1Nq8N', 'De9mdqINvBp', 'De6hCFCN0b1',
-  'Deyr9n7NZO9', 'DewEI_rtpHt', 'DeeMh8htqQA', 'DeLkQ2rtWQd', 'DePYchot5j2',
-];
+const IMGS = [IMG_1, IMG_2, IMG_3, IMG_4, IMG_5, IMG_6];
 
-const AI_VIDEOS = REELS.map((code, i) => ({
-  id: `ai-${i}`,
-  ar: `فيديو AI ترند و UGC #${i + 1}`,
-  en: `AI Trend & UGC Video #${i + 1}`,
-  poster: IMGS[i % IMGS.length],
-  url: `https://instagram.com{code}/`,
-}));
+const AI_VIDEOS = [
+  { id: 'ai-1', ar: 'فيديو AI ترند و UGC #1', en: 'AI Trend & UGC Video #1', poster: IMG_1, code: 'DfSMTJbt4-X' },
+  { id: 'ai-2', ar: 'فيديو AI ترند و UGC #2', en: 'AI Trend & UGC Video #2', poster: IMG_2, code: 'DfILeBKN6_2' },
+  { id: 'ai-3', ar: 'فيديو AI ترند و UGC #3', en: 'AI Trend & UGC Video #3', poster: IMG_3, code: 'DfUQAh1Nq8N' },
+  { id: 'ai-4', ar: 'فيديو AI ترند و UGC #4', en: 'AI Trend & UGC Video #4', poster: IMG_4, code: 'De9mdqINvBp' },
+  { id: 'ai-5', ar: 'فيديو AI ترند و UGC #5', en: 'AI Trend & UGC Video #5', poster: IMG_5, code: 'De6hCFCN0b1' },
+  { id: 'ai-6', ar: 'فيديو AI ترند و UGC #6', en: 'AI Trend & UGC Video #6', poster: IMG_6, code: 'Deyr9n7NZO9' },
+  { id: 'ai-7', ar: 'فيديو AI ترند و UGC #7', en: 'AI Trend & UGC Video #7', poster: IMG_1, code: 'DewEI_rtpHt' },
+  { id: 'ai-8', ar: 'فيديو AI ترند و UGC #8', en: 'AI Trend & UGC Video #8', poster: IMG_2, code: 'DeeMh8htqQA' },
+  { id: 'ai-9', ar: 'فيديو AI ترند و UGC #9', en: 'AI Trend & UGC Video #9', poster: IMG_3, code: 'DeLkQ2rtWQd' },
+  { id: 'ai-10', ar: 'فيديو AI ترند و UGC #10', en: 'AI Trend & UGC Video #10', poster: IMG_4, code: 'DePYchot5j2' },
+];
 
 const SCRIPT_VIDEOS = [
-  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script 1', poster: IMGS, videoUrl: '' },
-  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script 2', poster: IMGS, videoUrl: '' },
-  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script 3', poster: IMGS, videoUrl: '' },
+  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script 1', poster: IMG_3, videoUrl: '' },
+  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script 2', poster: IMG_4, videoUrl: '' },
+  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script 3', poster: IMG_5, videoUrl: '' },
 ];
 
 const POSTS = [
-  { img: IMGS, ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة.' }, en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products.' } },
-  { img: IMGS, ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي.' }, en: { title: 'Shampoo & Conditioner', caption: 'Product description aligned with search & AI engines.' } },
-  { img: IMGS, ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' }, en: { title: 'Skincare Routine Post', caption: 'Marketing post built for conversion.' } },
-  { img: IMGS, ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
-  { img: IMGS, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description highlighting value.' } },
+  { img: IMG_3, ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة.' }, en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products.' } },
+  { img: IMG_4, ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي.' }, en: { title: 'Shampoo & Conditioner', caption: 'Product description aligned with search & AI engines.' } },
+  { img: IMG_5, ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' }, en: { title: 'Skincare Routine Post', caption: 'Marketing post built for conversion.' } },
+  { img: IMG_6, ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
+  { img: IMG_1, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description highlighting value.' } },
 ];
 
 export default function Portfolio() {
@@ -58,6 +58,8 @@ export default function Portfolio() {
       document.body.appendChild(s);
     }
   }, [activeInsta]);
+  const getReelUrl = (code: string) => `https://instagram.com{code}/`;
+
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -176,10 +178,10 @@ export default function Portfolio() {
               <button type="button" onClick={() => setActiveInsta(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white"><X className="h-4 w-4" /></button>
             </div>
             <div className="flex justify-center overflow-hidden rounded-2xl bg-white p-1">
-              <blockquote className="instagram-media" data-instgrm-permalink={activeInsta.url} data-instgrm-version="14" style={{ width: '100%', maxWidth: '400px', margin: 0 }} />
+              <blockquote className="instagram-media" data-instgrm-permalink={getReelUrl(activeInsta.code)} data-instgrm-version="14" style={{ width: '100%', maxWidth: '400px', margin: 0 }} />
             </div>
             <div className="mt-4 flex justify-center">
-              <a href={activeInsta.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
+              <a href={getReelUrl(activeInsta.code)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
                 <ExternalLink className="h-4 w-4" />
                 {t('مشاهدة الفيديو في حساب العميل على إنستغرام', 'View Reel on Client Instagram')}
               </a>
