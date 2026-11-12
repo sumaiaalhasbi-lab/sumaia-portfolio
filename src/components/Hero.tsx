@@ -113,16 +113,25 @@ export default function Hero() {
             </a>
           </div>
         </div>
+
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
-          <div className="relative flex h-[400px] w-full max-w-[460px] items-end justify-center sm:h-[440px]">
+          <div className="relative flex h-[380px] w-full max-w-[450px] items-end justify-center sm:h-[420px]">
+            {/* إضاءة خلفية ناعمة */}
             <div
-              className="absolute top-6 h-[320px] w-[320px] rounded-full blur-3xl opacity-75 sm:h-[360px] sm:w-[360px]"
+              className="pointer-events-none absolute top-4 h-[290px] w-[290px] rounded-full blur-3xl opacity-65 sm:h-[330px] sm:w-[330px]"
               style={{
-                background: 'radial-gradient(circle, rgba(244,123,32,0.55) 0%, rgba(244,123,32,0.18) 50%, transparent 75%)',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.45) 0%, rgba(244,123,32,0.12) 55%, transparent 75%)',
               }}
             />
 
-            <div className="absolute top-10 h-[280px] w-[280px] rounded-full border border-[#f47b20]/20 bg-[#f47b20]/[0.03] sm:h-[310px] sm:w-[310px]" />
+            {/* نصف دائرة متوهجة تبدأ من الأعلى وتتلاشى بنعومة عند الكتفين */}
+            <div
+              style={{
+                WebkitMaskImage: 'linear-gradient(to bottom, black 35%, transparent 68%)',
+                maskImage: 'linear-gradient(to bottom, black 35%, transparent 68%)',
+              }}
+              className="pointer-events-none absolute top-8 h-[300px] w-[300px] rounded-full border-2 border-[#f47b20]/45 bg-[#f47b20]/[0.04] sm:h-[330px] sm:w-[330px]"
+            />
 
             <div
               style={{
@@ -171,14 +180,12 @@ export default function Hero() {
               alt="Sumaia Al-Hasbi"
               style={{
                 WebkitMaskImage:
-                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
+                  'radial-gradient(ellipse 62% 58% at 50% 38%, black 42%, rgba(0,0,0,0.35) 65%, transparent 88%)',
                 maskImage:
-                  'radial-gradient(ellipse 66% 70% at 50% 42%, black 48%, rgba(0,0,0,0.4) 72%, transparent 95%)',
+                  'radial-gradient(ellipse 62% 58% at 50% 38%, black 42%, rgba(0,0,0,0.35) 65%, transparent 88%)',
               }}
-              className="relative z-10 h-[350px] w-auto object-contain object-bottom drop-shadow-[0_12px_35px_rgba(244,123,32,0.3)] sm:h-[400px]"
+              className="relative z-10 h-[340px] w-auto object-contain object-bottom sm:h-[390px]"
             />
-
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 bg-gradient-to-t from-bg-light via-bg-light/60 to-transparent dark:from-bg-dark dark:via-bg-dark/60" />
           </div>
         </div>
       </div>
