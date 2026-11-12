@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Play, Pause, X } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
-const IMG_1 = 'https://pexels.com';
-const IMG_2 = 'https://pexels.com';
-const IMG_3 = 'https://pexels.com';
-const IMG_4 = 'https://pexels.com';
-const IMG_5 = 'https://pexels.com';
-const IMG_6 = 'https://pexels.com';
+const IMG_1 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_2 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_3 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_4 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_5 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const IMG_6 = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
 
 const SHOWCASE = [
   { img: IMG_1, title: 'Social Media 1' },
@@ -35,7 +35,6 @@ const POSTS = [
   { img: IMG_1, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description that highlights value.' } },
 ];
 
-
 export default function Portfolio() {
   const { lang, t } = useApp();
   const [videoTab, setVideoTab] = useState<'script' | 'ai'>('script');
@@ -45,7 +44,6 @@ export default function Portfolio() {
   const filteredVideos = VIDEOS.filter((v) => v.tab === videoTab);
   const videosLoop = [...filteredVideos, ...filteredVideos, ...filteredVideos, ...filteredVideos];
   const postsLoop = [...POSTS, ...POSTS, ...POSTS, ...POSTS];
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -68,21 +66,13 @@ export default function Portfolio() {
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
         </h3>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {SHOWCASE.map((s, i) => {
-            const data = lang === 'ar' ? s.ar : s.en;
-            return (
-              <div key={i} className="group relative overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/50 hover:-translate-y-1">
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img src={s.img} alt={data.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-                  <div className="absolute bottom-0 p-3">
-                    <h4 className="text-xs font-bold leading-snug text-white">{data.title}</h4>
-                    <p className="mt-1 text-[10px] leading-tight text-white/75">{data.sub}</p>
-                  </div>
-                </div>
+          {SHOWCASE.map((s, i) => (
+            <div key={i} className="group relative overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/50 hover:-translate-y-1">
+              <div className="relative aspect-[3/4] overflow-hidden">
+                <img src={s.img} alt={s.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
 
