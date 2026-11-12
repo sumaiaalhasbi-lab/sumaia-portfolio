@@ -3,7 +3,7 @@ import { Sparkles, PenTool, Users, ShoppingBag, Video, TrendingUp } from 'lucide
 import { useApp } from '@/context/AppContext';
 import { WhatsAppButton } from '@/components/ui/ContactButtons';
 
-const PROFILE_PHOTO = '/sumaia-cutout.png';
+const PROFILE_PHOTO = '/images/sumaia-cutout.png';
 
 const TYPING_WORDS_AR = [
   'لإدارة المحتوى التسويقي؟',
