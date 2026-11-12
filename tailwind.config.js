@@ -7,24 +7,24 @@ export default {
       colors: {
         bg: {
           light: '#ffffff',
-          dark: '#09090b',
+          dark: '#000000',
         },
         card: {
-          light: '#f8fafc',
-          dark: '#121216',
+          light: '#f8f9fa',
+          dark: '#0d0d0d',
         },
         ink: {
-          light: '#09090b',
+          light: '#000000',
           dark: '#ffffff',
         },
         accent: {
-          DEFAULT: '#7c3aed',
-          soft: '#8b5cf6',
-          glow: '#7c3aed',
+          DEFAULT: '#f47b20',
+          soft: '#fb923c',
+          glow: '#ea580c',
         },
       },
       fontFamily: {
-        cairo: ['"Cairo"', 'system-ui', 'sans-serif'],
+        cairo: ['"IBM Plex Sans Arabic"', '"Cairo"', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         marquee: {
@@ -36,8 +36,8 @@ export default {
           '100%': { transform: 'translateX(50%)' },
         },
         'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(124, 58, 237, 0.45)' },
-          '50%': { boxShadow: '0 0 24px 6px rgba(124, 58, 237, 0.55)' },
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(244, 123, 32, 0.45)' },
+          '50%': { boxShadow: '0 0 24px 6px rgba(244, 123, 32, 0.55)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
