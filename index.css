@@ -4,18 +4,18 @@
 
 :root {
   --bg: #ffffff;
-  --card: #f8fafc;
+  --card: #fafaf9;
   --ink: #09090b;
-  --accent: #7c3aed;
-  --contact-card-bg: #f8fafc;
+  --accent: #f59e0b;
+  --contact-card-bg: #fafaf9;
 }
 
 .dark {
   --bg: #09090b;
-  --card: #121216;
+  --card: #121214;
   --ink: #ffffff;
-  --accent: #7c3aed;
-  --contact-card-bg: #121216;
+  --accent: #f59e0b;
+  --contact-card-bg: #121214;
 }
 
 * {
@@ -40,7 +40,7 @@ body {
 }
 
 ::selection {
-  background: rgba(124, 58, 237, 0.3);
+  background: rgba(245, 158, 11, 0.3);
   color: inherit;
 }
 
@@ -53,11 +53,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #7c3aed66;
+  background: #f59e0b66;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: #f59e0b;
 }
 
 /* Hide scrollbar for marquee rows */
@@ -71,13 +71,13 @@ body {
 
 /* Glow border utility */
 .glow-border {
-  box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.5), 0 0 24px -2px rgba(124, 58, 237, 0.45);
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.5), 0 0 24px -2px rgba(245, 158, 11, 0.45);
 }
 
 .glow-text {
-  text-shadow: 0 0 18px rgba(124, 58, 237, 0.55);
+  text-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
 }
 
 .glow-soft {
-  box-shadow: 0 0 40px -8px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 40px -8px rgba(245, 158, 11, 0.4);
 }
