@@ -25,17 +25,17 @@ const AI_VIDEOS = REELS.map((code, i) => ({
 }));
 
 const SCRIPT_VIDEOS = [
-  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script 1', poster: IMGS[2], videoUrl: '' },
-  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script 2', poster: IMGS[3], videoUrl: '' },
-  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script 3', poster: IMGS[4], videoUrl: '' },
+  { id: 's1', ar: 'فيديو إعلاني - كتابة السكربت 1', en: 'Ad Video - Script 1', poster: IMGS, videoUrl: '' },
+  { id: 's2', ar: 'فيديو إعلاني - كتابة السكربت 2', en: 'Ad Video - Script 2', poster: IMGS, videoUrl: '' },
+  { id: 's3', ar: 'فيديو إعلاني - كتابة السكربت 3', en: 'Ad Video - Script 3', poster: IMGS, videoUrl: '' },
 ];
 
 const POSTS = [
-  { img: IMGS[2], ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة.' }, en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products.' } },
-  { img: IMGS[3], ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي.' }, en: { title: 'Shampoo & Conditioner', caption: 'Product description aligned with search & AI engines.' } },
-  { img: IMGS[4], ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' }, en: { title: 'Skincare Routine Post', caption: 'Marketing post built for conversion.' } },
-  { img: IMGS[5], ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
-  { img: IMGS[0], ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description highlighting value.' } },
+  { img: IMGS, ar: { title: 'منشور منتج عناية', caption: 'محتوى بيعي متوافق مع SEO لمنتجات العناية بالبشرة.' }, en: { title: 'Skincare Product Post', caption: 'SEO-aligned sales copy for skincare products.' } },
+  { img: IMGS, ar: { title: 'محتوى شامبو وبلسم', caption: 'وصف منتج متوافق مع محركات البحث والذكاء الاصطناعي.' }, en: { title: 'Shampoo & Conditioner', caption: 'Product description aligned with search & AI engines.' } },
+  { img: IMGS, ar: { title: 'منشور روتين العناية', caption: 'منشور تسويقي بهيكل سرد جذاب ومتجه نحو التحويل.' }, en: { title: 'Skincare Routine Post', caption: 'Marketing post built for conversion.' } },
+  { img: IMGS, ar: { title: 'إطلاق منتج جديد', caption: 'محتوى حملة إطلاق بأسلوب إعلاني يبني الترقب.' }, en: { title: 'New Product Launch', caption: 'Launch campaign content that builds anticipation.' } },
+  { img: IMGS, ar: { title: 'بوكس هدية فاخر', caption: 'وصف منتج بيعي يبرز القيمة ويحفّز الطلب.' }, en: { title: 'Luxury Gift Box', caption: 'Sales-driven product description highlighting value.' } },
 ];
 
 export default function Portfolio() {
@@ -58,7 +58,6 @@ export default function Portfolio() {
       document.body.appendChild(s);
     }
   }, [activeInsta]);
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -194,11 +193,3 @@ export default function Portfolio() {
           <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightbox(null)} className="absolute top-4 end-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
             <div className="aspect-[9/16] max-h-[70vh] mx-auto overflow-hidden rounded-2xl"><img src={lightbox.img} alt={lightbox.ar.title} className="h-full w-full object-cover" /></div>
-            <h4 className="mt-4 text-lg font-bold text-ink-light dark:text-ink-dark">{lang === 'ar' ? lightbox.ar.title : lightbox.en.title}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-ink-light/70 dark:text-ink-dark/70">{lang === 'ar' ? lightbox.ar.caption : lightbox.en.caption}</p>
-          </div>
-        </div>
-      )}
-    </section>
-  );
-}
