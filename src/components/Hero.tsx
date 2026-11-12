@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Sparkles, Check } from 'lucide-react';
+import { Sparkles, PenTool, Users, ShoppingBag, Video, TrendingUp } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { WhatsAppButton } from '@/components/ui/ContactButtons';
-import { WhatsAppIcon, LinkedInIcon } from '@/components/icons/BrandIcons';
-import { WHATSAPP_URL, LINKEDIN_URL } from '@/data/links';
 
-const PROFILE_PHOTO = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
+const PROFILE_PHOTO = '/sumaia-cutout.png';
 
 const TYPING_WORDS_AR = [
   'لإدارة المحتوى التسويقي؟',
@@ -67,20 +65,28 @@ export default function Hero() {
   }, [lang]);
 
   return (
-    <section id="home" className="relative overflow-hidden pt-28 pb-10 sm:pt-32">
+    <section id="home" className="relative overflow-hidden pt-28 pb-14 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-24 right-1/4 h-72 w-72 rounded-full bg-accent/20 blur-[120px]" />
-        <div className="absolute top-40 left-0 h-72 w-72 rounded-full bg-accent/10 blur-[120px]" />
+        <div className="absolute -top-24 right-1/4 h-80 w-80 rounded-full bg-accent/15 blur-[130px]" />
+        <div className="absolute top-32 left-10 h-96 w-96 rounded-full bg-accent/20 blur-[140px]" />
       </div>
 
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-12">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 lg:grid-cols-2 lg:gap-10">
+        {/* القسم النصي */}
         <div className="order-1 flex flex-col gap-6 animate-fade-up">
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-bold text-ink-light dark:text-white">
-            <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+          <span
+            style={{
+              backgroundColor: 'rgba(244, 123, 32, 0.14)',
+              borderColor: '#f47b20',
+              boxShadow: '0 4px 20px rgba(244, 123, 32, 0.25)',
+            }}
+            className="inline-flex w-fit items-center gap-2.5 rounded-full border px-5 py-2.5 text-sm font-bold text-ink-light dark:text-white"
+          >
+            <span className="h-2.5 w-2.5 rounded-full bg-green-400 animate-pulse" />
             {t('متاحة للعمل عن بُعد', 'Available for Remote Work')}
           </span>
 
-          <h1 className="text-[22px] font-bold leading-[1.5] tracking-tight sm:text-[28px] sm:leading-[1.45]">
+          <h1 className="text-[24px] font-bold leading-[1.45] tracking-tight sm:text-[32px] sm:leading-[1.4]">
             <span className="block text-ink-light dark:text-white">
               {t('تبحث عن شريك محترف', 'Looking for a professional partner')}
             </span>
@@ -90,18 +96,18 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="max-w-xl text-base leading-relaxed text-ink-light/70 dark:text-ink-dark/70">
+          <p className="max-w-xl text-base leading-relaxed text-ink-light/75 dark:text-ink-dark/75">
             {t(
               'أساعدك في بناء حضور رقمي قوي لعلامتك التجارية من خلال كتابة المحتوى الإعلاني والتسويقي لمنصات التواصل الاجتماعي، وإعداد الخطط التحريرية للحملات، وصياغة محتوى ووصف منتجات المتاجر الإلكترونية بأسلوب بيعي متوافق مع محركات البحث والذكاء الاصطناعي.',
               'I help you build a strong digital presence for your brand through advertising and marketing content for social platforms, editorial plans for campaigns, and e-commerce product copy optimized for search engines and AI.'
             )}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 pt-1">
             <WhatsAppButton variant="solid" />
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/50 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/60 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
             >
               <Sparkles className="h-4 w-4" />
               {t('استعرض خدماتي', 'Explore My Services')}
@@ -109,72 +115,77 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="order-2 flex justify-center lg:justify-start animate-fade-up" style={{ animationDelay: '0.15s' }}>
-          <div className="relative w-full max-w-md">
-            <div className="absolute -inset-2 rounded-[28px] bg-gradient-to-br from-accent/30 via-accent/10 to-transparent blur-2xl" />
+        {/* القسم البصري: دوائر متوهجة خلف صورتك مباشرة بنفس إخراج الصورة المرجعية */}
+        <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
+          <div className="relative flex h-[400px] w-full max-w-[480px] items-end justify-center sm:h-[450px]">
+            {/* الإضاءة الخلفية الدائرية المتدرجة */}
+            <div
+              className="absolute inset-0 rounded-full blur-3xl opacity-80"
+              style={{
+                background: 'radial-gradient(circle, rgba(244,123,32,0.5) 0%, rgba(244,123,32,0.15) 45%, transparent 72%)',
+              }}
+            />
 
-            <div className="relative rounded-[24px] border border-accent/30 bg-card-light dark:bg-card-dark p-6 shadow-2xl shadow-accent/10 glow-soft">
-              <div className="flex flex-col items-center text-center">
-                <div className="relative">
-                  <div className="absolute -inset-1 rounded-2xl blur-md" style={{ backgroundColor: 'rgba(244, 123, 32, 0.4)' }} />
-                  <img
-                    src={PROFILE_PHOTO}
-                    alt="Sumaia Al-Hasbi"
-                    className="relative rounded-2xl object-cover object-top"
-                    style={{ width: '100px', height: '125px', boxShadow: '0 0 0 2px #f47b20' }}
-                  />
-                </div>
-                <h2 className="mt-4 text-lg font-extrabold text-ink-light dark:text-ink-dark">
-                  {t('سمية الحاصبي', 'Sumaia Al-Hasbi')}
-                </h2>
-                <p className="text-xs text-ink-light/50 dark:text-ink-dark/50" dir="ltr">Sumaia Al-Hasbi</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[11px] font-bold text-accent">
-                  {t('متاحة للتعاقد الشهري والمشاريع', 'Available for Monthly & Project Work')}
-                </span>
-              </div>
+            {/* الدائرة الخلفية المتوهجة 1 (يمين - رسم بياني لنمو المبيعات والأرباح) */}
+            <div
+              style={{
+                background: 'radial-gradient(circle, rgba(244,123,32,0.35) 0%, rgba(244,123,32,0.06) 70%)',
+                boxShadow: '0 0 35px rgba(244,123,32,0.35), inset 0 0 20px rgba(244,123,32,0.3)',
+              }}
+              className="animate-float absolute top-14 right-2 sm:right-4 grid h-28 w-28 sm:h-32 sm:w-32 place-items-center rounded-full border-2 border-[#f47b20]/60 backdrop-blur-sm"
+            >
+              <TrendingUp className="h-12 w-12 sm:h-14 sm:w-14 text-[#f47b20] drop-shadow-[0_0_12px_rgba(244,123,32,0.8)]" />
+            </div>
 
-              <ul className="mt-6 space-y-3">
-                {[
-                  { ar: 'كتابة المحتوى التسويقي والإعلاني للمنصات', en: 'Marketing & advertising content for platforms' },
-                  {
-                    ar: <>كتابة وصف المنتجات المتوافق مع <span dir="ltr">(SEO / GEO / AEO)</span> وإدارة المتاجر</>,
-                    en: <>Product descriptions aligned with <span dir="ltr">(SEO / GEO / AEO)</span> & store management</>,
-                  },
-                  {
-                    ar: <>صناعة فيديوهات الذكاء الاصطناعي بأسلوب إعلاني وكذلك <span dir="ltr">UGC</span></>,
-                    en: <>AI video creation in an advertising style and <span dir="ltr">UGC</span></>,
-                  },
-                ].map((b, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-sm text-ink-light/80 dark:text-ink-dark/80">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
-                      <Check className="h-3 w-3" />
-                    </span>
-                    <span>{lang === 'ar' ? b.ar : b.en}</span>
-                  </li>
-                ))}
-              </ul>
+            {/* الدائرة الخلفية المتوهجة 2 (يسار علوي - الجمهور والعملاء والوصول) */}
+            <div
+              style={{
+                animationDelay: '1.2s',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.35) 0%, rgba(244,123,32,0.06) 70%)',
+                boxShadow: '0 0 35px rgba(244,123,32,0.35), inset 0 0 20px rgba(244,123,32,0.3)',
+              }}
+              className="animate-float absolute top-8 left-4 sm:left-6 grid h-28 w-28 sm:h-32 sm:w-32 place-items-center rounded-full border-2 border-[#f47b20]/60 backdrop-blur-sm"
+            >
+              <Users className="h-12 w-12 sm:h-14 sm:w-14 text-[#f47b20] drop-shadow-[0_0_12px_rgba(244,123,32,0.8)]" />
+            </div>
 
-              <div className="mt-6 flex items-center justify-center gap-3 border-t border-accent/15 pt-5">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="WhatsApp"
-                  className="grid h-11 w-11 place-items-center rounded-xl border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white hover:scale-105"
-                >
-                  <WhatsAppIcon className="h-5 w-5" />
-                </a>
-                <a
-                  href={LINKEDIN_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="grid h-11 w-11 place-items-center rounded-xl border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white hover:scale-105"
-                >
-                  <LinkedInIcon className="h-5 w-5" />
-                </a>
+            {/* الدائرة الخلفية المتوهجة 3 (أسفل يمين - كتابة المحتوى الإبداعي) */}
+            <div
+              style={{
+                animationDelay: '1.8s',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.3) 0%, rgba(244,123,32,0.05) 70%)',
+                boxShadow: '0 0 30px rgba(244,123,32,0.3), inset 0 0 15px rgba(244,123,32,0.25)',
+              }}
+              className="animate-float absolute bottom-12 right-4 sm:right-6 grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-full border-2 border-[#f47b20]/50 backdrop-blur-sm"
+            >
+              <PenTool className="h-10 w-10 sm:h-12 sm:w-12 text-[#f47b20] drop-shadow-[0_0_10px_rgba(244,123,32,0.8)]" />
+            </div>
+
+            {/* الدائرة الخلفية المتوهجة 4 (أسفل يسار - المتاجر الإلكترونية وفيديوهات AI) */}
+            <div
+              style={{
+                animationDelay: '0.7s',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.3) 0%, rgba(244,123,32,0.05) 70%)',
+                boxShadow: '0 0 30px rgba(244,123,32,0.3), inset 0 0 15px rgba(244,123,32,0.25)',
+              }}
+              className="animate-float absolute bottom-10 left-4 sm:left-6 grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-full border-2 border-[#f47b20]/50 backdrop-blur-sm"
+            >
+              <div className="flex items-center gap-1.5 text-[#f47b20] drop-shadow-[0_0_10px_rgba(244,123,32,0.8)]">
+                <ShoppingBag className="h-8 w-8 sm:h-9 sm:w-9" />
+                <Video className="h-8 w-8 sm:h-9 sm:w-9" />
               </div>
             </div>
+
+            {/* صورتك الشخصية المفرغة في المقدمة ومندمجة بسلاسة من الأسفل */}
+            <img
+              src={PROFILE_PHOTO}
+              alt="Sumaia Al-Hasbi"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+                maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+              }}
+              className="relative z-10 h-[360px] w-auto object-contain object-bottom drop-shadow-[0_0_30px_rgba(244,123,32,0.45)] sm:h-[420px]"
+            />
           </div>
         </div>
       </div>
