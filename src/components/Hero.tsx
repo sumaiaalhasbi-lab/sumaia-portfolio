@@ -116,26 +116,24 @@ export default function Hero() {
 
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
           <div className="relative flex h-[380px] w-full max-w-[450px] items-end justify-center sm:h-[420px]">
-            {/* إضاءة خلفية ناعمة */}
             <div
-              className="pointer-events-none absolute top-4 h-[290px] w-[290px] rounded-full blur-3xl opacity-65 sm:h-[330px] sm:w-[330px]"
+              className="pointer-events-none absolute top-4 h-[290px] w-[290px] rounded-full blur-3xl opacity-60 sm:h-[330px] sm:w-[330px]"
               style={{
-                background: 'radial-gradient(circle, rgba(244,123,32,0.45) 0%, rgba(244,123,32,0.12) 55%, transparent 75%)',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.4) 0%, rgba(244,123,32,0.1) 55%, transparent 75%)',
               }}
             />
 
-            {/* نصف دائرة متوهجة تبدأ من الأعلى وتتلاشى بنعومة عند الكتفين */}
             <div
               style={{
                 WebkitMaskImage: 'linear-gradient(to bottom, black 35%, transparent 68%)',
                 maskImage: 'linear-gradient(to bottom, black 35%, transparent 68%)',
               }}
-              className="pointer-events-none absolute top-8 h-[300px] w-[300px] rounded-full border-2 border-[#f47b20]/45 bg-[#f47b20]/[0.04] sm:h-[330px] sm:w-[330px]"
+              className="pointer-events-none absolute top-8 h-[300px] w-[300px] rounded-full border-2 border-[#f47b20]/45 bg-[#f47b20]/[0.03] sm:h-[330px] sm:w-[330px]"
             />
 
             <div
               style={{
-                background: 'rgba(15, 15, 18, 0.85)',
+                background: 'rgba(15, 15, 18, 0.88)',
                 boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
               className="animate-float absolute top-14 right-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:right-4"
@@ -149,7 +147,7 @@ export default function Hero() {
             <div
               style={{
                 animationDelay: '1.1s',
-                background: 'rgba(15, 15, 18, 0.85)',
+                background: 'rgba(15, 15, 18, 0.88)',
                 boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
               className="animate-float absolute top-10 left-2 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-4"
@@ -163,7 +161,7 @@ export default function Hero() {
             <div
               style={{
                 animationDelay: '1.8s',
-                background: 'rgba(15, 15, 18, 0.85)',
+                background: 'rgba(15, 15, 18, 0.88)',
                 boxShadow: '0 8px 25px rgba(244, 123, 32, 0.25)',
               }}
               className="animate-float absolute bottom-28 left-0 z-20 flex items-center gap-2 rounded-2xl border border-[#f47b20]/40 px-3.5 py-2.5 backdrop-blur-md sm:left-2"
@@ -175,14 +173,15 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
+            {/* قناع تلاشي أسفل الكتفين فقط مع الحفاظ على وضوح الوجه والجزء العلوي 100% */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
               style={{
                 WebkitMaskImage:
-                  'radial-gradient(ellipse 62% 58% at 50% 38%, black 42%, rgba(0,0,0,0.35) 65%, transparent 88%)',
+                  'linear-gradient(to bottom, black 62%, rgba(0,0,0,0.6) 80%, transparent 98%)',
                 maskImage:
-                  'radial-gradient(ellipse 62% 58% at 50% 38%, black 42%, rgba(0,0,0,0.35) 65%, transparent 88%)',
+                  'linear-gradient(to bottom, black 62%, rgba(0,0,0,0.6) 80%, transparent 98%)',
               }}
               className="relative z-10 h-[340px] w-auto object-contain object-bottom sm:h-[390px]"
             />
