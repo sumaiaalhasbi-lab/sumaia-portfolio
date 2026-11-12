@@ -113,13 +113,12 @@ export default function Hero() {
             </a>
           </div>
         </div>
-
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
           <div className="relative flex h-[380px] w-full max-w-[450px] items-end justify-center sm:h-[420px]">
             <div
-              className="pointer-events-none absolute top-4 h-[290px] w-[290px] rounded-full blur-3xl opacity-60 sm:h-[330px] sm:w-[330px]"
+              className="pointer-events-none absolute top-4 hidden dark:block h-[290px] w-[290px] rounded-full blur-3xl opacity-55 sm:h-[330px] sm:w-[330px]"
               style={{
-                background: 'radial-gradient(circle, rgba(244,123,32,0.4) 0%, rgba(244,123,32,0.1) 55%, transparent 75%)',
+                background: 'radial-gradient(circle, rgba(244,123,32,0.45) 0%, transparent 70%)',
               }}
             />
 
@@ -173,7 +172,6 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
-            {/* قناع تلاشي أسفل الكتفين فقط مع الحفاظ على وضوح الوجه والجزء العلوي 100% */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
