@@ -39,7 +39,7 @@ const POSTS = [
 ];
 
 function getInstaEmbedUrl(url: string) {
-  const clean = url.split('?').replace(/\/$/, '');
+    const clean = url.split('?')[0].replace(/\/$/, '');
   return `${clean}/embed`;
 }
 
