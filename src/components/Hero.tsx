@@ -8,17 +8,19 @@ import { WHATSAPP_URL, LINKEDIN_URL } from '@/data/links';
 const PROFILE_PHOTO = '/Upright_Niqab_Portrait_in_Soft_Bokeh.png';
 
 const TYPING_WORDS_AR = [
-  'كتابة المحتوى الإعلاني والتسويقي للمنصات',
-  'إدارة حسابات التواصل الاجتماعي والخطط',
-  'محتوى المتاجر المتوافق مع (SEO / GEO / AEO)',
-  'صناعة فيديوهات الذكاء الاصطناعي والـ UGC',
+  'لإدارة المحتوى التسويقي؟',
+  'لإدارة حسابات التواصل الاجتماعي؟',
+  'لرفع ووصف منتجات المتاجر الإلكترونية؟',
+  'لإنتاج فيديوهات الذكاء الاصطناعي؟',
+  'لصياغة محتوى الحملات الإبداعية؟',
 ];
 
 const TYPING_WORDS_EN = [
-  'Advertising & Marketing Copywriting',
-  'Social Media Management & Strategy',
-  'E-commerce Content (SEO / GEO / AEO)',
-  'AI Video Production & UGC Content',
+  'to manage your marketing content?',
+  'to manage your social media accounts?',
+  'to write & upload e-commerce products?',
+  'to produce AI advertising videos?',
+  'to craft creative campaign copy?',
 ];
 
 export default function Hero() {
@@ -73,7 +75,7 @@ export default function Hero() {
 
           <h1 className="text-[22px] font-bold leading-[1.5] tracking-tight sm:text-[28px] sm:leading-[1.45]">
             <span className="block text-ink-light dark:text-white">
-              {t('تبحث عن شريك تسويقي ينفذ أعمالك باحتراف؟', 'Looking for a marketing partner to grow your brand?')}
+              {t('تبحث عن شريك محترف', 'Looking for a professional partner')}
             </span>
             <span className="mt-2 block min-h-[1.6em]" style={{ color: '#f47b20' }}>
               {displayedText}
