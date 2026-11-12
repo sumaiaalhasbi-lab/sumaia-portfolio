@@ -161,3 +161,44 @@ export default function Portfolio() {
         <div dir="ltr" className="overflow-hidden py-2">
           <div className="marquee-row gap-4">
             {[...POSTS, ...POSTS, ...POSTS].map((post, i) => (
+              <button key={i} type="button" onClick={() => setLightbox(post)} className="group relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/60">
+                <img src={post.img} alt={post.ar.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {activeInsta && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveInsta(null)}>
+          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-3 flex items-center justify-between">
+              <h4 className="text-sm font-bold text-ink-light dark:text-white">{lang === 'ar' ? activeInsta.ar : activeInsta.en}</h4>
+              <button type="button" onClick={() => setActiveInsta(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white"><X className="h-4 w-4" /></button>
+            </div>
+            <div className="flex justify-center overflow-hidden rounded-2xl bg-white p-1">
+              <blockquote className="instagram-media" data-instgrm-permalink={activeInsta.url} data-instgrm-version="14" style={{ width: '100%', maxWidth: '400px', margin: 0 }} />
+            </div>
+            <div className="mt-4 flex justify-center">
+              <a href={activeInsta.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
+                <ExternalLink className="h-4 w-4" />
+                {t('مشاهدة الفيديو في حساب العميل على إنستغرام', 'View Reel on Client Instagram')}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {lightbox && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightbox(null)}>
+          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-5 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setLightbox(null)} className="absolute top-4 end-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
+            <div className="aspect-[9/16] max-h-[70vh] mx-auto overflow-hidden rounded-2xl"><img src={lightbox.img} alt={lightbox.ar.title} className="h-full w-full object-cover" /></div>
+            <h4 className="mt-4 text-lg font-bold text-ink-light dark:text-ink-dark">{lang === 'ar' ? lightbox.ar.title : lightbox.en.title}</h4>
+            <p className="mt-2 text-sm leading-relaxed text-ink-light/70 dark:text-ink-dark/70">{lang === 'ar' ? lightbox.ar.caption : lightbox.en.caption}</p>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
