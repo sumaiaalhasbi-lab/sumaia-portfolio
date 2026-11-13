@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, Eye, RotateCw } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -11,43 +11,43 @@ const IMGS = [
   '/images/social-6.jpg',
 ];
 
-const EXACT_POSTS = [
-  '/images/post (1).jpeg', '/images/post (1).jpg', '/images/post (1).png',
-  '/images/post (2).jpeg', '/images/post (2).jpg', '/images/post (2).png',
-  '/images/post (3).jpg', '/images/post (3).png',
-  '/images/post (4).jpg', '/images/post (4).png',
-  '/images/post (5).jpg', '/images/post (5).png',
-  '/images/post (6).jpg', '/images/post (6).png',
-  '/images/post (7).jpg', '/images/post (7).png',
-  '/images/post (8).jpg', '/images/post (8).png',
-  '/images/post (9).jpg', '/images/post (9).png',
-  '/images/post (10).jpg', '/images/post (10).png',
-  '/images/post (11).jpg', '/images/post (11).png',
-  '/images/post (12).jpg', '/images/post (12).png',
-  '/images/post (13).jpg', '/images/post (14).jpg', '/images/post (15).jpg',
-  '/images/post (16).jpg', '/images/post (17).jpg', '/images/post (18).jpg',
-  '/images/post (19).jpg', '/images/post (20).jpg', '/images/post (21).jpg',
-  '/images/post (22).jpg', '/images/post (23).jpg', '/images/post (24).jpg',
-  '/images/post (25).jpg', '/images/post (26).jpg', '/images/post (27).jpg',
-  '/images/post (28).jpg', '/images/post (29).jpg', '/images/post (30).jpg',
-  '/images/post (31).jpg', '/images/post (32).jpg', '/images/post (33).jpg',
-  '/images/post (34).jpg', '/images/post (35).jpg', '/images/post (36).jpg',
-  '/images/post (37).jpg', '/images/post (38).jpg', '/images/post (39).jpg',
-  '/images/post (40).jpg', '/images/post (41).jpg',
+const POST_NAMES = [
+  'post (1).jpeg', 'post (1).jpg', 'post (1).png',
+  'post (2).jpeg', 'post (2).jpg', 'post (2).png',
+  'post (3).jpg', 'post (3).png',
+  'post (4).jpg', 'post (4).png',
+  'post (5).jpg', 'post (5).png',
+  'post (6).jpg', 'post (6).png',
+  'post (7).jpg', 'post (7).png',
+  'post (8).jpg', 'post (8).png',
+  'post (9).jpg', 'post (9).png',
+  'post (10).jpg', 'post (10).png',
+  'post (11).jpg', 'post (11).png',
+  'post (12).jpg', 'post (12).png',
+  'post (13).jpg', 'post (14).jpg', 'post (15).jpg',
+  'post (16).jpg', 'post (17).jpg', 'post (18).jpg',
+  'post (19).jpg', 'post (20).jpg', 'post (21).jpg',
+  'post (22).jpg', 'post (23).jpg', 'post (24).jpg',
+  'post (25).jpg', 'post (26).jpg', 'post (27).jpg',
+  'post (28).jpg', 'post (29).jpg', 'post (30).jpg',
+  'post (31).jpg', 'post (32).jpg', 'post (33).jpg',
+  'post (34).jpg', 'post (35).jpg', 'post (36).jpg',
+  'post (37).jpg', 'post (38).jpg', 'post (39).jpg',
+  'post (40).jpg', 'post (41).jpg',
 ];
 
+// تم ربط كل رابط بعدد المشاهدات الحقيقية المأخوذ من لقطات شاشتكِ فقط
 const INITIAL_REELS = [
-  'DebbA_0tDv7',
-  'DfSMTJbt4-X',
-  'DfILeBKN6_2',
-  'DfUQAh1Nq8N',
-  'De9mdqINvBp',
-  'De6hCFCN0b1',
-  'Deyr9n7NZO9',
-  'DewEI_rtpHt',
-  'DeeMh8htqQA',
-  'DeLkQ2rtWQd',
-  'DePYchot5j2',
+  { code: 'DebbA_0tDv7', views: '12.4K' }, // ثلاجة أحلامي
+  { code: 'DePYchot5j2', views: '3K' },    // كل أدوية العالم كذبة
+  { code: 'DeLkQ2rtWQd', views: '578' },   // إذا أنتِ أميرة
+  { code: 'DeeMh8htqQA', views: '13.3K' }, // POV: الأولويات
+  { code: 'Deyr9n7NZO9', views: '83.2K' }, // راجعه من متجر العطور
+  { code: 'De9mdqINvBp', views: '22.9K' }, // POV: سبب تأخر الثراء
+  { code: 'De6hCFCN0b1', views: '22.1K' }, // ثرية
+  { code: 'DfSMTJbt4-X', views: '552' },   // هناك عطر يحكي عنك
+  { code: 'DfILeBKN6_2', views: '485' },   // العطر مو عشان الناس
+  { code: 'DfUQAh1Nq8N', views: '357' },   // فيديو الساعة
 ];
 
 export default function Portfolio() {
@@ -55,7 +55,7 @@ export default function Portfolio() {
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
   const [reels, setReels] = useState(INITIAL_REELS);
   const [scripts, setScripts] = useState(IMGS);
-  const [posts, setPosts] = useState(EXACT_POSTS);
+  const [posts, setPosts] = useState(POST_NAMES);
 
   const [hoverV, setHoverV] = useState(false);
   const [lockV, setLockV] = useState(false);
@@ -159,21 +159,27 @@ export default function Portfolio() {
         <div dir="ltr" onMouseEnter={() => setHoverV(true)} onMouseLeave={() => setHoverV(false)} className="overflow-hidden py-2">
           {tab === 'ai' ? (
             <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
-              {reels.map((code, idx) => (
+              {reels.map((item, idx) => (
                 <div
-                  key={activeCode && activeCode !== code ? `${code}-${idx}-${activeCode}` : `${code}-${idx}`}
-                  className={`h-[520px] w-[275px] shrink-0 overflow-hidden rounded-2xl border bg-white shadow-xl ${
-                    activeCode === code ? 'border-2 border-[#f47b20]' : 'border-accent/30'
+                  key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`}
+                  className={`flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl ${
+                    activeCode === item.code ? 'border-2 border-[#f47b20]' : 'border-accent/30'
                   }`}
                 >
-                  <iframe
-                    data-code={code}
-                    src={getInstaUrl(code)}
-                    title={`Reel ${idx + 1}`}
-                    loading="lazy"
-                    className="h-full w-full border-0"
-                    allowFullScreen
-                  />
+                  <div className="h-[515px] w-full overflow-hidden">
+                    <iframe
+                      data-code={item.code}
+                      src={getInstaUrl(item.code)}
+                      title={`Reel ${idx + 1}`}
+                      loading="lazy"
+                      className="h-full w-full border-0"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                    <Eye className="h-4 w-4 text-white/90" />
+                    <span>{item.views}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -212,20 +218,32 @@ export default function Portfolio() {
 
         <div dir="ltr" onMouseEnter={() => setHoverP(true)} onMouseLeave={() => setHoverP(false)} className="overflow-hidden py-2">
           <div className={`run-p gap-4 ${lockP ? 'stop-all' : hoverP || lightboxImg ? 'pause-hover' : ''}`}>
-            {posts.map((src, i) => (
-              <button
-                key={`${src}-${i}`}
-                type="button"
-                onClick={() => setLightboxImg(src)}
-                className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60"
-              >
-                <img
-                  src={src}
-                  alt={`Post ${i + 1}`}
-                  className="h-full w-auto object-contain transition duration-500 group-hover:scale-105"
-                />
-              </button>
-            ))}
+            {posts.map((name, i) => {
+              const primarySrc = `/images/${name}`;
+              return (
+                <button
+                  key={`${name}-${i}`}
+                  type="button"
+                  onClick={() => setLightboxImg(primarySrc)}
+                  className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60"
+                >
+                  <img
+                    src={primarySrc}
+                    alt={`Post ${i + 1}`}
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (!img.dataset.fallback) {
+                        img.dataset.fallback = '1';
+                        img.src = `/${name}`;
+                      } else if (img.parentElement) {
+                        img.parentElement.style.display = 'none';
+                      }
+                    }}
+                    className="h-full w-auto object-contain transition duration-500 group-hover:scale-105"
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -240,11 +258,4 @@ export default function Portfolio() {
           <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
             <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center">
-              <img src={lightboxImg} alt="Preview" className="max-h-[80vh] w-auto object-contain" />
-            </div>
-          </div>
-        </div>
-      )}
-    </section>
-  );
-}
+              <img
