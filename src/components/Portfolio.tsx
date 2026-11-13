@@ -69,17 +69,19 @@ export default function Portfolio() {
   const rotateVideos = (dir: 'left' | 'right') => {
     setLockedVideos(true);
     if (tab === 'ai') {
-      setReelsList((prev) =>
-        dir === 'right'
-          ? [...prev.slice(1), prev[0]]
-          : [prev[prev.length - 1], ...prev.slice(0, -1)]
-      );
+      setReelsList((prev) => {
+        const first = prev.at(0);
+        const last = prev.at(-1);
+        if (!first || !last) return prev;
+        return dir === 'right' ? [...prev.slice(1), first] : [last, ...prev.slice(0, -1)];
+      });
     } else {
-      setScriptList((prev) =>
-        dir === 'right'
-          ? [...prev.slice(1), prev[0]]
-          : [prev[prev.length - 1], ...prev.slice(0, -1)]
-      );
+      setScriptList((prev) => {
+        const first = prev.at(0);
+        const last = prev.at(-1);
+        if (!first || !last) return prev;
+        return dir === 'right' ? [...prev.slice(1), first] : [last, ...prev.slice(0, -1)];
+      });
     }
   };
 
