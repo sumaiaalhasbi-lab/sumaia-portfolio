@@ -11,7 +11,7 @@ const IMGS = [
   '/images/social-6.jpg',
 ];
 
-const ALL_POST_CANDIDATES = Array.from({ length: 45 }, (_, i) => [
+const POST_CANDIDATES = Array.from({ length: 45 }, (_, i) => [
   `/images/post (${i + 1}).jpg`,
   `/images/post (${i + 1}).png`,
   `/images/post (${i + 1}).jpeg`,
@@ -34,80 +34,61 @@ const INITIAL_REELS = [
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
-  const [reelsList, setReelsList] = useState(INITIAL_REELS);
-  const [scriptList, setScriptList] = useState(IMGS);
-  const [postsList, setPostsList] = useState(ALL_POST_CANDIDATES);
+  const [reels, setReels] = useState(INITIAL_REELS);
+  const [scripts, setScripts] = useState(IMGS);
+  const [posts, setPosts] = useState(POST_CANDIDATES);
 
-  const [hoverVideos, setHoverVideos] = useState(false);
-  const [lockedVideos, setLockedVideos] = useState(false);
-  const [activeReelCode, setActiveReelCode] = useState<string | null>(null);
+  const [hoverV, setHoverV] = useState(false);
+  const [lockV, setLockV] = useState(false);
+  const [activeCode, setActiveCode] = useState<string | null>(null);
 
-  const [hoverPosts, setHoverPosts] = useState(false);
-  const [lockedPosts, setLockedPosts] = useState(false);
+  const [hoverP, setHoverP] = useState(false);
+  const [lockP, setLockP] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
-  const getInstaFrame = (code: string) => {
-    const domain = 'www.' + 'instagram' + '.com';
-    return 'https://' + domain + '/reel/' + code + '/embed/captioned/';
-  };
+  const getInstaUrl = (c: string) =>
+    ['https:', '', '://instagram.com', 'reel', c, 'embed', 'captioned', ''].join('/');
 
   useEffect(() => {
     const onBlur = () => {
-      const el = document.activeElement;
-      if (el && el.tagName === 'IFRAME') {
-        const codeAttr = el.getAttribute('data-reel-code');
-        if (codeAttr) {
-          setLockedVideos(true);
-          setActiveReelCode(codeAttr);
-        }
+      const code = document.activeElement?.getAttribute('data-code');
+      if (code) {
+        setLockV(true);
+        setActiveCode(code);
       }
     };
     window.addEventListener('blur', onBlur);
     return () => window.removeEventListener('blur', onBlur);
   }, []);
 
-  const rotateVideos = (dir: 'left' | 'right') => {
-    setLockedVideos(true);
+  const stepVideos = (dir: 'left' | 'right') => {
+    setLockV(true);
     if (tab === 'ai') {
-      setReelsList((prev) => {
-        const first = prev.at(0);
-        const last = prev.at(-1);
-        if (!first || !last) return prev;
-        return dir === 'right' ? [...prev.slice(1), first] : [last, ...prev.slice(0, -1)];
-      });
+      setReels((p) =>
+        dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]
+      );
     } else {
-      setScriptList((prev) => {
-        const first = prev.at(0);
-        const last = prev.at(-1);
-        if (!first || !last) return prev;
-        return dir === 'right' ? [...prev.slice(1), first] : [last, ...prev.slice(0, -1)];
-      });
+      setScripts((p) =>
+        dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]
+      );
     }
   };
 
-  const rotatePosts = (dir: 'left' | 'right') => {
-    setLockedPosts(true);
-    setPostsList((prev) =>
-      dir === 'right'
-        ? [...prev.slice(3), ...prev.slice(0, 3)]
-        : [...prev.slice(-3), ...prev.slice(0, -3)]
+  const stepPosts = (dir: 'left' | 'right') => {
+    setLockP(true);
+    setPosts((p) =>
+      dir === 'right' ? [...p.slice(3), ...p.slice(0, 3)] : [...p.slice(-3), ...p.slice(0, -3)]
     );
   };
-  const isVideosStopped = hoverVideos || lockedVideos;
-  const isPostsStopped = hoverPosts || lockedPosts || Boolean(lightboxImg);
-
-  const displayReels = lockedVideos ? reelsList : [...reelsList, ...reelsList];
-  const displayScripts = lockedVideos ? scriptList : [...scriptList, ...scriptList];
-  const displayPosts = lockedPosts ? postsList : [...postsList, ...postsList];
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
-        @keyframes scrollLoop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .track-videos { display: flex; width: max-content; animation: scrollLoop 60s linear infinite; }
-        .track-posts { display: flex; width: max-content; animation: scrollLoop 150s linear infinite; }
-        .track-stopped { animation: none !important; transform: translateX(0) !important; }
-        .track-paused { animation-play-state: paused !important; }
+        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .run-v { display: flex; width: max-content; animation: loopX 60s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 140s linear infinite; }
+        .stop-all { animation: none !important; transform: translateX(0) !important; }
+        .pause-hover { animation-play-state: paused !important; }
       `}</style>
 
       <div className="mb-10 text-center">
@@ -119,7 +100,6 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* إدارة حسابات السوشيال ميديا */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -135,95 +115,47 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* فيديوهاتي */}
       <div id="videos" className="mb-16">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
-          {lockedVideos && (
-            <button
-              type="button"
-              onClick={() => { setLockedVideos(false); setActiveReelCode(null); }}
-              className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-bold text-accent transition hover:bg-accent hover:text-white"
-            >
-              <RotateCw className="h-3.5 w-3.5" />
-              {t('إعادة تحريك الشريط', 'Resume Auto-Scroll')}
+          {lockV && (
+            <button type="button" onClick={() => { setLockV(false); setActiveCode(null); }} className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-bold text-accent hover:bg-accent hover:text-white">
+              <RotateCw className="h-3.5 w-3.5" /> {t('إعادة تحريك الشريط', 'Resume')}
             </button>
           )}
         </div>
 
         <div className="mb-6 flex flex-wrap gap-2.5">
-          <button
-            onClick={() => { setTab('ai'); setLockedVideos(false); setActiveReelCode(null); }}
-            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'ai' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}
-          >
+          <button onClick={() => { setTab('ai'); setLockV(false); setActiveCode(null); }} className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'ai' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}>
             {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
           </button>
-          <button
-            onClick={() => { setTab('script'); setLockedVideos(false); setActiveReelCode(null); }}
-            className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}
-          >
+          <button onClick={() => { setTab('script'); setLockV(false); setActiveCode(null); }} className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}>
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
           </button>
         </div>
 
-        <div
-          dir="ltr"
-          onMouseEnter={() => setHoverVideos(true)}
-          onMouseLeave={() => setHoverVideos(false)}
-          className="overflow-hidden py-2"
-        >
+        <div dir="ltr" onMouseEnter={() => setHoverV(true)} onMouseLeave={() => setHoverV(false)} className="overflow-hidden py-2">
           {tab === 'ai' ? (
-            <div
-              className={`track-videos gap-4 ${
-                lockedVideos ? 'track-stopped' : isVideosStopped ? 'track-paused' : ''
-              }`}
-            >
-              {displayReels.map((item, idx) => {
-                const frameKey =
-                  activeReelCode !== null && activeReelCode !== item.code
-                    ? `${item.code}-${idx}-reset-${activeReelCode}`
-                    : `${item.code}-${idx}`;
-                return (
-                  <div
-                    key={frameKey}
-                    className={`flex w-[270px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl transition ${
-                      activeReelCode === item.code ? 'border-2 border-[#f47b20] ring-2 ring-[#f47b20]/40' : 'border-accent/30 hover:border-[#f47b20]'
-                    }`}
-                  >
-                    <div className="h-[485px] w-full overflow-hidden">
-                      <iframe
-                        data-reel-code={item.code}
-                        src={getInstaFrame(item.code)}
-                        title={`Reel ${idx + 1}`}
-                        className="h-full w-full border-0"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
-                      <Eye className="h-4 w-4 text-white/90" />
-                      <span>{item.views}</span>
-                    </div>
+            <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
+              {(lockV ? reels : [...reels, ...reels]).map((item, idx) => (
+                <div key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`} className={`flex w-[270px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl ${activeCode === item.code ? 'border-2 border-[#f47b20]' : 'border-accent/30'}`}>
+                  <div className="h-[485px] w-full overflow-hidden">
+                    <iframe data-code={item.code} src={getInstaUrl(item.code)} title={`Reel ${idx + 1}`} className="h-full w-full border-0" allowFullScreen />
                   </div>
-                );
-              })}
+                  <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                    <Eye className="h-4 w-4 text-white/90" />
+                    <span>{item.views}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
-            <div
-              className={`track-videos gap-4 ${
-                lockedVideos ? 'track-stopped' : isVideosStopped ? 'track-paused' : ''
-              }`}
-            >
-              {displayScripts.map((src, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => { setLockedVideos(true); setActiveReelCode(src); }}
-                  className="group relative aspect-[9/16] w-[210px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg"
-                >
-                  <img src={src} alt="Script Video" className="h-full w-full object-cover" />
+            <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
+              {(lockV ? scripts : [...scripts, ...scripts]).map((src, idx) => (
+                <div key={idx} onClick={() => { setLockV(true); setActiveCode(src); }} className="group relative aspect-[9/16] w-[210px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
+                  <img src={src} alt="Script" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 grid place-items-center">
-                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-lg">
-                      <Play className="h-6 w-6 fill-white ms-0.5" />
-                    </span>
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-lg"><Play className="h-6 w-6 fill-white ms-0.5" /></span>
                   </div>
                 </div>
               ))}
@@ -232,70 +164,22 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="mt-4 flex items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={() => rotateVideos('left')}
-            aria-label="Previous"
-            className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => rotateVideos('right')}
-            aria-label="Next"
-            className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+          <button type="button" onClick={() => stepVideos('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => stepVideos('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
         </div>
       </div>
 
-      {/* محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
-          {lockedPosts && (
-            <button
-              type="button"
-              onClick={() => setLockedPosts(false)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-bold text-accent transition hover:bg-accent hover:text-white"
-            >
-              <RotateCw className="h-3.5 w-3.5" />
-              {t('إعادة تحريك الشريط', 'Resume Auto-Scroll')}
+          {lockP && (
+            <button type="button" onClick={() => setLockP(false)} className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-bold text-accent hover:bg-accent hover:text-white">
+              <RotateCw className="h-3.5 w-3.5" /> {t('إعادة تحريك الشريط', 'Resume')}
             </button>
           )}
         </div>
 
-        <div
-          dir="ltr"
-          onMouseEnter={() => setHoverPosts(true)}
-          onMouseLeave={() => setHoverPosts(false)}
-          className="overflow-hidden py-2"
-        >
-          <div
-            className={`track-posts gap-4 ${
-              lockedPosts ? 'track-stopped' : isPostsStopped ? 'track-paused' : ''
-            }`}
-          >
-            {displayPosts.map((src, i) => (
-              <button
-                key={`${src}-${i}`}
-                type="button"
-                onClick={() => setLightboxImg(src)}
-                className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark transition hover:border-accent/60"
-              >
-                <img
-                  src={src}
-                  alt={`Post ${i + 1}`}
-                  onError={(e) => {
-                    const btn = e.currentTarget.parentElement;
-                    if (btn) btn.style.display = 'none';
-                  }}
-                  className="h-full w-auto object-contain transition duration-500 group-hover:scale-105"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-
+        <div dir="ltr" onMouseEnter={() => setHoverP(true)} onMouseLeave={() => setHoverP(false)} className="overflow-hidden py-2">
+          <div className={`run-p gap-4 ${lockP ? 'stop-all' : hoverP || lightboxImg ? 'pause-hover' : ''}`}>
+            {(lockP ? posts : [...posts, ...posts]).map((src, i) => (
+              <button key={`${src}-${i}`} type="button" onClick={() => setLightboxImg(src)} className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
