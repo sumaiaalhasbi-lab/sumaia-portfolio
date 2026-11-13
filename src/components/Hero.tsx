@@ -113,6 +113,7 @@ export default function Hero() {
             </a>
           </div>
         </div>
+
         <div className="order-2 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.15s' }}>
           <div className="relative flex h-[380px] w-full max-w-[450px] items-end justify-center sm:h-[420px]">
             <div
@@ -172,14 +173,17 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
+            {/* تلاشي ناعم للحواف الجانبية والسفلية فقط مع صفاء كامل للوجه */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
               style={{
                 WebkitMaskImage:
-                  'linear-gradient(to bottom, black 62%, rgba(0,0,0,0.6) 80%, transparent 98%)',
+                  'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, black 64%, rgba(0,0,0,0.5) 84%, transparent 99%)',
+                WebkitMaskComposite: 'source-in',
                 maskImage:
-                  'linear-gradient(to bottom, black 62%, rgba(0,0,0,0.6) 80%, transparent 98%)',
+                  'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, black 64%, rgba(0,0,0,0.5) 84%, transparent 99%)',
+                maskComposite: 'intersect',
               }}
               className="relative z-10 h-[340px] w-auto object-contain object-bottom sm:h-[390px]"
             />
