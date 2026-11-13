@@ -258,4 +258,23 @@ export default function Portfolio() {
           <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
             <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center">
+             
               <img
+                src={lightboxImg}
+                alt="Preview"
+                onError={(e) => {
+                  const img = e.currentTarget;
+                  if (!img.dataset.fallback) {
+                    img.dataset.fallback = '1';
+                    img.src = lightboxImg.replace('/images/', '/');
+                  }
+                }}
+                className="max-h-[80vh] w-auto object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
