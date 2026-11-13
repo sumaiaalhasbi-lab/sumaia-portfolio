@@ -80,7 +80,6 @@ export default function Portfolio() {
       dir === 'right' ? [...p.slice(3), ...p.slice(0, 3)] : [...p.slice(-3), ...p.slice(0, -3)]
     );
   };
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -183,3 +182,28 @@ export default function Portfolio() {
           <div className={`run-p gap-4 ${lockP ? 'stop-all' : hoverP || lightboxImg ? 'pause-hover' : ''}`}>
             {(lockP ? posts : [...posts, ...posts]).map((src, i) => (
               <button key={`${src}-${i}`} type="button" onClick={() => setLightboxImg(src)} className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                <img src={src} alt={`Post ${i + 1}`} onError={(e) => { if (e.currentTarget.parentElement) e.currentTarget.parentElement.style.display = 'none'; }} className="h-full w-auto object-contain transition duration-500 group-hover:scale-105" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div dir="ltr" className="mt-4 flex items-center justify-center gap-3">
+          <button type="button" onClick={() => stepPosts('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => stepPosts('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
+        </div>
+      </div>
+
+      {lightboxImg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
+          <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
+            <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center">
+              <img src={lightboxImg} alt="Preview" className="max-h-[80vh] w-auto object-contain" />
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
