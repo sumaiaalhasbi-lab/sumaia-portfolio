@@ -40,18 +40,15 @@ export default function Portfolio() {
     return 'https://' + domain + '/reel/' + code + '/embed/captioned/';
   };
 
-  const scrollTrack = (
-    ref: React.RefObject<HTMLDivElement | null>,
-    direction: 'left' | 'right',
-    setPause: (v: boolean) => void
-  ) => {
-    setPause(true);
-    if (ref.current) {
-      const step = direction === 'right' ? 300 : -300;
-      ref.current.scrollBy({ left: step, behavior: 'smooth' });
-    }
+  const scrollVideos = (dir: 'left' | 'right') => {
+    setPausedVideos(true);
+    videosScrollRef.current?.scrollBy({ left: dir === 'right' ? 300 : -300, behavior: 'smooth' });
   };
 
+  const scrollPosts = (dir: 'left' | 'right') => {
+    setPausedPosts(true);
+    postsScrollRef.current?.scrollBy({ left: dir === 'right' ? 300 : -300, behavior: 'smooth' });
+  };
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -71,7 +68,6 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* إدارة حسابات السوشيال ميديا */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -87,7 +83,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* فيديوهاتي */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-6 flex flex-wrap gap-2.5">
@@ -145,11 +140,10 @@ export default function Portfolio() {
           )}
         </div>
 
-        {/* أسهم التنقل تحت شريط الفيديوهات */}
         <div dir="ltr" className="mt-4 flex items-center justify-center gap-3">
           <button
             type="button"
-            onClick={() => scrollTrack(videosScrollRef, 'left', setPausedVideos)}
+            onClick={() => scrollVideos('left')}
             aria-label="Previous"
             className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
           >
@@ -157,7 +151,7 @@ export default function Portfolio() {
           </button>
           <button
             type="button"
-            onClick={() => scrollTrack(videosScrollRef, 'right', setPausedVideos)}
+            onClick={() => scrollVideos('right')}
             aria-label="Next"
             className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
           >
@@ -166,7 +160,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div
@@ -186,11 +179,10 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* أسهم التنقل تحت شريط المنشورات */}
         <div dir="ltr" className="mt-4 flex items-center justify-center gap-3">
           <button
             type="button"
-            onClick={() => scrollTrack(postsScrollRef, 'left', setPausedPosts)}
+            onClick={() => scrollPosts('left')}
             aria-label="Previous"
             className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
           >
@@ -198,7 +190,7 @@ export default function Portfolio() {
           </button>
           <button
             type="button"
-            onClick={() => scrollTrack(postsScrollRef, 'right', setPausedPosts)}
+            onClick={() => scrollPosts('right')}
             aria-label="Next"
             className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent transition hover:bg-accent hover:text-white"
           >
@@ -211,3 +203,10 @@ export default function Portfolio() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
           <div className="relative max-w-md w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
+            <div className="aspect-[9/16] max-h-[75vh] mx-auto overflow-hidden rounded-2xl"><img src={lightboxImg} alt="Preview" className="h-full w-full object-cover" /></div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
