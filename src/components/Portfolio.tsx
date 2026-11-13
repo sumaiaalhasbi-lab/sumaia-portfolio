@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
+import { Play, X, ExternalLink } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -28,20 +28,20 @@ const REELS = [
 export default function Portfolio() {
   const { lang, t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
-  const [activeCode, setActiveCode] = useState<string | null>(null);
+  const [paused, setPaused] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const buildEmbedUrl = (code: string) =>
-    ['https:', '', 'www.instagram.com', 'reel', code, 'embed', 'captioned', ''].join('/');
+    ['https:', '', '://instagram.com', 'reel', code, 'embed', 'captioned', ''].join('/');
 
   const buildDirectUrl = (code: string) =>
-    ['https:', '', 'www.instagram.com', 'reel', code, ''].join('/');
+    ['https:', '', '://instagram.com', 'reel', code, ''].join('/');
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes scrollX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .track-x { display: flex; width: max-content; animation: scrollX 45s linear infinite; }
+        .track-x { display: flex; width: max-content; animation: scrollX 65s linear infinite; }
         .track-x:hover, .track-stop { animation-play-state: paused !important; }
       `}</style>
 
@@ -54,6 +54,7 @@ export default function Portfolio() {
         </h2>
       </div>
 
+      {/* القسم الأول: صور إدارة حسابات السوشيال ميديا فقط */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -69,6 +70,7 @@ export default function Portfolio() {
         </div>
       </div>
 
+      {/* القسم الثاني: فيديوهات إنستغرام الحقيقية مباشرة بدون صور الحسابات */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-6 flex flex-wrap gap-2.5">
@@ -80,32 +82,61 @@ export default function Portfolio() {
           </button>
         </div>
 
-        <div dir="ltr" className="overflow-hidden py-2">
-          <div className={`track-x gap-4 ${activeCode ? 'track-stop' : ''}`}>
-            {(tab === 'ai' ? [...REELS, ...REELS] : [...IMGS, ...IMGS]).map((item, idx) => {
-              const poster = tab === 'ai' ? IMGS[idx % IMGS.length] : item;
-              const code = tab === 'ai' ? item : null;
-              return (
-                <div key={idx} onClick={() => code && setActiveCode(code)} className="group relative aspect-[9/16] w-[220px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg transition hover:-translate-y-2 hover:border-[#f47b20]">
-                  <img src={poster} alt="Video" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
-                  {code && (
-                    <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white border border-white/15">
-                      <Sparkles className="h-3 w-3 text-[#f47b20]" /> Reel
-                    </span>
-                  )}
-                  <span className="absolute inset-0 grid place-items-center">
-                    <span className="grid h-14 w-14 place-items-center rounded-full bg-[#f47b20] text-white shadow-lg transition group-hover:scale-110">
+        {tab === 'ai' && (
+          <div
+            dir="ltr"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            className="overflow-hidden py-2"
+          >
+            <div className={`track-x gap-5 ${paused ? 'track-stop' : ''}`}>
+              {[...REELS, ...REELS].map((code, idx) => (
+                <div
+                  key={`${code}-${idx}`}
+                  className="flex w-[320px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
+                >
+                  <div className="h-[500px] w-full overflow-hidden">
+                    <iframe
+                      src={buildEmbedUrl(code)}
+                      title={`Instagram Reel ${idx + 1}`}
+                      className="h-full w-full border-0"
+                      allowFullScreen
+                    />
+                  </div>
+                  <a
+                    href={buildDirectUrl(code)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 bg-[#f47b20] py-2.5 text-xs font-bold text-white transition hover:brightness-110"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    {t('مشاهدة في حساب العميل على إنستغرام', 'View on Client Instagram')}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {tab === 'script' && (
+          <div dir="ltr" className="overflow-hidden py-2">
+            <div className="track-x gap-4">
+              {[...IMGS, ...IMGS].map((src, idx) => (
+                <div key={idx} className="group relative aspect-[9/16] w-[220px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
+                  <img src={src} alt="Script Video" className="h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 grid place-items-center">
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-lg">
                       <Play className="h-6 w-6 fill-white ms-0.5" />
                     </span>
-                  </span>
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
+      {/* القسم الثالث: محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div dir="ltr" className="overflow-hidden py-2">
@@ -118,31 +149,6 @@ export default function Portfolio() {
           </div>
         </div>
       </div>
-
-      {activeCode && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveCode(null)}>
-          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-[380px] overflow-hidden rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-sm font-bold text-ink-light dark:text-white">{t('معاينة الفيديو والإحصائيات', 'Reel Preview & Stats')}</span>
-              <button type="button" onClick={() => setActiveCode(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white"><X className="h-4 w-4" /></button>
-            </div>
-            <div className="h-[520px] w-full overflow-hidden rounded-2xl bg-white">
-              <iframe
-                src={buildEmbedUrl(activeCode)}
-                title="Instagram Reel"
-                className="h-full w-full border-0"
-                allowFullScreen
-              />
-            </div>
-            <div className="mt-3 flex justify-center">
-              <a href={buildDirectUrl(activeCode)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
-                <ExternalLink className="h-4 w-4" />
-                {t('فتح الفيديو في حساب العميل على إنستغرام', 'Open Reel on Client Instagram')}
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
 
       {lightboxImg && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
