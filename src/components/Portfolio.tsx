@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, ExternalLink } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -26,16 +26,15 @@ const REELS = [
 ];
 
 export default function Portfolio() {
-  const { lang, t } = useApp();
+  const { t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
   const [paused, setPaused] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
-  const buildEmbedUrl = (code: string) =>
-    ['https:', '', '://instagram.com', 'reel', code, 'embed', 'captioned', ''].join('/');
-
-  const buildDirectUrl = (code: string) =>
-    ['https:', '', '://instagram.com', 'reel', code, ''].join('/');
+  const getInstaFrame = (code: string) => {
+    const domain = 'www.' + 'instagram' + '.com';
+    return 'https://' + domain + '/reel/' + code + '/embed/';
+  };
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
@@ -54,7 +53,6 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* القسم الأول: صور إدارة حسابات السوشيال ميديا فقط */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -70,7 +68,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* القسم الثاني: فيديوهات إنستغرام الحقيقية مباشرة بدون صور الحسابات */}
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
         <div className="mb-6 flex flex-wrap gap-2.5">
@@ -87,31 +84,22 @@ export default function Portfolio() {
             dir="ltr"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
+            onTouchStart={() => setPaused(true)}
             className="overflow-hidden py-2"
           >
             <div className={`track-x gap-5 ${paused ? 'track-stop' : ''}`}>
               {[...REELS, ...REELS].map((code, idx) => (
                 <div
                   key={`${code}-${idx}`}
-                  className="flex w-[320px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
+                  className="h-[545px] w-[310px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
                 >
-                  <div className="h-[500px] w-full overflow-hidden">
-                    <iframe
-                      src={buildEmbedUrl(code)}
-                      title={`Instagram Reel ${idx + 1}`}
-                      className="h-full w-full border-0"
-                      allowFullScreen
-                    />
-                  </div>
-                  <a
-                    href={buildDirectUrl(code)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-[#f47b20] py-2.5 text-xs font-bold text-white transition hover:brightness-110"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    {t('مشاهدة في حساب العميل على إنستغرام', 'View on Client Instagram')}
-                  </a>
+                  <iframe
+                    src={getInstaFrame(code)}
+                    title={`Reel ${idx + 1}`}
+                    className="h-full w-full border-0"
+                    allowFullScreen
+                    scrolling="no"
+                  />
                 </div>
               ))}
             </div>
@@ -136,7 +124,6 @@ export default function Portfolio() {
         )}
       </div>
 
-      {/* القسم الثالث: محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div dir="ltr" className="overflow-hidden py-2">
