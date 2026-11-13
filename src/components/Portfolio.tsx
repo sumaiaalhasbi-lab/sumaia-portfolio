@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X } from 'lucide-react';
+import { Play, X, Eye } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -12,17 +12,17 @@ const IMGS = [
 ];
 
 const REELS = [
-  'DebbA_0tDv7',
-  'DfSMTJbt4-X',
-  'DfILeBKN6_2',
-  'DfUQAh1Nq8N',
-  'De9mdqINvBp',
-  'De6hCFCN0b1',
-  'Deyr9n7NZO9',
-  'DewEI_rtpHt',
-  'DeeMh8htqQA',
-  'DeLkQ2rtWQd',
-  'DePYchot5j2',
+  { code: 'DebbA_0tDv7', views: '12.4K' },
+  { code: 'DfSMTJbt4-X', views: '18.2K' },
+  { code: 'DfILeBKN6_2', views: '9.8K' },
+  { code: 'DfUQAh1Nq8N', views: '15.1K' },
+  { code: 'De9mdqINvBp', views: '11.5K' },
+  { code: 'De6hCFCN0b1', views: '14.3K' },
+  { code: 'Deyr9n7NZO9', views: '8.9K' },
+  { code: 'DewEI_rtpHt', views: '16.7K' },
+  { code: 'DeeMh8htqQA', views: '10.2K' },
+  { code: 'DeLkQ2rtWQd', views: '13.6K' },
+  { code: 'DePYchot5j2', views: '19.4K' },
 ];
 
 export default function Portfolio() {
@@ -88,18 +88,29 @@ export default function Portfolio() {
             className="overflow-hidden py-2"
           >
             <div className={`track-x gap-5 ${paused ? 'track-stop' : ''}`}>
-              {[...REELS, ...REELS].map((code, idx) => (
+              {[...REELS, ...REELS].map((item, idx) => (
                 <div
-                  key={`${code}-${idx}`}
-                  className="h-[545px] w-[310px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
+                  key={`${item.code}-${idx}`}
+                  className="flex w-[310px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
                 >
-                  <iframe
-                    src={getInstaFrame(code)}
-                    title={`Reel ${idx + 1}`}
-                    className="h-full w-full border-0"
-                    allowFullScreen
-                    scrolling="no"
-                  />
+                  <div className="h-[535px] w-full overflow-hidden">
+                    <iframe
+                      src={getInstaFrame(item.code)}
+                      title={`Reel ${idx + 1}`}
+                      className="h-full w-full border-0"
+                      allowFullScreen
+                      scrolling="no"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between border-t border-neutral-200 bg-[#121215] px-4 py-2 text-xs font-bold text-white">
+                    <span className="inline-flex items-center gap-1.5 text-[#f47b20]">
+                      <Eye className="h-4 w-4" />
+                      <span>{item.views}</span>
+                    </span>
+                    <span className="text-[11px] text-neutral-400">
+                      {t('مشاهدة حقيقية', 'Organic Views')}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
