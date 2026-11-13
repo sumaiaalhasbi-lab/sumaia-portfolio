@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight, Eye, Heart, RotateCw } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, RotateCw } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -12,42 +12,42 @@ const IMGS = [
 ];
 
 const EXACT_POSTS = [
-  'post (1).jpeg', 'post (1).jpg', 'post (1).png',
-  'post (2).jpeg', 'post (2).jpg', 'post (2).png',
-  'post (3).jpg', 'post (3).png',
-  'post (4).jpg', 'post (4).png',
-  'post (5).jpg', 'post (5).png',
-  'post (6).jpg', 'post (6).png',
-  'post (7).jpg', 'post (7).png',
-  'post (8).jpg', 'post (8).png',
-  'post (9).jpg', 'post (9).png',
-  'post (10).jpg', 'post (10).png',
-  'post (11).jpg', 'post (11).png',
-  'post (12).jpg', 'post (12).png',
-  'post (13).jpg', 'post (14).jpg', 'post (15).jpg',
-  'post (16).jpg', 'post (17).jpg', 'post (18).jpg',
-  'post (19).jpg', 'post (20).jpg', 'post (21).jpg',
-  'post (22).jpg', 'post (23).jpg', 'post (24).jpg',
-  'post (25).jpg', 'post (26).jpg', 'post (27).jpg',
-  'post (28).jpg', 'post (29).jpg', 'post (30).jpg',
-  'post (31).jpg', 'post (32).jpg', 'post (33).jpg',
-  'post (34).jpg', 'post (35).jpg', 'post (36).jpg',
-  'post (37).jpg', 'post (38).jpg', 'post (39).jpg',
-  'post (40).jpg', 'post (41).jpg',
-].map((name) => `/images/${encodeURIComponent(name)}`);
+  '/images/post (1).jpeg', '/images/post (1).jpg', '/images/post (1).png',
+  '/images/post (2).jpeg', '/images/post (2).jpg', '/images/post (2).png',
+  '/images/post (3).jpg', '/images/post (3).png',
+  '/images/post (4).jpg', '/images/post (4).png',
+  '/images/post (5).jpg', '/images/post (5).png',
+  '/images/post (6).jpg', '/images/post (6).png',
+  '/images/post (7).jpg', '/images/post (7).png',
+  '/images/post (8).jpg', '/images/post (8).png',
+  '/images/post (9).jpg', '/images/post (9).png',
+  '/images/post (10).jpg', '/images/post (10).png',
+  '/images/post (11).jpg', '/images/post (11).png',
+  '/images/post (12).jpg', '/images/post (12).png',
+  '/images/post (13).jpg', '/images/post (14).jpg', '/images/post (15).jpg',
+  '/images/post (16).jpg', '/images/post (17).jpg', '/images/post (18).jpg',
+  '/images/post (19).jpg', '/images/post (20).jpg', '/images/post (21).jpg',
+  '/images/post (22).jpg', '/images/post (23).jpg', '/images/post (24).jpg',
+  '/images/post (25).jpg', '/images/post (26).jpg', '/images/post (27).jpg',
+  '/images/post (28).jpg', '/images/post (29).jpg', '/images/post (30).jpg',
+  '/images/post (31).jpg', '/images/post (32).jpg', '/images/post (33).jpg',
+  '/images/post (34).jpg', '/images/post (35).jpg', '/images/post (36).jpg',
+  '/images/post (37).jpg', '/images/post (38).jpg', '/images/post (39).jpg',
+  '/images/post (40).jpg', '/images/post (41).jpg',
+];
 
-// الأرقام الحقيقية للمشاهدات والإعجابات من لقطات الشاشة
 const INITIAL_REELS = [
-  { code: 'DebbA_0tDv7', views: '12.4K', likes: '318' },
-  { code: 'DfSMTJbt4-X', views: '83.2K', likes: '505' },
-  { code: 'DfILeBKN6_2', views: '22.9K', likes: '197' },
-  { code: 'DfUQAh1Nq8N', views: '22.1K', likes: '277' },
-  { code: 'De9mdqINvBp', views: '13.3K', likes: '92' },
-  { code: 'De6hCFCN0b1', views: '3K', likes: '158' },
-  { code: 'Deyr9n7NZO9', views: '578', likes: '7' },
-  { code: 'DewEI_rtpHt', views: '552', likes: '8' },
-  { code: 'DeeMh8htqQA', views: '485', likes: '3' },
-  { code: 'DeLkQ2rtWQd', views: '357', likes: '8' },
+  'DebbA_0tDv7',
+  'DfSMTJbt4-X',
+  'DfILeBKN6_2',
+  'DfUQAh1Nq8N',
+  'De9mdqINvBp',
+  'De6hCFCN0b1',
+  'Deyr9n7NZO9',
+  'DewEI_rtpHt',
+  'DeeMh8htqQA',
+  'DeLkQ2rtWQd',
+  'DePYchot5j2',
 ];
 
 export default function Portfolio() {
@@ -159,28 +159,21 @@ export default function Portfolio() {
         <div dir="ltr" onMouseEnter={() => setHoverV(true)} onMouseLeave={() => setHoverV(false)} className="overflow-hidden py-2">
           {tab === 'ai' ? (
             <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
-              {reels.map((item, idx) => (
-                <div key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`} className={`flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl ${activeCode === item.code ? 'border-2 border-[#f47b20]' : 'border-accent/30'}`}>
-                  <div className="h-[510px] w-full overflow-hidden">
-                    <iframe
-                      data-code={item.code}
-                      src={getInstaUrl(item.code)}
-                      title={`Reel ${idx + 1}`}
-                      loading="lazy"
-                      className="h-full w-full border-0"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className="flex items-center justify-between border-t border-neutral-200 bg-[#121215] px-4 py-2 text-xs font-bold text-white">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Eye className="h-4 w-4 text-white/90" />
-                      <span>{item.views}</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-rose-400">
-                      <Heart className="h-3.5 w-3.5 fill-rose-400" />
-                      <span>{item.likes}</span>
-                    </span>
-                  </div>
+              {reels.map((code, idx) => (
+                <div
+                  key={activeCode && activeCode !== code ? `${code}-${idx}-${activeCode}` : `${code}-${idx}`}
+                  className={`h-[520px] w-[275px] shrink-0 overflow-hidden rounded-2xl border bg-white shadow-xl ${
+                    activeCode === code ? 'border-2 border-[#f47b20]' : 'border-accent/30'
+                  }`}
+                >
+                  <iframe
+                    data-code={code}
+                    src={getInstaUrl(code)}
+                    title={`Reel ${idx + 1}`}
+                    loading="lazy"
+                    className="h-full w-full border-0"
+                    allowFullScreen
+                  />
                 </div>
               ))}
             </div>
