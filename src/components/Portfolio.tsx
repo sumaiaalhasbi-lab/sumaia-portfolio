@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight, Eye, RotateCw } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, Eye, Heart, RotateCw } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -11,7 +11,6 @@ const IMGS = [
   '/images/social-6.jpg',
 ];
 
-// القائمة الدقيقة للصور الـ 55 من مجلدكِ
 const EXACT_POSTS = [
   'post (1).jpeg', 'post (1).jpg', 'post (1).png',
   'post (2).jpeg', 'post (2).jpg', 'post (2).png',
@@ -37,18 +36,18 @@ const EXACT_POSTS = [
   'post (40).jpg', 'post (41).jpg',
 ].map((name) => `/images/${encodeURIComponent(name)}`);
 
+// الأرقام الحقيقية للمشاهدات والإعجابات من لقطات الشاشة
 const INITIAL_REELS = [
-  { code: 'DebbA_0tDv7', views: '12.4K' },
-  { code: 'DfSMTJbt4-X', views: '' },
-  { code: 'DfILeBKN6_2', views: '' },
-  { code: 'DfUQAh1Nq8N', views: '' },
-  { code: 'De9mdqINvBp', views: '' },
-  { code: 'De6hCFCN0b1', views: '' },
-  { code: 'Deyr9n7NZO9', views: '' },
-  { code: 'DewEI_rtpHt', views: '' },
-  { code: 'DeeMh8htqQA', views: '' },
-  { code: 'DeLkQ2rtWQd', views: '' },
-  { code: 'DePYchot5j2', views: '' },
+  { code: 'DebbA_0tDv7', views: '12.4K', likes: '318' },
+  { code: 'DfSMTJbt4-X', views: '83.2K', likes: '505' },
+  { code: 'DfILeBKN6_2', views: '22.9K', likes: '197' },
+  { code: 'DfUQAh1Nq8N', views: '22.1K', likes: '277' },
+  { code: 'De9mdqINvBp', views: '13.3K', likes: '92' },
+  { code: 'De6hCFCN0b1', views: '3K', likes: '158' },
+  { code: 'Deyr9n7NZO9', views: '578', likes: '7' },
+  { code: 'DewEI_rtpHt', views: '552', likes: '8' },
+  { code: 'DeeMh8htqQA', views: '485', likes: '3' },
+  { code: 'DeLkQ2rtWQd', views: '357', likes: '8' },
 ];
 
 export default function Portfolio() {
@@ -172,12 +171,16 @@ export default function Portfolio() {
                       allowFullScreen
                     />
                   </div>
-                  {item.views && (
-                    <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                  <div className="flex items-center justify-between border-t border-neutral-200 bg-[#121215] px-4 py-2 text-xs font-bold text-white">
+                    <span className="inline-flex items-center gap-1.5">
                       <Eye className="h-4 w-4 text-white/90" />
                       <span>{item.views}</span>
-                    </div>
-                  )}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-rose-400">
+                      <Heart className="h-3.5 w-3.5 fill-rose-400" />
+                      <span>{item.likes}</span>
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
