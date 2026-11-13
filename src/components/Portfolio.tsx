@@ -36,20 +36,18 @@ const POST_NAMES = [
   'post (40).jpg', 'post (41).jpg',
 ];
 
-// تم ربط كل رابط بعدد المشاهدات الحقيقية المأخوذ من لقطات شاشتكِ فقط
 const INITIAL_REELS = [
-  { code: 'DebbA_0tDv7', views: '12.4K' }, // ثلاجة أحلامي
-  { code: 'DePYchot5j2', views: '3K' },    // كل أدوية العالم كذبة
-  { code: 'DeLkQ2rtWQd', views: '578' },   // إذا أنتِ أميرة
-  { code: 'DeeMh8htqQA', views: '13.3K' }, // POV: الأولويات
-  { code: 'Deyr9n7NZO9', views: '83.2K' }, // راجعه من متجر العطور
-  { code: 'De9mdqINvBp', views: '22.9K' }, // POV: سبب تأخر الثراء
-  { code: 'De6hCFCN0b1', views: '22.1K' }, // ثرية
-  { code: 'DfSMTJbt4-X', views: '552' },   // هناك عطر يحكي عنك
-  { code: 'DfILeBKN6_2', views: '485' },   // العطر مو عشان الناس
-  { code: 'DfUQAh1Nq8N', views: '357' },   // فيديو الساعة
+  { code: 'DebbA_0tDv7', views: '12.4K' },
+  { code: 'DePYchot5j2', views: '3K' },
+  { code: 'DeLkQ2rtWQd', views: '578' },
+  { code: 'DeeMh8htqQA', views: '13.3K' },
+  { code: 'Deyr9n7NZO9', views: '83.2K' },
+  { code: 'De9mdqINvBp', views: '22.9K' },
+  { code: 'De6hCFCN0b1', views: '22.1K' },
+  { code: 'DfSMTJbt4-X', views: '552' },
+  { code: 'DfILeBKN6_2', views: '485' },
+  { code: 'DfUQAh1Nq8N', views: '357' },
 ];
-
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
@@ -101,6 +99,7 @@ export default function Portfolio() {
       dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]
     );
   };
+
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -120,7 +119,6 @@ export default function Portfolio() {
         </h2>
       </div>
 
-      {/* إدارة حسابات السوشيال ميديا */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -135,8 +133,6 @@ export default function Portfolio() {
           ))}
         </div>
       </div>
-
-      {/* فيديوهاتي */}
       <div id="videos" className="mb-16">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
@@ -205,7 +201,6 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
@@ -258,7 +253,6 @@ export default function Portfolio() {
           <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
             <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center">
-             
               <img
                 src={lightboxImg}
                 alt="Preview"
