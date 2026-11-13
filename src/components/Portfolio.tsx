@@ -12,8 +12,17 @@ const IMGS = [
 ];
 
 const REELS = [
-  'DfSMTJbt4-X', 'DfILeBKN6_2', 'DfUQAh1Nq8N', 'De9mdqINvBp', 'De6hCFCN0b1',
-  'Deyr9n7NZO9', 'DewEI_rtpHt', 'DeeMh8htqQA', 'DeLkQ2rtWQd', 'DePYchot5j2',
+  'DebbA_0tDv7',
+  'DfSMTJbt4-X',
+  'DfILeBKN6_2',
+  'DfUQAh1Nq8N',
+  'De9mdqINvBp',
+  'De6hCFCN0b1',
+  'Deyr9n7NZO9',
+  'DewEI_rtpHt',
+  'DeeMh8htqQA',
+  'DeLkQ2rtWQd',
+  'DePYchot5j2',
 ];
 
 export default function Portfolio() {
@@ -21,6 +30,12 @@ export default function Portfolio() {
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
   const [activeCode, setActiveCode] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+
+  const buildEmbedUrl = (code: string) =>
+    ['https:', '', 'www.instagram.com', 'reel', code, 'embed', 'captioned', ''].join('/');
+
+  const buildDirectUrl = (code: string) =>
+    ['https:', '', 'www.instagram.com', 'reel', code, ''].join('/');
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
@@ -113,14 +128,14 @@ export default function Portfolio() {
             </div>
             <div className="h-[520px] w-full overflow-hidden rounded-2xl bg-white">
               <iframe
-                src={`https://instagram.com{activeCode}/embed/captioned/`}
+                src={buildEmbedUrl(activeCode)}
                 title="Instagram Reel"
                 className="h-full w-full border-0"
                 allowFullScreen
               />
             </div>
             <div className="mt-3 flex justify-center">
-              <a href={`https://instagram.com{activeCode}/`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
+              <a href={buildDirectUrl(activeCode)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
                 <ExternalLink className="h-4 w-4" />
                 {t('فتح الفيديو في حساب العميل على إنستغرام', 'Open Reel on Client Instagram')}
               </a>
