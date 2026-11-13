@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -11,18 +11,19 @@ const IMGS = [
   '/images/social-6.jpg',
 ];
 
+// اكتبي عدد المشاهدات الحقيقي لكل فيديو بين علامتي التنصيص
 const REELS = [
-  'DebbA_0tDv7',
-  'DfSMTJbt4-X',
-  'DfILeBKN6_2',
-  'DfUQAh1Nq8N',
-  'De9mdqINvBp',
-  'De6hCFCN0b1',
-  'Deyr9n7NZO9',
-  'DewEI_rtpHt',
-  'DeeMh8htqQA',
-  'DeLkQ2rtWQd',
-  'DePYchot5j2',
+  { code: 'DebbA_0tDv7', views: '12.4K' }, // ثلاجة أحلامي
+  { code: 'DfSMTJbt4-X', views: '' },
+  { code: 'DfILeBKN6_2', views: '' },
+  { code: 'DfUQAh1Nq8N', views: '' },
+  { code: 'De9mdqINvBp', views: '' },
+  { code: 'De6hCFCN0b1', views: '' },
+  { code: 'Deyr9n7NZO9', views: '' },
+  { code: 'DewEI_rtpHt', views: '' },
+  { code: 'DeeMh8htqQA', views: '' },
+  { code: 'DeLkQ2rtWQd', views: '' },
+  { code: 'DePYchot5j2', views: '' },
 ];
 
 export default function Portfolio() {
@@ -110,17 +111,25 @@ export default function Portfolio() {
         >
           {tab === 'ai' ? (
             <div className={`track-x gap-4 ${pausedVideos ? 'track-stop' : ''}`}>
-              {[...REELS, ...REELS].map((code, idx) => (
+              {[...REELS, ...REELS].map((item, idx) => (
                 <div
-                  key={`${code}-${idx}`}
-                  className="h-[515px] w-[270px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
+                  key={`${item.code}-${idx}`}
+                  className="flex w-[270px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl transition hover:border-[#f47b20]"
                 >
-                  <iframe
-                    src={getInstaFrame(code)}
-                    title={`Reel ${idx + 1}`}
-                    className="h-full w-full border-0"
-                    allowFullScreen
-                  />
+                  <div className="h-[485px] w-full overflow-hidden">
+                    <iframe
+                      src={getInstaFrame(item.code)}
+                      title={`Reel ${idx + 1}`}
+                      className="h-full w-full border-0"
+                      allowFullScreen
+                    />
+                  </div>
+                  {item.views && (
+                    <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                      <Eye className="h-4 w-4 text-white/90" />
+                      <span>{item.views}</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
