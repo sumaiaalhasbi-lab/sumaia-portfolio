@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Play, X, ExternalLink, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
@@ -19,22 +19,8 @@ const REELS = [
 export default function Portfolio() {
   const { lang, t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
-  const [activeReel, setActiveReel] = useState<string | null>(null);
+  const [activeCode, setActiveCode] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!activeReel) return;
-    const w = window as unknown as { instgrm?: { Embeds?: { process?: () => void } } };
-    if (w.instgrm?.Embeds?.process) {
-      w.instgrm.Embeds.process();
-    } else {
-      const s = document.createElement('script');
-      s.src = 'https://instagram.com';
-      s.async = true;
-      s.onload = () => w.instgrm?.Embeds?.process?.();
-      document.body.appendChild(s);
-    }
-  }, [activeReel]);
 
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
@@ -80,15 +66,15 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="overflow-hidden py-2">
-          <div className={`track-x gap-4 ${activeReel ? 'track-stop' : ''}`}>
+          <div className={`track-x gap-4 ${activeCode ? 'track-stop' : ''}`}>
             {(tab === 'ai' ? [...REELS, ...REELS] : [...IMGS, ...IMGS]).map((item, idx) => {
               const poster = tab === 'ai' ? IMGS[idx % IMGS.length] : item;
-              const reelUrl = tab === 'ai' ? `https://instagram.com{item}/` : null;
+              const code = tab === 'ai' ? item : null;
               return (
-                <div key={idx} onClick={() => reelUrl && setActiveReel(reelUrl)} className="group relative aspect-[9/16] w-[220px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg transition hover:-translate-y-2 hover:border-[#f47b20]">
+                <div key={idx} onClick={() => code && setActiveCode(code)} className="group relative aspect-[9/16] w-[220px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg transition hover:-translate-y-2 hover:border-[#f47b20]">
                   <img src={poster} alt="Video" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
-                  {reelUrl && (
+                  {code && (
                     <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white border border-white/15">
                       <Sparkles className="h-3 w-3 text-[#f47b20]" /> Reel
                     </span>
@@ -118,20 +104,25 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {activeReel && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveReel(null)}>
-          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      {activeCode && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActiveCode(null)}>
+          <div dir={lang === 'ar' ? 'rtl' : 'ltr'} className="relative w-full max-w-[380px] overflow-hidden rounded-3xl border border-accent/40 bg-bg-light dark:bg-bg-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
-              <span className="text-sm font-bold text-ink-light dark:text-white">Instagram Reel</span>
-              <button type="button" onClick={() => setActiveReel(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white"><X className="h-4 w-4" /></button>
+              <span className="text-sm font-bold text-ink-light dark:text-white">{t('معاينة الفيديو والإحصائيات', 'Reel Preview & Stats')}</span>
+              <button type="button" onClick={() => setActiveCode(null)} className="grid h-8 w-8 place-items-center rounded-full bg-accent/15 text-accent hover:bg-accent hover:text-white"><X className="h-4 w-4" /></button>
             </div>
-            <div className="flex justify-center overflow-hidden rounded-2xl bg-white p-1">
-              <blockquote className="instagram-media" data-instgrm-permalink={activeReel} data-instgrm-version="14" style={{ width: '100%', maxWidth: '400px', margin: 0 }} />
+            <div className="h-[520px] w-full overflow-hidden rounded-2xl bg-white">
+              <iframe
+                src={`https://instagram.com{activeCode}/embed/captioned/`}
+                title="Instagram Reel"
+                className="h-full w-full border-0"
+                allowFullScreen
+              />
             </div>
-            <div className="mt-4 flex justify-center">
-              <a href={activeReel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg">
+            <div className="mt-3 flex justify-center">
+              <a href={`https://instagram.com{activeCode}/`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#f47b20] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition hover:brightness-110">
                 <ExternalLink className="h-4 w-4" />
-                {t('مشاهدة الفيديو في حساب العميل على إنستغرام', 'View Reel on Instagram')}
+                {t('فتح الفيديو في حساب العميل على إنستغرام', 'Open Reel on Client Instagram')}
               </a>
             </div>
           </div>
