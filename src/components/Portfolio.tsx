@@ -37,6 +37,11 @@ export default function Portfolio() {
   const [activeCode, setActiveCode] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
+  const instaEmbed = (c: string) => {
+    const h = 'www.' + 'instagram' + '.com';
+    return 'https://' + h + '/reel/' + c + '/embed/';
+  };
+
   useEffect(() => {
     const onBlur = () => {
       const code = document.activeElement?.getAttribute('data-code');
@@ -76,7 +81,7 @@ export default function Portfolio() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {IMGS.map((src, i) => (
             <div key={i} className="group overflow-hidden rounded-2xl border border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition duration-300 hover:-translate-y-2 hover:border-[#f47b20]">
-              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={`Account ${i + 1}`} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
+              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={'Account ' + (i + 1)} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
             </div>
           ))}
         </div>
@@ -88,17 +93,17 @@ export default function Portfolio() {
           {lockV && <button type="button" onClick={() => { setLockV(false); setActiveCode(null); }} className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-bold text-accent"><RotateCw className="h-3.5 w-3.5" /> {t('إعادة التحريك', 'Resume')}</button>}
         </div>
         <div className="mb-6 flex flex-wrap gap-2.5">
-          <button onClick={() => { setTab('ai'); setLockV(false); }} className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'ai' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}>{t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}</button>
-          <button onClick={() => { setTab('script'); setLockV(false); }} className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent'}`}>{t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}</button>
+          <button onClick={() => { setTab('ai'); setLockV(false); }} className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}>{t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}</button>
+          <button onClick={() => { setTab('script'); setLockV(false); }} className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}>{t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}</button>
         </div>
 
         <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai' ? (
-            <div className={`run-v gap-4 ${lockV ? 'stop-all' : ''}`}>
+            <div className={'run-v gap-4 ' + (lockV ? 'stop-all' : '')}>
               {reels.map((item, idx) => (
-                <div key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+                <div key={activeCode && activeCode !== item.code ? item.code + '-' + idx + '-' + activeCode : item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
-                    <iframe data-code={item.code} src={`https://instagram.com{item.code}/embed/`} title={`Reel ${idx + 1}`} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+                    <iframe data-code={item.code} src={instaEmbed(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
                   </div>
                   <div className="flex items-center gap-1.5 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white"><Eye className="h-4 w-4" /><span>{item.views}</span></div>
                 </div>
@@ -129,10 +134,10 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="overflow-hidden py-2">
-          <div className={`run-p gap-4 ${lockP || lightboxImg ? 'stop-all' : ''}`}>
+          <div className={'run-p gap-4 ' + (lockP || lightboxImg ? 'stop-all' : '')}>
             {posts.map((name, i) => (
-              <button key={`${name}-${i}`} type="button" onClick={() => setLightboxImg(`/images/${name}`)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={`/images/${name}`} alt={`Post ${i + 1}`} onError={(e) => { const img = e.currentTarget; if (!img.dataset.f) { img.dataset.f = '1'; img.src = `/${name}`; } else if (img.parentElement) { img.parentElement.style.display = 'none'; } }} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+              <button key={name + '-' + i} type="button" onClick={() => setLightboxImg('/images/' + name)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                <img src={'/images/' + name} alt={'Post ' + (i + 1)} onError={(e) => { const img = e.currentTarget; if (!img.dataset.f) { img.dataset.f = '1'; img.src = '/' + name; } else if (img.parentElement) { img.parentElement.style.display = 'none'; } }} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
               </button>
             ))}
           </div>
