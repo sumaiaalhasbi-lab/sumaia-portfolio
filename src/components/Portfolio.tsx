@@ -46,8 +46,10 @@ export default function Portfolio() {
   const [lockP, setLockP] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
-  const getInstaUrl = (c: string) =>
-    ['https:', '', '://instagram.com', 'reel', c, 'embed', ''].join('/');
+  const getInstaUrl = (c: string) => {
+    const host = 'www.' + 'instagram' + '.com';
+    return 'https://' + host + '/reel/' + c + '/embed/';
+  };
 
   useEffect(() => {
     const onBlur = () => {
@@ -165,7 +167,9 @@ export default function Portfolio() {
                 <div key={idx} onClick={() => { setLockV(true); setActiveCode(src); }} className="group relative aspect-[9/16] w-[210px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
                   <img src={src} alt="Script" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 grid place-items-center">
-                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-lg"><Play className="h-6 w-6 fill-white ms-0.5" /></span>
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-lg">
+                      <Play className="h-6 w-6 fill-white ms-0.5" />
+                    </span>
                   </div>
                 </div>
               ))}
