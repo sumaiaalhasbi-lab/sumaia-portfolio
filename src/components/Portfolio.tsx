@@ -11,7 +11,7 @@ const IMGS = [
   '/images/social-6.jpg',
 ];
 
-const POST_CANDIDATES = Array.from({ length: 45 }, (_, i) => [
+const POST_CANDIDATES = Array.from({ length: 42 }, (_, i) => [
   `/images/post (${i + 1}).jpg`,
   `/images/post (${i + 1}).png`,
   `/images/post (${i + 1}).jpeg`,
@@ -19,16 +19,16 @@ const POST_CANDIDATES = Array.from({ length: 45 }, (_, i) => [
 
 const INITIAL_REELS = [
   { code: 'DebbA_0tDv7', views: '12.4K' },
-  { code: 'DfSMTJbt4-X', views: '18.2K' },
-  { code: 'DfILeBKN6_2', views: '9.8K' },
-  { code: 'DfUQAh1Nq8N', views: '15.1K' },
-  { code: 'De9mdqINvBp', views: '11.5K' },
-  { code: 'De6hCFCN0b1', views: '14.3K' },
-  { code: 'Deyr9n7NZO9', views: '8.9K' },
-  { code: 'DewEI_rtpHt', views: '16.7K' },
-  { code: 'DeeMh8htqQA', views: '10.2K' },
-  { code: 'DeLkQ2rtWQd', views: '13.6K' },
-  { code: 'DePYchot5j2', views: '19.4K' },
+  { code: 'DfSMTJbt4-X', views: '' },
+  { code: 'DfILeBKN6_2', views: '' },
+  { code: 'DfUQAh1Nq8N', views: '' },
+  { code: 'De9mdqINvBp', views: '' },
+  { code: 'De6hCFCN0b1', views: '' },
+  { code: 'Deyr9n7NZO9', views: '' },
+  { code: 'DewEI_rtpHt', views: '' },
+  { code: 'DeeMh8htqQA', views: '' },
+  { code: 'DeLkQ2rtWQd', views: '' },
+  { code: 'DePYchot5j2', views: '' },
 ];
 
 export default function Portfolio() {
@@ -47,7 +47,7 @@ export default function Portfolio() {
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const getInstaUrl = (c: string) =>
-    ['https:', '', '://instagram.com', 'reel', c, 'embed', 'captioned', ''].join('/');
+    ['https:', '', '://instagram.com', 'reel', c, 'embed', ''].join('/');
 
   useEffect(() => {
     const onBlur = () => {
@@ -77,15 +77,15 @@ export default function Portfolio() {
   const stepPosts = (dir: 'left' | 'right') => {
     setLockP(true);
     setPosts((p) =>
-      dir === 'right' ? [...p.slice(3), ...p.slice(0, 3)] : [...p.slice(-3), ...p.slice(0, -3)]
+      dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]
     );
   };
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .run-v { display: flex; width: max-content; animation: loopX 60s linear infinite; }
-        .run-p { display: flex; width: max-content; animation: loopX 140s linear infinite; }
+        .run-v { display: flex; width: max-content; animation: loopX 55s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .stop-all { animation: none !important; transform: translateX(0) !important; }
         .pause-hover { animation-play-state: paused !important; }
       `}</style>
@@ -99,6 +99,7 @@ export default function Portfolio() {
         </h2>
       </div>
 
+      {/* إدارة حسابات السوشيال ميديا */}
       <div id="social" className="mb-16">
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">
           {t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}
@@ -114,6 +115,7 @@ export default function Portfolio() {
         </div>
       </div>
 
+      {/* فيديوهاتي */}
       <div id="videos" className="mb-16">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
@@ -136,21 +138,30 @@ export default function Portfolio() {
         <div dir="ltr" onMouseEnter={() => setHoverV(true)} onMouseLeave={() => setHoverV(false)} className="overflow-hidden py-2">
           {tab === 'ai' ? (
             <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
-              {(lockV ? reels : [...reels, ...reels]).map((item, idx) => (
-                <div key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`} className={`flex w-[270px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl ${activeCode === item.code ? 'border-2 border-[#f47b20]' : 'border-accent/30'}`}>
-                  <div className="h-[485px] w-full overflow-hidden">
-                    <iframe data-code={item.code} src={getInstaUrl(item.code)} title={`Reel ${idx + 1}`} className="h-full w-full border-0" allowFullScreen />
+              {reels.map((item, idx) => (
+                <div key={activeCode && activeCode !== item.code ? `${item.code}-${idx}-${activeCode}` : `${item.code}-${idx}`} className={`flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border bg-white shadow-xl ${activeCode === item.code ? 'border-2 border-[#f47b20]' : 'border-accent/30'}`}>
+                  <div className="h-[510px] w-full overflow-hidden">
+                    <iframe
+                      data-code={item.code}
+                      src={getInstaUrl(item.code)}
+                      title={`Reel ${idx + 1}`}
+                      loading="lazy"
+                      className="h-full w-full border-0"
+                      allowFullScreen
+                    />
                   </div>
-                  <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
-                    <Eye className="h-4 w-4 text-white/90" />
-                    <span>{item.views}</span>
-                  </div>
+                  {item.views && (
+                    <div className="flex items-center gap-1.5 border-t border-neutral-200 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                      <Eye className="h-4 w-4 text-white/90" />
+                      <span>{item.views}</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           ) : (
             <div className={`run-v gap-4 ${lockV ? 'stop-all' : hoverV ? 'pause-hover' : ''}`}>
-              {(lockV ? scripts : [...scripts, ...scripts]).map((src, idx) => (
+              {[...scripts, ...scripts].map((src, idx) => (
                 <div key={idx} onClick={() => { setLockV(true); setActiveCode(src); }} className="group relative aspect-[9/16] w-[210px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
                   <img src={src} alt="Script" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 grid place-items-center">
@@ -168,6 +179,7 @@ export default function Portfolio() {
         </div>
       </div>
 
+      {/* محتوى منشورات السوشيال ميديا */}
       <div id="posts">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
@@ -180,9 +192,22 @@ export default function Portfolio() {
 
         <div dir="ltr" onMouseEnter={() => setHoverP(true)} onMouseLeave={() => setHoverP(false)} className="overflow-hidden py-2">
           <div className={`run-p gap-4 ${lockP ? 'stop-all' : hoverP || lightboxImg ? 'pause-hover' : ''}`}>
-            {(lockP ? posts : [...posts, ...posts]).map((src, i) => (
-              <button key={`${src}-${i}`} type="button" onClick={() => setLightboxImg(src)} className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={src} alt={`Post ${i + 1}`} onError={(e) => { if (e.currentTarget.parentElement) e.currentTarget.parentElement.style.display = 'none'; }} className="h-full w-auto object-contain transition duration-500 group-hover:scale-105" />
+            {posts.map((src, i) => (
+              <button
+                key={`${src}-${i}`}
+                type="button"
+                onClick={() => setLightboxImg(src)}
+                className="group relative h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60"
+              >
+                <img
+                  src={src}
+                  alt={`Post ${i + 1}`}
+                  onError={(e) => {
+                    const btn = e.currentTarget.parentElement;
+                    if (btn) btn.style.display = 'none';
+                  }}
+                  className="h-full w-auto object-contain transition duration-500 group-hover:scale-105"
+                />
               </button>
             ))}
           </div>
