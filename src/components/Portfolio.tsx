@@ -45,7 +45,6 @@ const DRIVE_AI_VIDEOS = [
   '1GExeXOFLCW0ILPoJB0fLZpOi0ylRUK6e',
   '1LdOd5j6BjW-2_HLJRFuGeD4dMn0Ldqxk',
 ];
-
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
@@ -74,6 +73,7 @@ export default function Portfolio() {
     setStopP(true);
     setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
   };
+
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -126,7 +126,6 @@ export default function Portfolio() {
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
           </button>
         </div>
-
         <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
