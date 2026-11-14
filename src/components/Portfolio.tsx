@@ -8,13 +8,9 @@ const IMGS = [
 ];
 
 const POST_FILES = Array.from({ length: 45 }, (_, i) => [
-  'img (' + (i + 1) + ').jpg',
-  'img (' + (i + 1) + ').JPG',
-  'img (' + (i + 1) + ').png',
-  'img (' + (i + 1) + ').PNG',
-  'img (' + (i + 1) + ').jpeg',
-  'IMG (' + (i + 1) + ').jpg',
-  'IMG (' + (i + 1) + ').JPG',
+  'post (' + (i + 1) + ').jpg',
+  'post (' + (i + 1) + ').png',
+  'post (' + (i + 1) + ').jpeg',
 ]).flat();
 
 const REELS = [
