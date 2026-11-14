@@ -74,7 +74,6 @@ export default function Portfolio() {
     setStopP(true);
     setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
   };
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -166,7 +165,6 @@ export default function Portfolio() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
-                      title={t('فتح في Google Drive', 'Open in Google Drive')}
                     >
                       <span>Drive</span>
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -191,3 +189,34 @@ export default function Portfolio() {
 
         <div dir="ltr" className="mt-4 flex justify-center gap-3">
           <button type="button" onClick={() => stepV('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => stepV('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
+        </div>
+      </div>
+
+      <div id="posts">
+        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
+        <div dir="ltr" className="overflow-hidden py-2">
+          <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
+            {[...posts, ...posts].map((src, i) => (
+              <button key={i} type="button" onClick={() => setLightboxImg(src)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                <img src={src} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div dir="ltr" className="mt-4 flex justify-center gap-3">
+          <button type="button" onClick={() => stepP('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
+          <button type="button" onClick={() => stepP('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
+        </div>
+      </div>
+
+      {lightboxImg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
+          <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-5 right-5 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-accent transition"><X className="h-6 w-6" /></button>
+          <img src={lightboxImg} alt="Preview" className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
+    </section>
+  );
+}
