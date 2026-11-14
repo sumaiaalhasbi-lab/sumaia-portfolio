@@ -193,17 +193,24 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
-            <img
-              src={PROFILE_PHOTO}
-              alt="Sumaia Al-Hasbi"
+            {/* قناع تلاشي ناعم مزدوج (أفقي + عمودي) لإخفاء الحواف الحادة تماماً */}
+            <div
               style={{
-                WebkitMaskImage:
-                  'radial-gradient(ellipse 85% 92% at 50% 42%, black 58%, transparent 98%)',
-                maskImage:
-                  'radial-gradient(ellipse 85% 92% at 50% 42%, black 58%, transparent 98%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)',
               }}
-              className="relative z-10 h-full w-auto max-w-none object-contain object-bottom"
-            />
+              className="relative z-10 flex h-full items-end justify-center"
+            >
+              <img
+                src={PROFILE_PHOTO}
+                alt="Sumaia Al-Hasbi"
+                style={{
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 62%, transparent 98%)',
+                  maskImage: 'linear-gradient(to bottom, black 62%, transparent 98%)',
+                }}
+                className="h-full w-auto max-w-none object-contain object-bottom"
+              />
+            </div>
           </div>
         </div>
       </div>
