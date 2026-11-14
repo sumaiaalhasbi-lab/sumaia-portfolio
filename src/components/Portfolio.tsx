@@ -20,8 +20,8 @@ const POSTS = [
 ];
 
 const REELS = [
-  'DebbA_0tDv7', 'DePYchot5j2', 'DeLkQ2rtWQd', 'DeeMh8htqQA', 'Deyr9n7NZO9',
-  'De9mdqINvBp', 'De6hCFCN0b1', 'DfSMTJbt4-X', 'DfILeBKN6_2', 'DfUQAh1Nq8N',
+  'DebbA_0tDv7', 'DePYchot5j2', 'DeLkQ2rtWQd', 'DeeMh8htqQA', 'DewEI_rtpHt',
+  'De6hCFCN0b1', 'DfSMTJbt4-X', 'DfUQAh1Nq8N', 'DfP3FzptsoY', 'DfMiGtENxs5', 'DfHga8Bthg5',
 ];
 
 export default function Portfolio() {
@@ -47,7 +47,6 @@ export default function Portfolio() {
     setStopP(true);
     setPosts((p) => dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]);
   };
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
