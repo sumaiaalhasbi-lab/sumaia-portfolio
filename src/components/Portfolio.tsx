@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -7,7 +7,7 @@ const IMGS = [
   '/images/social-4.jpg', '/images/social-5.jpg', '/images/social-6.jpg',
 ];
 
-const POSTS = [
+const POST_FILES = [
   'post (1).jpeg', 'post (1).jpg', 'post (1).png', 'post (2).jpeg', 'post (2).jpg', 'post (2).png',
   'post (3).jpg', 'post (3).png', 'post (4).jpg', 'post (4).png', 'post (5).jpg', 'post (5).png',
   'post (6).jpg', 'post (6).png', 'post (7).jpg', 'post (7).png', 'post (8).jpg', 'post (8).png',
@@ -19,16 +19,24 @@ const POSTS = [
   'post (35).jpg', 'post (36).jpg', 'post (37).jpg', 'post (38).jpg', 'post (39).jpg', 'post (40).jpg', 'post (41).jpg',
 ];
 
+const toImgPath = (fileName: string) => '/images/' + fileName.replace(' ', '%20');
+
 const REELS = [
-  'DebbA_0tDv7', 'DePYchot5j2', 'DeLkQ2rtWQd', 'DeeMh8htqQA', 'DewEI_rtpHt',
-  'De6hCFCN0b1', 'DfSMTJbt4-X', 'DfUQAh1Nq8N', 'DfP3FzptsoY', 'DfMiGtENxs5', 'DfHga8Bthg5',
+  { code: 'De6hCFCN0b1', views: '83K' },
+  { code: 'DewEI_rtpHt', views: '22.9K' },
+  { code: 'DeeMh8htqQA', views: '22.1K' },
+  { code: 'DfUQAh1Nq8N', views: '12.4K' },
+  { code: 'DfHga8Bthg5', views: '2,115' },
+  { code: 'DfP3FzptsoY', views: '1,617' },
+  { code: 'DePYchot5j2', views: '552' },
+  { code: 'DebbA_0tDv7', views: '357' },
 ];
 
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
   const [reels, setReels] = useState(REELS);
-  const [posts, setPosts] = useState(POSTS);
+  const [posts, setPosts] = useState(POST_FILES);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
@@ -47,11 +55,12 @@ export default function Portfolio() {
     setStopP(true);
     setPosts((p) => dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]);
   };
+
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .run-v { display: flex; width: max-content; animation: loopX 55s linear infinite; }
+        .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
         .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .run-v:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; transform: translateX(0) !important; }
@@ -83,9 +92,15 @@ export default function Portfolio() {
         <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai' ? (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
-              {reels.map((code, idx) => (
-                <div key={code + '-' + idx} className="h-[520px] w-[275px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
-                  <iframe src={instaUrl(code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+              {reels.map((item, idx) => (
+                <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+                  <div className="h-[515px] w-full overflow-hidden">
+                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                    <Eye className="h-4 w-4 text-white/90" />
+                    <span>{item.views}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -111,11 +126,14 @@ export default function Portfolio() {
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div dir="ltr" className="overflow-hidden py-2">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {posts.map((name, i) => (
-              <button key={name + '-' + i} type="button" onClick={() => setLightboxImg('/images/' + name)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={'/images/' + name} alt={'Post ' + (i + 1)} onError={(e) => { const img = e.currentTarget; if (!img.dataset.f) { img.dataset.f = '1'; img.src = '/' + name; } else if (img.parentElement) { img.parentElement.style.display = 'none'; } }} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
-              </button>
-            ))}
+            {posts.map((name, i) => {
+              const imgSrc = toImgPath(name);
+              return (
+                <button key={name + '-' + i} type="button" onClick={() => setLightboxImg(imgSrc)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                  <img src={imgSrc} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -129,7 +147,7 @@ export default function Portfolio() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
           <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
-            <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center"><img src={lightboxImg} alt="Preview" onError={(e) => { const img = e.currentTarget; if (!img.dataset.f) { img.dataset.f = '1'; img.src = lightboxImg.replace('/images/', '/'); } }} className="max-h-[80vh] w-auto object-contain" /></div>
+            <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center"><img src={lightboxImg} alt="Preview" className="max-h-[80vh] w-auto object-contain" /></div>
           </div>
         </div>
       )}
