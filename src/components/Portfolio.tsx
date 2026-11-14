@@ -13,7 +13,6 @@ const POST_MODULES = import.meta.glob('../assets/posts/*.{jpg,jpeg,png,webp,JPG,
 });
 const POST_URLS = Object.values(POST_MODULES) as string[];
 
-// التبويب 1: فيديوهات AI و UGC (على منصة العميل - إنستغرام)
 const REELS = [
   { code: 'De6hCFCN0b1', views: '83K' },
   { code: 'DewEI_rtpHt', views: '22.9K' },
@@ -25,7 +24,6 @@ const REELS = [
   { code: 'DebbA_0tDv7', views: '357' },
 ];
 
-// التبويب 2: فيديوهات AI و UGC (أعمال خاصة - Google Drive)
 const DRIVE_AI_VIDEOS = [
   '1ebAB_D74u2Pgm2HVOHiWmJptIyCRMxhK',
   '1gieXZNhIpwBwbWBbrlKucGvJBZkqzZnv',
@@ -106,8 +104,7 @@ export default function Portfolio() {
 
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
-        
-        {/* التبويبات الثلاثة */}
+
         <div className="mb-6 flex flex-wrap gap-2.5">
           <button
             onClick={() => { setTab('ai-client'); setStopV(false); }}
@@ -131,7 +128,6 @@ export default function Portfolio() {
           </button>
         </div>
 
-        {/* شريط عرض الفيديوهات حسب التبويب المختار */}
         <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
@@ -194,3 +190,4 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="mt-4 flex justify-center gap-3">
+          <button type="button" onClick={() => stepV('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
