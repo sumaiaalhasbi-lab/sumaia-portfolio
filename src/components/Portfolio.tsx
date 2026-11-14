@@ -19,8 +19,6 @@ const POST_FILES = [
   'post (35).jpg', 'post (36).jpg', 'post (37).jpg', 'post (38).jpg', 'post (39).jpg', 'post (40).jpg', 'post (41).jpg',
 ];
 
-const toImgPath = (fileName: string) => '/images/' + fileName.replace(' ', '%20');
-
 const REELS = [
   { code: 'De6hCFCN0b1', views: '83K' },
   { code: 'DewEI_rtpHt', views: '22.9K' },
@@ -126,14 +124,11 @@ export default function Portfolio() {
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div dir="ltr" className="overflow-hidden py-2">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {posts.map((name, i) => {
-              const imgSrc = toImgPath(name);
-              return (
-                <button key={name + '-' + i} type="button" onClick={() => setLightboxImg(imgSrc)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                  <img src={imgSrc} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
-                </button>
-              );
-            })}
+            {posts.map((name, i) => (
+              <button key={name + '-' + i} type="button" onClick={() => setLightboxImg('/images/' + name)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                <img src={'/images/' + name} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+              </button>
+            ))}
           </div>
         </div>
 
