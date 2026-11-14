@@ -9,8 +9,12 @@ const IMGS = [
 
 const POST_FILES = Array.from({ length: 45 }, (_, i) => [
   'img (' + (i + 1) + ').jpg',
+  'img (' + (i + 1) + ').JPG',
   'img (' + (i + 1) + ').png',
+  'img (' + (i + 1) + ').PNG',
   'img (' + (i + 1) + ').jpeg',
+  'IMG (' + (i + 1) + ').jpg',
+  'IMG (' + (i + 1) + ').JPG',
 ]).flat();
 
 const REELS = [
@@ -45,7 +49,7 @@ export default function Portfolio() {
 
   const stepP = (dir: 'left' | 'right') => {
     setStopP(true);
-    setPosts((p) => dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]);
+    setPosts((p) => dir === 'right' ? [...p.slice(6), ...p.slice(0, 6)] : [...p.slice(-6), ...p.slice(0, -6)]);
   };
 
   return (
@@ -53,7 +57,7 @@ export default function Portfolio() {
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
-        .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 140s linear infinite; }
         .run-v:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; transform: translateX(0) !important; }
       `}</style>
