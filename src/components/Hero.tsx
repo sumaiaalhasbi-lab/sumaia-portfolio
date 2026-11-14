@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Sparkles, PenTool, ShoppingBag, Video, TrendingUp } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { WhatsAppButton } from '@/components/ui/ContactButtons';
-import { LinkedInIcon } from '@/components/icons/BrandIcons';
+import { WhatsAppIcon, LinkedInIcon } from '@/components/icons/BrandIcons';
+import { WHATSAPP_URL } from '@/data/links';
 
 const PROFILE_PHOTO = '/images/sumaia-cutout.png';
 const MY_LINKEDIN = 'https://linkedin.com';
@@ -103,28 +103,34 @@ export default function Hero() {
             )}
           </p>
 
-          <div className="flex flex-col gap-3 pt-1">
-            <div className="flex flex-wrap items-center gap-3">
-              <WhatsAppButton variant="solid" />
-              <a
-                href={MY_LINKEDIN}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/30 transition hover:bg-accent-soft hover:shadow-accent/50 hover:-translate-y-0.5"
-              >
-                <LinkedInIcon className="h-5 w-5" />
-                <span>{t('تواصل عبر لينكدإن', 'Connect on LinkedIn')}</span>
-              </a>
-            </div>
-            <div>
-              <a
-                href="#services"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/60 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
-              >
-                <Sparkles className="h-4 w-4" />
-                {t('استعرض خدماتي', 'Explore My Services')}
-              </a>
-            </div>
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-accent px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-accent/25 transition hover:bg-accent-soft hover:-translate-y-0.5"
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              <span>{t('واتساب', 'WhatsApp')}</span>
+            </a>
+
+            <a
+              href={MY_LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-accent px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-accent/25 transition hover:bg-accent-soft hover:-translate-y-0.5"
+            >
+              <LinkedInIcon className="h-4 w-4" />
+              <span>{t('لينكدإن', 'LinkedIn')}</span>
+            </a>
+
+            <a
+              href="#services"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-accent/60 bg-transparent px-4 py-2.5 text-xs sm:text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>{t('خدماتي', 'My Services')}</span>
+            </a>
           </div>
         </div>
 
