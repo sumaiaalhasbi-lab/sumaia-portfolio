@@ -78,3 +78,11 @@ body {
 .glow-soft {
   box-shadow: 0 0 40px -8px rgba(244, 123, 32, 0.4);
 }
+* {
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+}
