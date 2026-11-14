@@ -2,23 +2,25 @@ import { useEffect, useState } from 'react';
 import { Sparkles, PenTool, ShoppingBag, Video, TrendingUp } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { WhatsAppButton } from '@/components/ui/ContactButtons';
+import { LinkedInIcon } from '@/components/icons/BrandIcons';
 
 const PROFILE_PHOTO = '/images/sumaia-cutout.png';
+const MY_LINKEDIN = 'https://linkedin.com';
 
 const TYPING_WORDS_AR = [
-  'لإدارة المحتوى التسويقي؟',
-  'لإدارة حسابات التواصل الاجتماعي؟',
-  'لرفع ووصف منتجات المتاجر الإلكترونية؟',
-  'لإنتاج فيديوهات الذكاء الاصطناعي؟',
-  'لصياغة محتوى الحملات الإبداعية؟',
+  'لإدارة المحتوى التسويقي',
+  'لإدارة حسابات التواصل الاجتماعي',
+  'لرفع ووصف منتجات المتاجر الإلكترونية',
+  'لإنتاج فيديوهات الذكاء الاصطناعي',
+  'لصياغة محتوى الحملات الإبداعية',
 ];
 
 const TYPING_WORDS_EN = [
-  'to manage your marketing content?',
-  'to manage your social media accounts?',
-  'to write & upload e-commerce products?',
-  'to produce AI advertising videos?',
-  'to craft creative campaign copy?',
+  'to manage your marketing content',
+  'to manage your social media accounts',
+  'to write & upload e-commerce products',
+  'to produce AI advertising videos',
+  'to craft creative campaign copy',
 ];
 
 export default function Hero() {
@@ -63,7 +65,6 @@ export default function Hero() {
     setPhase('typing');
     setWordIndex(0);
   }, [lang]);
-
   return (
     <section id="home" className="relative overflow-hidden pt-28 pb-14 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -87,7 +88,7 @@ export default function Hero() {
 
           <h1 className="text-[24px] font-bold leading-[1.45] tracking-tight sm:text-[32px] sm:leading-[1.4]">
             <span className="block text-ink-light dark:text-white">
-              {t('تبحث عن شريك محترف', 'Looking for a professional partner')}
+              {t('شريكك الإبداعي في عالم التسويق', 'Your creative partner in marketing')}
             </span>
             <span className="mt-2 block min-h-[1.6em]" style={{ color: '#f47b20' }}>
               {displayedText}
@@ -102,15 +103,28 @@ export default function Hero() {
             )}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            <WhatsAppButton variant="solid" />
-            <a
-              href="#services"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/60 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
-            >
-              <Sparkles className="h-4 w-4" />
-              {t('استعرض خدماتي', 'Explore My Services')}
-            </a>
+          <div className="flex flex-col gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-3">
+              <WhatsAppButton variant="solid" />
+              <a
+                href={MY_LINKEDIN}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/30 transition hover:bg-accent-soft hover:shadow-accent/50 hover:-translate-y-0.5"
+              >
+                <LinkedInIcon className="h-5 w-5" />
+                <span>{t('تواصل عبر لينكدإن', 'Connect on LinkedIn')}</span>
+              </a>
+            </div>
+            <div>
+              <a
+                href="#services"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-accent/60 bg-transparent px-6 py-3.5 text-sm font-bold text-accent transition hover:bg-accent/10 hover:border-accent"
+              >
+                <Sparkles className="h-4 w-4" />
+                {t('استعرض خدماتي', 'Explore My Services')}
+              </a>
+            </div>
           </div>
         </div>
 
@@ -173,19 +187,16 @@ export default function Hero() {
               <span className="text-xs font-bold text-white">{t('متاجر & AI', 'Stores & AI')}</span>
             </div>
 
-            {/* تلاشي ناعم للحواف الجانبية والسفلية فقط مع صفاء كامل للوجه */}
             <img
               src={PROFILE_PHOTO}
               alt="Sumaia Al-Hasbi"
               style={{
                 WebkitMaskImage:
-                  'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, black 64%, rgba(0,0,0,0.5) 84%, transparent 99%)',
-                WebkitMaskComposite: 'source-in',
+                  'radial-gradient(ellipse 85% 92% at 50% 42%, black 58%, transparent 98%)',
                 maskImage:
-                  'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%), linear-gradient(to bottom, black 64%, rgba(0,0,0,0.5) 84%, transparent 99%)',
-                maskComposite: 'intersect',
+                  'radial-gradient(ellipse 85% 92% at 50% 42%, black 58%, transparent 98%)',
               }}
-              className="relative z-10 h-[340px] w-auto object-contain object-bottom sm:h-[390px]"
+              className="relative z-10 h-full w-auto max-w-none object-contain object-bottom"
             />
           </div>
         </div>
