@@ -11,4 +11,4 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-Sitemap: https://vercel.app
+S2. Sitemap: https://vercel.appitemap: https://vercel.app
