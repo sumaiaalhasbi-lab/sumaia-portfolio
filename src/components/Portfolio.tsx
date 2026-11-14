@@ -120,15 +120,7 @@ export default function Portfolio() {
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
             {posts.map((name, i) => (
               <button key={name + '-' + i} type="button" onClick={() => setLightboxImg('/images/' + name)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img
-                  src={'/images/' + name}
-                  alt={'Post ' + (i + 1)}
-                  onError={(e) => {
-                    const btn = e.currentTarget.parentElement;
-                    if (btn) btn.style.display = 'none';
-                  }}
-                  className="h-full w-auto object-contain transition duration-500 hover:scale-105"
-                />
+                <img src={'/images/' + name} alt={'Post ' + (i + 1)} onError={(e) => { const btn = e.currentTarget.parentElement; if (btn) btn.style.display = 'none'; }} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
               </button>
             ))}
           </div>
