@@ -7,11 +7,11 @@ const IMGS = [
   '/images/social-4.jpg', '/images/social-5.jpg', '/images/social-6.jpg',
 ];
 
-const POST_FILES = Array.from({ length: 155 }, (_, i) => [
-  'p' + (i + 1) + '.jpg',
-  'p' + (i + 1) + '.png',
-  'p' + (i + 1) + '.jpeg',
-]).flat();
+const POST_MODULES = import.meta.glob('../assets/posts/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG}', {
+  eager: true,
+  import: 'default',
+});
+const POST_URLS = Object.values(POST_MODULES) as string[];
 
 const REELS = [
   { code: 'De6hCFCN0b1', views: '83K' },
@@ -28,7 +28,7 @@ export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai' | 'script'>('ai');
   const [reels, setReels] = useState(REELS);
-  const [posts, setPosts] = useState(POST_FILES);
+  const [posts, setPosts] = useState(POST_URLS);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
@@ -40,12 +40,12 @@ export default function Portfolio() {
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
-    setReels((p) => dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]);
+    setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
   };
 
   const stepP = (dir: 'left' | 'right') => {
     setStopP(true);
-    setPosts((p) => dir === 'right' ? [...p.slice(6), ...p.slice(0, 6)] : [...p.slice(-6), ...p.slice(0, -6)]);
+    setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
   };
 
   return (
@@ -53,7 +53,7 @@ export default function Portfolio() {
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
-        .run-p { display: flex; width: max-content; animation: loopX 140s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .run-v:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; transform: translateX(0) !important; }
       `}</style>
@@ -118,9 +118,9 @@ export default function Portfolio() {
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
         <div dir="ltr" className="overflow-hidden py-2">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {posts.map((name, i) => (
-              <button key={name + '-' + i} type="button" onClick={() => setLightboxImg('/images/' + name)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={'/images/' + name} alt={'Post ' + (i + 1)} onError={(e) => { const btn = e.currentTarget.parentElement; if (btn) btn.style.display = 'none'; }} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+            {[...posts, ...posts].map((src, i) => (
+              <button key={i} type="button" onClick={() => setLightboxImg(src)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
+                <img src={src} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
               </button>
             ))}
           </div>
