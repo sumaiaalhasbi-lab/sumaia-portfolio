@@ -1,4 +1,4 @@
-@tailwind base;
+@import url('https://googleapis.com');
 @tailwind components;
 @tailwind utilities;
 
@@ -80,4 +80,24 @@ body {
 
 .glow-soft {
   box-shadow: 0 0 40px -8px rgba(124, 58, 237, 0.4);
+}
+html,
+body,
+p,
+span,
+a,
+button,
+li {
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h1 span,
+h2 span {
+  font-family: 'Amiri', serif !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
 }
