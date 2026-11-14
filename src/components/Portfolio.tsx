@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight, Eye, ExternalLink } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye, ExternalLink } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -46,11 +46,26 @@ const DRIVE_AI_VIDEOS = [
   '1LdOd5j6BjW-2_HLJRFuGeD4dMn0Ldqxk',
 ];
 
+const DRIVE_SCRIPT_VIDEOS = [
+  '1-twnDAT53vQeAxQVn0dfb2L07li9VHNt',
+  '1FUwyDEkV9QhmL9fDOQBtuw9FQzo7yP3I',
+  '1l_xegudzUUlzVzvZf3N217FlDXGD-tb9',
+  '13GsZqovRm0gQv0YpFpkUUON4u3r1QI28',
+  '1SCC0NvuqPYU-g4q_pTDDUPaqAV8LcLJ1',
+  '1DEpzzfo53WJOUj_UEtlq8TcAnRs-27Xn',
+  '16h9IZaDQUWu20EUY-LDsbgj8GIgXbjH9',
+  '1U_15wmyuTCypUosvMkRInzjyuL0Jlczb',
+  '1t7tlA8eje369tH1sDOHBdGyf1xSUBUMC',
+  '1_iZRybvUbGMg9SKVH-C9BDLs2MeGTh4z',
+  '1krDP4by45h0sTTmpgTSpdmQ68GK_sjqo',
+];
+
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
   const [reels, setReels] = useState(REELS);
   const [driveVideos, setDriveVideos] = useState(DRIVE_AI_VIDEOS);
+  const [scriptVideos, setScriptVideos] = useState(DRIVE_SCRIPT_VIDEOS);
   const [posts, setPosts] = useState(POST_URLS);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
@@ -72,6 +87,8 @@ export default function Portfolio() {
       setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
     } else if (tab === 'ai-studio') {
       setDriveVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    } else if (tab === 'script') {
+      setScriptVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
     }
   };
 
@@ -181,11 +198,31 @@ export default function Portfolio() {
           )}
 
           {tab === 'script' && (
-            <div className="run-v gap-4">
-              {[...IMGS, ...IMGS].map((src, idx) => (
-                <div key={idx} className="relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
-                  <img src={src} alt="Script" className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 grid place-items-center"><span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white"><Play className="h-6 w-6 fill-white ms-0.5" /></span></div>
+            <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
+              {scriptVideos.map((driveId, idx) => (
+                <div key={driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div className="h-[515px] w-full overflow-hidden bg-black">
+                    <iframe
+                      src={driveUrl(driveId, 'preview')}
+                      title={'Script Video ' + (idx + 1)}
+                      loading="lazy"
+                      className="h-full w-full border-0"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                    <span className="text-accent">Script & Ad #{idx + 1}</span>
+                    <a
+                      href={driveUrl(driveId, 'view')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
+                    >
+                      <span>Drive</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
@@ -199,12 +236,31 @@ export default function Portfolio() {
       </div>
 
       <div id="posts">
-        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
+        <div className="mb-5 flex items-center justify-between">
+          <h3 className="text-lg font-bold text-ink-light dark:text-ink-dark">
+            {t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}
+          </h3>
+          <span className="text-xs font-bold text-accent bg-accent/10 px-3 py-1 rounded-full">
+            {posts.length} {t('تصميم', 'Designs')}
+          </span>
+        </div>
+
         <div dir="ltr" className="overflow-hidden py-2">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {[...posts, ...posts].map((src, i) => (
-              <button key={i} type="button" onClick={() => setLightboxImg(src)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={src} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
+            {posts.slice(0, 40).map((src, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setLightboxImg(src)}
+                className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60"
+              >
+                <img
+                  src={src}
+                  alt={'Post ' + (i + 1)}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-auto object-contain transition duration-500 hover:scale-105"
+                />
               </button>
             ))}
           </div>
@@ -217,11 +273,3 @@ export default function Portfolio() {
       </div>
 
       {lightboxImg && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
-          <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-5 right-5 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-accent transition"><X className="h-6 w-6" /></button>
-          <img src={lightboxImg} alt="Preview" className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
-        </div>
-      )}
-    </section>
-  );
-}
