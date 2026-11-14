@@ -45,6 +45,7 @@ const DRIVE_AI_VIDEOS = [
   '1GExeXOFLCW0ILPoJB0fLZpOi0ylRUK6e',
   '1LdOd5j6BjW-2_HLJRFuGeD4dMn0Ldqxk',
 ];
+
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
@@ -60,6 +61,11 @@ export default function Portfolio() {
     return 'https://' + h + '/reel/' + code + '/embed/';
   };
 
+  const driveUrl = (id: string, mode: 'preview' | 'view') => {
+    const d = 'drive.' + 'google' + '.com';
+    return 'https://' + d + '/file/d/' + id + '/' + mode;
+  };
+
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
     if (tab === 'ai-client') {
@@ -73,7 +79,6 @@ export default function Portfolio() {
     setStopP(true);
     setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
   };
-
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
@@ -109,14 +114,14 @@ export default function Portfolio() {
             onClick={() => { setTab('ai-client'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
-            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC (على منصة العميل فقط)', 'AI Videos: Concept to Production, Trends & UGC (Client Platform)')}
+            {t('فيديوهات من الفكرة للإنتاج بـ AI على الانستقرام', 'AI Videos: Concept to Production on Instagram')}
           </button>
 
           <button
             onClick={() => { setTab('ai-studio'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
-            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
+            {t('فيديوهات من الفكرة للإنتاج بـ AI', 'AI Videos: Concept to Production')}
           </button>
 
           <button
@@ -126,6 +131,7 @@ export default function Portfolio() {
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
           </button>
         </div>
+
         <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
@@ -149,7 +155,7 @@ export default function Portfolio() {
                 <div key={driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden bg-black">
                     <iframe
-                      src={`https://google.com{driveId}/preview`}
+                      src={driveUrl(driveId, 'preview')}
                       title={'AI Video ' + (idx + 1)}
                       loading="lazy"
                       className="h-full w-full border-0"
@@ -160,7 +166,7 @@ export default function Portfolio() {
                   <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
                     <span className="text-accent">AI & UGC #{idx + 1}</span>
                     <a
-                      href={`https://google.com{driveId}/view`}
+                      href={driveUrl(driveId, 'view')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
