@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { Play, X, ChevronLeft, ChevronRight, Eye, ExternalLink } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -13,6 +13,7 @@ const POST_MODULES = import.meta.glob('../assets/posts/*.{jpg,jpeg,png,webp,JPG,
 });
 const POST_URLS = Object.values(POST_MODULES) as string[];
 
+// التبويب 1: فيديوهات AI و UGC (على منصة العميل - إنستغرام)
 const REELS = [
   { code: 'De6hCFCN0b1', views: '83K' },
   { code: 'DewEI_rtpHt', views: '22.9K' },
@@ -24,10 +25,34 @@ const REELS = [
   { code: 'DebbA_0tDv7', views: '357' },
 ];
 
+// التبويب 2: فيديوهات AI و UGC (أعمال خاصة - Google Drive)
+const DRIVE_AI_VIDEOS = [
+  '1ebAB_D74u2Pgm2HVOHiWmJptIyCRMxhK',
+  '1gieXZNhIpwBwbWBbrlKucGvJBZkqzZnv',
+  '1-E08gdaudM1uf3Mtg1MQ92nBudsAXxfR',
+  '1EXRfF7DbxCKRAQYZC9wc1anpWhot-sgU',
+  '145utUNOvupON1LJCABp_jryPbfGEH6p3',
+  '1z3tjwD_1uNOUHsIdGLG60Uvhd6hG4iz3',
+  '1FEY36pHEub9zPmE9YGhuAYSYw6rsu_ar',
+  '1v4nV-B74uW0sDkqPzTEfh1DQyFmTPSrk',
+  '1Rh8FPjgTaZPdYDnTsNvbOcr3NNCzNUXG',
+  '1Lrokwyb4M4yOKBiphgc0ngJI_OG111ux',
+  '1zri8HTpleEHcprH7BlfsufBt1sSOu3_A',
+  '1PTjZlliWazm_-qqQQRvC8s1etx1-5ad9',
+  '1PW6hYS6TjsFf4XMnXPrlS6TEFqhuITyL',
+  '1F0brhkqTkAoyli3ht4u7d_wHEeSQ-o5N',
+  '1s4y89jYAfat-0U19X7kpiRwGbSkQYyI-',
+  '15RYtT78_fsjcyAmPiITKT5LBzdPzEakq',
+  '1M_s-2riEfO3KNZMh_d3Pd8p7YcOaURqk',
+  '1GExeXOFLCW0ILPoJB0fLZpOi0ylRUK6e',
+  '1LdOd5j6BjW-2_HLJRFuGeD4dMn0Ldqxk',
+];
+
 export default function Portfolio() {
   const { t } = useApp();
-  const [tab, setTab] = useState<'ai' | 'script'>('ai');
+  const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
   const [reels, setReels] = useState(REELS);
+  const [driveVideos, setDriveVideos] = useState(DRIVE_AI_VIDEOS);
   const [posts, setPosts] = useState(POST_URLS);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
@@ -40,7 +65,11 @@ export default function Portfolio() {
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
-    setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    if (tab === 'ai-client') {
+      setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    } else if (tab === 'ai-studio') {
+      setDriveVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    }
   };
 
   const stepP = (dir: 'left' | 'right') => {
@@ -53,8 +82,9 @@ export default function Portfolio() {
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
+        .run-v-drive { display: flex; width: max-content; animation: loopX 90s linear infinite; }
         .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
-        .run-v:hover, .run-p:hover { animation-play-state: paused; }
+        .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; transform: translateX(0) !important; }
       `}</style>
 
@@ -76,13 +106,34 @@ export default function Portfolio() {
 
       <div id="videos" className="mb-16">
         <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
+        
+        {/* التبويبات الثلاثة */}
         <div className="mb-6 flex flex-wrap gap-2.5">
-          <button onClick={() => { setTab('ai'); setStopV(false); }} className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}>{t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}</button>
-          <button onClick={() => { setTab('script'); setStopV(false); }} className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}>{t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}</button>
+          <button
+            onClick={() => { setTab('ai-client'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC (على منصة العميل فقط)', 'AI Videos: Concept to Production, Trends & UGC (Client Platform)')}
+          </button>
+
+          <button
+            onClick={() => { setTab('ai-studio'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات من الفكرة للإنتاج بالـ AI ترند في المجال و UGC', 'AI Videos: Concept to Production, Trends & UGC')}
+          </button>
+
+          <button
+            onClick={() => { setTab('script'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
+          </button>
         </div>
 
+        {/* شريط عرض الفيديوهات حسب التبويب المختار */}
         <div dir="ltr" className="overflow-hidden py-2">
-          {tab === 'ai' ? (
+          {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
               {reels.map((item, idx) => (
                 <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
@@ -96,7 +147,41 @@ export default function Portfolio() {
                 </div>
               ))}
             </div>
-          ) : (
+          )}
+
+          {tab === 'ai-studio' && (
+            <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
+              {driveVideos.map((driveId, idx) => (
+                <div key={driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div className="h-[515px] w-full overflow-hidden bg-black">
+                    <iframe
+                      src={`https://google.com{driveId}/preview`}
+                      title={'AI Video ' + (idx + 1)}
+                      loading="lazy"
+                      className="h-full w-full border-0"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                    <span className="text-accent">AI & UGC #{idx + 1}</span>
+                    <a
+                      href={`https://google.com{driveId}/view`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
+                      title={t('فتح في Google Drive', 'Open in Google Drive')}
+                    >
+                      <span>Drive</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {tab === 'script' && (
             <div className="run-v gap-4">
               {[...IMGS, ...IMGS].map((src, idx) => (
                 <div key={idx} className="relative aspect-[9/16] w-[210px] shrink-0 overflow-hidden rounded-2xl border border-accent/30 bg-card-light dark:bg-card-dark shadow-lg">
@@ -109,37 +194,3 @@ export default function Portfolio() {
         </div>
 
         <div dir="ltr" className="mt-4 flex justify-center gap-3">
-          <button type="button" onClick={() => stepV('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
-          <button type="button" onClick={() => stepV('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
-        </div>
-      </div>
-
-      <div id="posts">
-        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}</h3>
-        <div dir="ltr" className="overflow-hidden py-2">
-          <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {[...posts, ...posts].map((src, i) => (
-              <button key={i} type="button" onClick={() => setLightboxImg(src)} className="h-[350px] shrink-0 overflow-hidden rounded-2xl border border-accent/20 bg-card-light dark:bg-card-dark hover:border-accent/60">
-                <img src={src} alt={'Post ' + (i + 1)} className="h-full w-auto object-contain transition duration-500 hover:scale-105" />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div dir="ltr" className="mt-4 flex justify-center gap-3">
-          <button type="button" onClick={() => stepP('left')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronLeft className="h-5 w-5" /></button>
-          <button type="button" onClick={() => stepP('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
-        </div>
-      </div>
-
-      {lightboxImg && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
-          <div className="relative max-w-lg w-full overflow-hidden rounded-3xl border border-accent/30 bg-card-light dark:bg-card-dark p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-3 end-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white hover:bg-accent"><X className="h-5 w-5" /></button>
-            <div className="max-h-[80vh] mx-auto overflow-hidden rounded-2xl flex justify-center"><img src={lightboxImg} alt="Preview" className="max-h-[80vh] w-auto object-contain" /></div>
-          </div>
-        </div>
-      )}
-    </section>
-  );
-}
