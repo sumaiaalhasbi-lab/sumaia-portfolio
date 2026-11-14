@@ -273,3 +273,11 @@ export default function Portfolio() {
       </div>
 
       {lightboxImg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
+          <button type="button" onClick={() => setLightboxImg(null)} className="absolute top-5 right-5 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-accent transition"><X className="h-6 w-6" /></button>
+          <img src={lightboxImg} alt="Preview" className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
+    </section>
+  );
+}
