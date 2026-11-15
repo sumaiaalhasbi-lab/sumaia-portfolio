@@ -4,7 +4,7 @@ import { useApp } from '@/context/AppContext';
 
 type Variant = 'solid' | 'outline' | 'icon';
 
-const MY_LINKEDIN = 'https://www.' + '://linkedin.com';
+const MY_LINKEDIN = ['https:/', 'www.linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
 const MY_WHATSAPP = 'https://wa.' + 'me/967785759951';
 
 export function WhatsAppButton({
