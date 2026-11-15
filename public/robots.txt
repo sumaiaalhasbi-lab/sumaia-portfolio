@@ -11,4 +11,4 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-S2. Sitemap: https://sumaia-alhasbi.vercel.app/
+ Sitemap: https://sumaia-alhasbi.vercel.app/sitemap.xml
