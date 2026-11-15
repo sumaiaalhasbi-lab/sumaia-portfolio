@@ -55,6 +55,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 15px;
 }
 
 body {
@@ -80,21 +81,30 @@ ul, ol {
   margin: 0;
 }
 
-/* العناوين الكبيرة */
-h1, h2 {
-  font-weight: 700 !important;
-  line-height: 1.4 !important;
-}
-
-/* العناوين الفرعية والأزرار */
-h3, h4, nav a, button {
+/* تصغير العنوان الرئيسي الكبير وتخفيف سماكته */
+h1 {
+  font-size: clamp(22px, 3.2vw, 28px) !important;
   font-weight: 600 !important;
+  line-height: 1.45 !important;
 }
 
-/* النصوص الصغيرة والفقرات */
+/* تصغير عناوين الأقسام الفرعية */
+h2 {
+  font-size: clamp(20px, 2.8vw, 25px) !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+}
+
+/* العناوين الصغيرة داخل البطاقات والأزرار */
+h3, h4, nav a, button {
+  font-weight: 500 !important;
+}
+
+/* تصغير النصوص الصغيرة والفقرات وجعلها مريحة للعين */
 p {
+  font-size: 14.5px !important;
   font-weight: 400 !important;
-  line-height: 1.8 !important;
+  line-height: 1.75 !important;
 }
 
 ::selection {
