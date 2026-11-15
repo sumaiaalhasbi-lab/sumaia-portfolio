@@ -2,35 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Tajawal';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('https://gstatic.com') format('woff2');
-}
-@font-face {
-  font-family: 'Tajawal';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('https://gstatic.com') format('woff2');
-}
-@font-face {
-  font-family: 'Tajawal';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('https://gstatic.com') format('woff2');
-}
-@font-face {
-  font-family: 'Tajawal';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('https://gstatic.com') format('woff2');
-}
-
 :root {
   --bg: #ffffff;
   --card: #f8f9fa;
@@ -48,7 +19,7 @@
 }
 
 * {
-  font-family: 'Tajawal', sans-serif !important;
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -58,7 +29,7 @@ html {
 }
 
 body {
-  font-family: 'Tajawal', system-ui, sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
   font-weight: 400;
   background-color: var(--bg);
   color: var(--ink);
@@ -80,15 +51,18 @@ ul, ol {
   margin: 0;
 }
 
+/* العناوين الكبيرة */
 h1, h2 {
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   line-height: 1.4 !important;
 }
 
+/* العناوين الفرعية والأزرار */
 h3, h4, nav a, button {
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
+/* النصوص الصغيرة والفقرات */
 p {
   font-weight: 400 !important;
   line-height: 1.8 !important;
