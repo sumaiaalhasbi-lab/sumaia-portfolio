@@ -1,5 +1,5 @@
-export const WHATSAPP_URL = 'https://wa.me';
-export const LINKEDIN_URL = 'https://linkedin.com';
+export const WHATSAPP_URL = ['https:/', 'wa.me', '967785759951'].join('/');
+export const LINKEDIN_URL = ['https:/', 'www.linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
 export const EMAIL_URL = 'mailto:sumaiaalhasi@gmail.com';
 
 export const SECTIONS = [
