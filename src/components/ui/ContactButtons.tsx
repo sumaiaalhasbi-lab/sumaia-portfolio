@@ -1,10 +1,11 @@
 import { WhatsAppIcon, LinkedInIcon, EmailIcon } from '@/components/icons/BrandIcons';
-import { WHATSAPP_URL, EMAIL_URL } from '@/data/links';
+import { EMAIL_URL } from '@/data/links';
 import { useApp } from '@/context/AppContext';
 
 type Variant = 'solid' | 'outline' | 'icon';
 
-const MY_LINKEDIN = 'https://linkedin.com';
+const MY_LINKEDIN = 'https://www.' + '://linkedin.com';
+const MY_WHATSAPP = 'https://wa.' + 'me/967785759951';
 
 export function WhatsAppButton({
   variant = 'solid',
@@ -21,7 +22,7 @@ export function WhatsAppButton({
   if (variant === 'icon') {
     return (
       <a
-        href={WHATSAPP_URL}
+        href={MY_WHATSAPP}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
@@ -34,7 +35,7 @@ export function WhatsAppButton({
 
   return (
     <a
-      href={WHATSAPP_URL}
+      href={MY_WHATSAPP}
       target="_blank"
       rel="noopener noreferrer"
       className={
