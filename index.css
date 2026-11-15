@@ -1,3 +1,5 @@
+@import url('https://googleapis.com');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,6 +21,7 @@
 }
 
 * {
+  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,6 +40,15 @@ body {
 
 [dir='rtl'] body {
   text-align: right;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+}
+
+p, span, a, button {
+  line-height: 1.75;
 }
 
 ::selection {
@@ -77,12 +89,4 @@ body {
 
 .glow-soft {
   box-shadow: 0 0 40px -8px rgba(244, 123, 32, 0.4);
-}
-* {
-  font-family: 'IBM Plex Sans Arabic', sans-serif !important;
-}
-
-h1, h2, h3, h4 {
-  font-weight: 700 !important;
-  line-height: 1.45 !important;
 }
