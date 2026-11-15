@@ -5,7 +5,7 @@ import { WhatsAppIcon, LinkedInIcon } from '@/components/icons/BrandIcons';
 import { WHATSAPP_URL } from '@/data/links';
 
 const PROFILE_PHOTO = '/images/sumaia-cutout.png';
-const MY_LINKEDIN = 'https://linkedin.com';
+const MY_LINKEDIN = ['https:/', 'www.linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
 
 const TYPING_WORDS_AR = [
   'لإدارة المحتوى التسويقي',
