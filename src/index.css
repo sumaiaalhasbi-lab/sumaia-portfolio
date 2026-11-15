@@ -1,9 +1,35 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://gstatic.com') format('woff2');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://gstatic.com') format('woff2');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://gstatic.com') format('woff2');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('https://gstatic.com') format('woff2');
+}
 
 :root {
   --bg: #ffffff;
@@ -22,7 +48,7 @@
 }
 
 * {
-  font-family: 'Noto Sans Arabic', sans-serif !important;
+  font-family: 'Tajawal', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,7 +58,8 @@ html {
 }
 
 body {
-  font-family: 'Noto Sans Arabic', sans-serif !important;
+  font-family: 'Tajawal', system-ui, sans-serif;
+  font-weight: 400;
   background-color: var(--bg);
   color: var(--ink);
   transition: background-color 0.4s ease, color 0.4s ease;
@@ -53,9 +80,18 @@ ul, ol {
   margin: 0;
 }
 
-h1, h2, h3, h4 {
+h1, h2 {
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+h3, h4, nav a, button {
   font-weight: 700 !important;
-  line-height: 1.5 !important;
+}
+
+p {
+  font-weight: 400 !important;
+  line-height: 1.8 !important;
 }
 
 ::selection {
