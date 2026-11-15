@@ -1,12 +1,5 @@
 <!doctype html>
 <html lang="ar" dir="rtl" class="dark">
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "ze7kr1eoiu");
-</script>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +9,6 @@
     <meta name="author" content="سمية الحاصبي - Sumaia Al-Hasbi" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     
-    <!-- روابط تعريفية ديناميكية لمنع الاختصار -->
     <link id="canonical-link" rel="canonical" href="" />
     <meta property="og:type" content="website" />
     <meta id="og-url" property="og:url" content="" />
@@ -26,7 +18,7 @@
 
     <script>
       const myDomain = ['https:/', 'sumaia-alhasbi.vercel.app'].join('/');
-      const myLinkedIn = ['https:/', 'www.linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
+      const myLinkedIn = ['https:/', '://linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
       
       document.getElementById('canonical-link').href = myDomain + '/';
       document.getElementById('og-url').content = myDomain + '/';
@@ -35,7 +27,7 @@
       // استدعاء خط IBM Plex Sans Arabic
       const fontLink = document.createElement('link');
       fontLink.rel = 'stylesheet';
-      fontLink.href = ['https:/', 'fonts.googleapis.com', 'css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap'].join('/');
+      fontLink.href = ['https:/', '://googleapis.com', 'css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap'].join('/');
       document.head.appendChild(fontLink);
 
       // بناء بيانات Schema لمحركات البحث والذكاء الاصطناعي
@@ -64,6 +56,15 @@
       scriptTag.type = 'application/ld+json';
       scriptTag.text = JSON.stringify(schemaData);
       document.head.appendChild(scriptTag);
+    </script>
+
+    <!-- كود تتبع Microsoft Clarity -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src=['https:/', 'www.clarity.ms', 'tag', i].join('/');
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "ze7kr1eoiu");
     </script>
   </head>
   <body>
