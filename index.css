@@ -1,4 +1,5 @@
-@import url('https://googleapis.com');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -20,8 +21,9 @@
   --contact-card-bg: #0d0d0d;
 }
 
+/* الخط الأساسي لجميع عناصر الموقع */
 * {
-  font-family: 'Tajawal', sans-serif !important;
+  font-family: 'Noto Sans Arabic', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,8 +32,9 @@ html {
   scroll-behavior: smooth;
 }
 
+/* إعدادات الصفحة */
 body {
-  font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  font-family: 'Noto Sans Arabic', sans-serif !important;
   background-color: var(--bg);
   color: var(--ink);
   transition: background-color 0.4s ease, color 0.4s ease;
@@ -42,31 +45,50 @@ body {
   text-align: right;
 }
 
-h1, h2, h3, h4 {
-  font-weight: 700 !important;
-  line-height: 1.45 !important;
+/* العناوين الرئيسية */
+h1 {
+  font-weight: 800 !important;
+  line-height: 1.5 !important;
 }
 
-p, span, a, button {
+/* العناوين الفرعية */
+h2, h3, h4 {
+  font-weight: 700 !important;
+  line-height: 1.6 !important;
+}
+
+/* النصوص والفقرات */
+p {
+  font-weight: 400 !important;
+  line-height: 1.9 !important;
+}
+
+/* الروابط والأزرار */
+a, button, span {
   line-height: 1.75;
 }
 
+/* تحديد النص */
 ::selection {
   background: rgba(244, 123, 32, 0.3);
   color: inherit;
 }
 
+/* شريط التمرير */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #f47b2066;
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #f47b20;
 }
@@ -74,6 +96,7 @@ p, span, a, button {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
