@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play, Loader2 } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -76,9 +76,14 @@ export default function Portfolio() {
     return 'https://' + h + '/reel/' + code + '/embed/';
   };
 
-  const driveUrl = (id: string, mode: 'preview' | 'view') => {
+  const driveStreamUrl = (id: string) => {
     const d = 'drive.' + 'google' + '.com';
-    return 'https://' + d + '/file/d/' + id + '/' + mode + (mode === 'preview' ? '?autoplay=1' : '');
+    return 'https://' + d + '/uc?export=download&id=' + id;
+  };
+
+  const driveViewUrl = (id: string) => {
+    const d = 'drive.' + 'google' + '.com';
+    return 'https://' + d + '/file/d/' + id + '/view';
   };
 
   const driveThumb = (id: string) => {
@@ -161,7 +166,7 @@ export default function Portfolio() {
               {REELS.map((item, idx) => (
                 <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
-                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="eager" className="h-full w-full border-0" allowFullScreen />
                   </div>
                   <div className="flex items-center gap-1.5 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
                     <Eye className="h-4 w-4 text-white/90" />
@@ -184,16 +189,14 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
-                          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/80">
-                            <Loader2 className="h-8 w-8 animate-spin text-[#f47b20]" />
-                            <span className="text-xs font-bold">{t('جاري تشغيل الفيديو...', 'Loading video...')}</span>
-                          </div>
-                          <iframe
-                            src={driveUrl(driveId, 'preview')}
-                            title={'AI Video ' + (idx + 1)}
-                            className="relative z-10 h-full w-full border-0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen />
+                          <video
+                            src={driveStreamUrl(driveId)}
+                            poster={driveThumb(driveId)}
+                            controls
+                            autoPlay
+                            playsInline
+                            className="relative z-10 h-full w-full bg-black object-cover"
+                          />
                           <button
                             type="button"
                             onClick={() => setPlayingId(null)}
@@ -232,7 +235,7 @@ export default function Portfolio() {
                     <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
                       <span className="text-accent">AI & UGC #{idx + 1}</span>
                       <a
-                        href={driveUrl(driveId, 'view')}
+                        href={driveViewUrl(driveId)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
@@ -258,16 +261,14 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
-                          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/80">
-                            <Loader2 className="h-8 w-8 animate-spin text-[#f47b20]" />
-                            <span className="text-xs font-bold">{t('جاري تشغيل الفيديو...', 'Loading video...')}</span>
-                          </div>
-                          <iframe
-                            src={driveUrl(driveId, 'preview')}
-                            title={'Script Video ' + (idx + 1)}
-                            className="relative z-10 h-full w-full border-0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen />
+                          <video
+                            src={driveStreamUrl(driveId)}
+                            poster={driveThumb(driveId)}
+                            controls
+                            autoPlay
+                            playsInline
+                            className="relative z-10 h-full w-full bg-black object-cover"
+                          />
                           <button
                             type="button"
                             onClick={() => setPlayingId(null)}
@@ -306,7 +307,7 @@ export default function Portfolio() {
                     <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
                       <span className="text-accent">Script & Ad #{idx + 1}</span>
                       <a
-                        href={driveUrl(driveId, 'view')}
+                        href={driveViewUrl(driveId)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition"
