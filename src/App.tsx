@@ -6,7 +6,6 @@ import Ticker, { About } from '@/components/Ticker';
 import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
 import { Process, FAQ, FooterCTA } from '@/components/Process';
-import ContactForm from '@/components/ContactForm';
 
 function App() {
   return (
@@ -21,7 +20,6 @@ function App() {
           <Portfolio />
           <Process />
           <FAQ />
-          <ContactForm />
           <FooterCTA />
         </main>
         <Analytics />
