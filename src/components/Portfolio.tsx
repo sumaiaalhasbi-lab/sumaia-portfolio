@@ -94,9 +94,20 @@ export default function Portfolio() {
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
     setPlayingId(null);
-    if (videoTrackRef.current) {
-      const amount = dir === 'right' ? 300 : -300;
-      videoTrackRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    const el = videoTrackRef.current;
+    if (!el) return;
+    const half = el.scrollWidth / 2;
+    const step = 300;
+    if (dir === 'right') {
+      if (el.scrollLeft + step >= half) {
+        el.scrollLeft = el.scrollLeft - half;
+      }
+      el.scrollBy({ left: step, behavior: 'smooth' });
+    } else {
+      if (el.scrollLeft - step <= 0) {
+        el.scrollLeft = el.scrollLeft + half;
+      }
+      el.scrollBy({ left: -step, behavior: 'smooth' });
     }
   };
 
@@ -163,8 +174,8 @@ export default function Portfolio() {
         <div ref={videoTrackRef} dir="ltr" className="no-scrollbar overflow-x-auto py-2 scroll-smooth">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {REELS.map((item, idx) => (
-                <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+              {[...REELS, ...REELS].map((item, idx) => (
+                <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
                     <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="eager" className="h-full w-full border-0" allowFullScreen />
                   </div>
@@ -179,10 +190,11 @@ export default function Portfolio() {
 
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_AI_VIDEOS.map((driveId, idx) => {
-                const isPlaying = playingId === 'ai-' + driveId;
+              {[...DRIVE_AI_VIDEOS, ...DRIVE_AI_VIDEOS].map((driveId, idx) => {
+                const uniqueKey = 'ai-' + driveId + '-' + idx;
+                const isPlaying = playingId === uniqueKey;
                 return (
-                  <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div key={uniqueKey} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <div
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="relative h-[515px] w-full overflow-hidden"
@@ -207,7 +219,7 @@ export default function Portfolio() {
                       ) : (
                         <button
                           type="button"
-                          onClick={() => setPlayingId('ai-' + driveId)}
+                          onClick={() => setPlayingId(uniqueKey)}
                           className="group relative h-full w-full cursor-pointer overflow-hidden focus:outline-none"
                         >
                           <img
@@ -231,7 +243,7 @@ export default function Portfolio() {
                       )}
                     </div>
                     <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                      <span className="text-accent">AI & UGC #{idx + 1}</span>
+                      <span className="text-accent">AI & UGC #{(idx % DRIVE_AI_VIDEOS.length) + 1}</span>
                       <a
                         href={driveViewUrl(driveId)}
                         target="_blank"
@@ -249,10 +261,11 @@ export default function Portfolio() {
           )}
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
-                const isPlaying = playingId === 'sc-' + driveId;
+              {[...DRIVE_SCRIPT_VIDEOS, ...DRIVE_SCRIPT_VIDEOS].map((driveId, idx) => {
+                const uniqueKey = 'sc-' + driveId + '-' + idx;
+                const isPlaying = playingId === uniqueKey;
                 return (
-                  <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div key={uniqueKey} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <div
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="relative h-[515px] w-full overflow-hidden"
@@ -277,7 +290,7 @@ export default function Portfolio() {
                       ) : (
                         <button
                           type="button"
-                          onClick={() => setPlayingId('sc-' + driveId)}
+                          onClick={() => setPlayingId(uniqueKey)}
                           className="group relative h-full w-full cursor-pointer overflow-hidden focus:outline-none"
                         >
                           <img
@@ -301,7 +314,7 @@ export default function Portfolio() {
                       )}
                     </div>
                     <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                      <span className="text-accent">Script & Ad #{idx + 1}</span>
+                      <span className="text-accent">Script & Ad #{(idx % DRIVE_SCRIPT_VIDEOS.length) + 1}</span>
                       <a
                         href={driveViewUrl(driveId)}
                         target="_blank"
