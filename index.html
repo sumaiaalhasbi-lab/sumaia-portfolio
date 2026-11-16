@@ -2,44 +2,34 @@
 <html lang="ar" dir="rtl" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>سمية الحاصبي | كاتبة محتوى تسويقي وإدارة حسابات وحملات إعلانية</title>
     <meta name="description" content="سمية الحاصبي (Sumaia Al-Hasbi) — كاتبة محتوى تسويقي وإعلاني، متخصصة في إدارة صفحات التواصل الاجتماعي، تخطيط الحملات الإعلانية، كتابة وصف منتجات المتاجر الإلكترونية (SEO & GEO)، وإنتاج فيديوهات بالذكاء الاصطناعي (AI & UGC)." />
     <meta name="keywords" content="سمية الحاصبي, Sumaia Al-Hasbi, كاتبة محتوى, كاتب محتوى, كاتبة محتوى تسويقي, كاتبة محتوى إعلاني, إدارة صفحات, إدارة حسابات سوشيال ميديا, حملات إعلانية, تسويق رقمي, كتابة وصف منتجات, متاجر إلكترونية, سلة, زد, صانعة محتوى بالذكاء الاصطناعي, فيديوهات AI, كتابة سكربت إعلاني, تحسين محركات البحث SEO, GEO, AEO, Copywriter" />
     <meta name="author" content="سمية الحاصبي - Sumaia Al-Hasbi" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    
-    <link id="canonical-link" rel="canonical" href="" />
+
+    <link rel="canonical" href="https://vercel.app" />
     <meta property="og:type" content="website" />
-    <meta id="og-url" property="og:url" content="" />
+    <meta property="og:url" content="https://vercel.app" />
     <meta property="og:title" content="سمية الحاصبي | كاتبة محتوى تسويقي وإدارة حسابات وحملات" />
     <meta property="og:description" content="شريكك الإبداعي في التسويق الرقمي: كتابة محتوى إعلاني، إدارة صفحات السوشيال ميديا، تخطيط الحملات، وصف منتجات المتاجر، وإنتاج فيديوهات بالذكاء الاصطناعي." />
-    <meta id="og-image" property="og:image" content="" />
+    <meta property="og:image" content="https://vercel.appimages/sumaia-cutout.png" />
 
-    <script>
-      const myDomain = ['https:/', 'sumaia-alhasbi.vercel.app'].join('/');
-      const myLinkedIn = ['https:/', 'www.linkedin.com', 'in', 'sumaiaalhasbi', ''].join('/');
-      
-      document.getElementById('canonical-link').href = myDomain + '/';
-      document.getElementById('og-url').content = myDomain + '/';
-      document.getElementById('og-image').content = myDomain + '/images/sumaia-cutout.png';
+    <link rel="preconnect" href="https://googleapis.com" />
+    <link rel="preconnect" href="https://gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" />
 
-      // استدعاء خط IBM Plex Sans Arabic
-      const fontLink = document.createElement('link');
-      fontLink.rel = 'stylesheet';
-      fontLink.href = ['https:/', 'fonts.googleapis.com', 'css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap'].join('/');
-      document.head.appendChild(fontLink);
-
-      // بناء بيانات Schema لمحركات البحث والذكاء الاصطناعي
-      const schemaData = {
+    <script type="application/ld+json">
+      {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "سمية الحاصبي",
         "alternateName": "Sumaia Al-Hasbi",
         "jobTitle": "كاتبة محتوى تسويقي وإعلاني ومديرة حسابات التواصل الاجتماعي",
-        "url": myDomain + '/',
-        "image": myDomain + '/images/sumaia-cutout.png',
-        "sameAs": [myLinkedIn],
+        "url": "https://vercel.app",
+        "image": "https://vercel.appimages/sumaia-cutout.png",
+        "sameAs": ["https://linkedin.com"],
         "knowsAbout": [
           "كتابة المحتوى التسويقي",
           "كتابة المحتوى الإعلاني",
@@ -51,18 +41,14 @@
           "إنتاج فيديوهات الذكاء الاصطناعي AI و UGC",
           "كتابة السكربتات الإعلانية"
         ]
-      };
-      const scriptTag = document.createElement('script');
-      scriptTag.type = 'application/ld+json';
-      scriptTag.text = JSON.stringify(schemaData);
-      document.head.appendChild(scriptTag);
+      }
     </script>
 
     <!-- كود تتبع Microsoft Clarity -->
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src=['https:/', 'www.clarity.ms', 'tag', i].join('/');
+          t=l.createElement(r);t.async=1;t.src="https://clarity.ms"+i;
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "ze7kr1eoiu");
     </script>
