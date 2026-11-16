@@ -89,18 +89,19 @@ export default function Portfolio() {
     setStopV(true);
     const el = videoTrackRef.current;
     if (!el) return;
-    const half = el.scrollWidth / 2;
-    const step = 300;
+    const maxScroll = el.scrollWidth - el.clientWidth;
     if (dir === 'right') {
-      if (el.scrollLeft + step >= half) {
-        el.scrollLeft = el.scrollLeft - half;
+      if (el.scrollLeft >= maxScroll - 20) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: 300, behavior: 'smooth' });
       }
-      el.scrollBy({ left: step, behavior: 'smooth' });
     } else {
-      if (el.scrollLeft - step <= 0) {
-        el.scrollLeft = el.scrollLeft + half;
+      if (el.scrollLeft <= 20) {
+        el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: -300, behavior: 'smooth' });
       }
-      el.scrollBy({ left: -step, behavior: 'smooth' });
     }
   };
 
@@ -114,10 +115,10 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
-        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .run-v { display: flex; width: max-content; animation: loopX 55s linear infinite; }
-        .run-v-drive { display: flex; width: max-content; animation: loopX 95s linear infinite; }
-        .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
+        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-35%); } }
+        .run-v { display: flex; width: max-content; animation: loopX 45s linear infinite; }
+        .run-v-drive { display: flex; width: max-content; animation: loopX 75s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 90s linear infinite; }
         .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; }
       `}</style>
@@ -132,7 +133,7 @@ export default function Portfolio() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {IMGS.map((src, i) => (
             <div key={i} className="group overflow-hidden rounded-2xl border border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition duration-300 hover:-translate-y-2 hover:border-[#f47b20]">
-              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={'Account ' + (i + 1)} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
+              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={'Account ' + (i + 1)} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
             </div>
           ))}
         </div>
@@ -173,8 +174,8 @@ export default function Portfolio() {
         >
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
-              {[...REELS, ...REELS].map((item, idx) => (
-                <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+              {REELS.map((item, idx) => (
+                <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
                     <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
                   </div>
@@ -189,8 +190,8 @@ export default function Portfolio() {
 
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
-              {[...DRIVE_AI_VIDEOS, ...DRIVE_AI_VIDEOS].map((driveId, idx) => (
-                <div key={'ai-' + driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+              {DRIVE_AI_VIDEOS.map((driveId, idx) => (
+                <div key={'ai-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden bg-black">
                     <iframe
                       src={drivePreviewUrl(driveId)}
@@ -201,7 +202,7 @@ export default function Portfolio() {
                       allowFullScreen />
                   </div>
                   <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                    <span className="text-accent">AI & UGC #{(idx % DRIVE_AI_VIDEOS.length) + 1}</span>
+                    <span className="text-accent">AI & UGC #{idx + 1}</span>
                     <a
                       href={driveViewUrl(driveId)}
                       target="_blank"
@@ -218,8 +219,8 @@ export default function Portfolio() {
           )}
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
-              {[...DRIVE_SCRIPT_VIDEOS, ...DRIVE_SCRIPT_VIDEOS].map((driveId, idx) => (
-                <div key={'sc-' + driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => (
+                <div key={'sc-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden bg-black">
                     <iframe
                       src={drivePreviewUrl(driveId)}
@@ -230,7 +231,7 @@ export default function Portfolio() {
                       allowFullScreen />
                   </div>
                   <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                    <span className="text-accent">Script & Ad #{(idx % DRIVE_SCRIPT_VIDEOS.length) + 1}</span>
+                    <span className="text-accent">Script & Ad #{idx + 1}</span>
                     <a
                       href={driveViewUrl(driveId)}
                       target="_blank"
@@ -265,7 +266,7 @@ export default function Portfolio() {
 
         <div ref={postTrackRef} dir="ltr" className="no-scrollbar overflow-x-auto py-2 scroll-smooth">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {POST_URLS.slice(0, 40).map((src, i) => (
+            {POST_URLS.slice(0, 25).map((src, i) => (
               <button
                 key={i}
                 type="button"
