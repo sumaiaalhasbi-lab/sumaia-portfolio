@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play, Loader2 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -63,14 +63,13 @@ const DRIVE_SCRIPT_VIDEOS = [
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
-  const [reels, setReels] = useState(REELS);
-  const [driveVideos, setDriveVideos] = useState(DRIVE_AI_VIDEOS);
-  const [scriptVideos, setScriptVideos] = useState(DRIVE_SCRIPT_VIDEOS);
-  const [posts, setPosts] = useState(POST_URLS);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+
+  const videoTrackRef = useRef<HTMLDivElement>(null);
+  const postTrackRef = useRef<HTMLDivElement>(null);
 
   const instaUrl = (code: string) => {
     const h = 'www.' + 'instagram' + '.com';
@@ -83,35 +82,35 @@ export default function Portfolio() {
   };
 
   const driveThumb = (id: string) => {
-    const h = '://googleusercontent.com';
+    const h = 'lh3.' + 'googleusercontent' + '.com';
     return 'https://' + h + '/d/' + id + '=w600';
   };
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
     setPlayingId(null);
-    if (tab === 'ai-client') {
-      setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
-    } else if (tab === 'ai-studio') {
-      setDriveVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
-    } else if (tab === 'script') {
-      setScriptVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    if (videoTrackRef.current) {
+      const amount = dir === 'right' ? 300 : -300;
+      videoTrackRef.current.scrollBy({ left: amount, behavior: 'smooth' });
     }
   };
 
   const stepP = (dir: 'left' | 'right') => {
     setStopP(true);
-    setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
+    if (postTrackRef.current) {
+      const amount = dir === 'right' ? 340 : -340;
+      postTrackRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    }
   };
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
-        .run-v-drive { display: flex; width: max-content; animation: loopX 90s linear infinite; }
+        .run-v { display: flex; width: max-content; animation: loopX 55s linear infinite; }
+        .run-v-drive { display: flex; width: max-content; animation: loopX 95s linear infinite; }
         .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
-        .stop-all { animation: none !important; transform: translateX(0) !important; }
+        .stop-all { animation: none !important; }
       `}</style>
 
       <div className="mb-10 text-center">
@@ -156,10 +155,10 @@ export default function Portfolio() {
           </button>
         </div>
 
-        <div dir="ltr" className="overflow-hidden py-2">
+        <div ref={videoTrackRef} dir="ltr" className="no-scrollbar overflow-x-auto py-2 scroll-smooth">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {reels.map((item, idx) => (
+              {REELS.map((item, idx) => (
                 <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
                     <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
@@ -175,7 +174,7 @@ export default function Portfolio() {
 
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {driveVideos.map((driveId, idx) => {
+              {DRIVE_AI_VIDEOS.map((driveId, idx) => {
                 const isPlaying = playingId === 'ai-' + driveId;
                 return (
                   <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
@@ -185,13 +184,16 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
+                          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/80">
+                            <Loader2 className="h-8 w-8 animate-spin text-[#f47b20]" />
+                            <span className="text-xs font-bold">{t('جاري تشغيل الفيديو...', 'Loading video...')}</span>
+                          </div>
                           <iframe
                             src={driveUrl(driveId, 'preview')}
                             title={'AI Video ' + (idx + 1)}
-                            className="h-full w-full border-0"
+                            className="relative z-10 h-full w-full border-0"
                             allow="autoplay; fullscreen"
-                            allowFullScreen
-                          />
+                            allowFullScreen />
                           <button
                             type="button"
                             onClick={() => setPlayingId(null)}
@@ -244,10 +246,9 @@ export default function Portfolio() {
               })}
             </div>
           )}
-
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {scriptVideos.map((driveId, idx) => {
+              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
                 const isPlaying = playingId === 'sc-' + driveId;
                 return (
                   <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
@@ -257,13 +258,17 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
+                          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/80">
+                            <Loader2 className="h-8 w-8 animate-spin text-[#f47b20]" />
+                            <span className="text-xs font-bold">{t('جاري تشغيل الفيديو...', 'Loading video...')}</span>
+                          </div>
                           <iframe
                             src={driveUrl(driveId, 'preview')}
                             title={'Script Video ' + (idx + 1)}
-                            className="h-full w-full border-0"
+                            className="relative z-10 h-full w-full border-0"
                             allow="autoplay; fullscreen"
-                         allowFullScreen />
-                                                <button
+                            allowFullScreen />
+                          <button
                             type="button"
                             onClick={() => setPlayingId(null)}
                             aria-label="Close video"
@@ -329,13 +334,13 @@ export default function Portfolio() {
             {t('محتوى منشورات السوشيال ميديا', 'Social Media Posts Content')}
           </h3>
           <span className="text-xs font-bold text-accent bg-accent/10 px-3 py-1 rounded-full">
-            {posts.length} {t('تصميم', 'Designs')}
+            {POST_URLS.length} {t('تصميم', 'Designs')}
           </span>
         </div>
 
-        <div dir="ltr" className="overflow-hidden py-2">
+        <div ref={postTrackRef} dir="ltr" className="no-scrollbar overflow-x-auto py-2 scroll-smooth">
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {posts.slice(0, 40).map((src, i) => (
+            {POST_URLS.slice(0, 40).map((src, i) => (
               <button
                 key={i}
                 type="button"
