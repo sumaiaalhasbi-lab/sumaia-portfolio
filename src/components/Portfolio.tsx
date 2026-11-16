@@ -262,7 +262,7 @@ export default function Portfolio() {
                             title={'Script Video ' + (idx + 1)}
                             className="h-full w-full border-0"
                             allow="autoplay; fullscreen"
-                            allowFullScreen
+                         allowFullScreen />
                                                 <button
                             type="button"
                             onClick={() => setPlayingId(null)}
