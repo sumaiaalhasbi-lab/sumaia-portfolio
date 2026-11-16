@@ -450,7 +450,3 @@ export default function Portfolio() {
     </section>
   );
 }
-
-    </section>
-  );
-}
