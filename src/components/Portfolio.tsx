@@ -348,3 +348,7 @@ export default function Portfolio() {
           <img src={lightboxImg} alt="Preview" className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
+          </section>
+  );
+}
+
