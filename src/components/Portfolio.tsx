@@ -76,9 +76,9 @@ export default function Portfolio() {
     return 'https://' + h + '/reel/' + code + '/embed/';
   };
 
-  const driveStreamUrl = (id: string) => {
+  const drivePreviewUrl = (id: string) => {
     const d = 'drive.' + 'google' + '.com';
-    return 'https://' + d + '/uc?export=download&id=' + id;
+    return 'https://' + d + '/file/d/' + id + '/preview';
   };
 
   const driveViewUrl = (id: string) => {
@@ -189,14 +189,12 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
-                          <video
-                            src={driveStreamUrl(driveId)}
-                            poster={driveThumb(driveId)}
-                            controls
-                            autoPlay
-                            playsInline
-                            className="relative z-10 h-full w-full bg-black object-cover"
-                          />
+                          <iframe
+                            src={drivePreviewUrl(driveId)}
+                            title={'AI Video ' + (idx + 1)}
+                            className="relative z-10 h-full w-full border-0 bg-black"
+                            allow="autoplay; fullscreen"
+                            allowFullScreen />
                           <button
                             type="button"
                             onClick={() => setPlayingId(null)}
@@ -261,14 +259,12 @@ export default function Portfolio() {
                     >
                       {isPlaying ? (
                         <>
-                          <video
-                            src={driveStreamUrl(driveId)}
-                            poster={driveThumb(driveId)}
-                            controls
-                            autoPlay
-                            playsInline
-                            className="relative z-10 h-full w-full bg-black object-cover"
-                          />
+                          <iframe
+                            src={drivePreviewUrl(driveId)}
+                            title={'Script Video ' + (idx + 1)}
+                            className="relative z-10 h-full w-full border-0 bg-black"
+                            allow="autoplay; fullscreen"
+                            allowFullScreen />
                           <button
                             type="button"
                             onClick={() => setPlayingId(null)}
