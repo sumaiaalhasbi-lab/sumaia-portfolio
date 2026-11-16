@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye, ExternalLink } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -65,7 +65,6 @@ export default function Portfolio() {
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
-  const [playingId, setPlayingId] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
@@ -78,7 +77,6 @@ export default function Portfolio() {
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
-    setPlayingId(null);
     const el = videoTrackRef.current;
     if (!el) return;
     const maxScroll = el.scrollWidth - el.clientWidth;
@@ -129,21 +127,21 @@ export default function Portfolio() {
 
         <div className="mb-6 flex flex-wrap gap-2.5">
           <button
-            onClick={() => { setTab('ai-client'); setStopV(false); setPlayingId(null); }}
+            onClick={() => { setTab('ai-client'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI على الانستقرام', 'AI Videos: Concept to Production on Instagram')}
           </button>
 
           <button
-            onClick={() => { setTab('ai-studio'); setStopV(false); setPlayingId(null); }}
+            onClick={() => { setTab('ai-studio'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI', 'AI Videos: Concept to Production')}
           </button>
 
           <button
-            onClick={() => { setTab('script'); setStopV(false); setPlayingId(null); }}
+            onClick={() => { setTab('script'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
@@ -162,7 +160,7 @@ export default function Portfolio() {
               {REELS.map((item, idx) => (
                 <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
-                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading={idx < 4 ? 'eager' : 'lazy'} className="h-full w-full border-0" allowFullScreen />
                   </div>
                   <div className="flex items-center gap-1.5 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
                     <Eye className="h-4 w-4 text-white/90" />
@@ -174,127 +172,73 @@ export default function Portfolio() {
           )}
 
           {tab === 'ai-studio' && (
-            <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_AI_VIDEOS.map((driveId, idx) => {
-                const isPlaying = playingId === 'ai-' + driveId;
-                return (
-                  <div key={'ai-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
-                    <div
-                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
-                      className="relative h-[515px] w-full overflow-hidden"
-                    >
-                      <img
-                        src={driveThumbUrl(driveId)}
-                        alt={'AI Video ' + (idx + 1)}
-                        loading={idx < 4 ? 'eager' : 'lazy'}
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                      />
-                      {isPlaying ? (
-                        <>
-                          <iframe
-                            src={drivePreviewUrl(driveId)}
-                            title={'AI Video ' + (idx + 1)}
-                            className="relative z-10 h-full w-full border-0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setPlayingId(null)}
-                            className="absolute top-3 left-3 z-20 grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white shadow-lg"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setPlayingId('ai-' + driveId)}
-                          className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-                          <span
-                            style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
-                            className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition group-hover:scale-110"
-                          >
-                            <Play className="ml-1 h-7 w-7 fill-white text-white" />
-                          </span>
-                        </button>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                      <span className="text-accent">AI & UGC #{idx + 1}</span>
-                      <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
-                        <span>Drive</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    </div>
+            <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
+              {DRIVE_AI_VIDEOS.map((driveId, idx) => (
+                <div key={'ai-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div
+                    style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                    className="relative h-[515px] w-full overflow-hidden"
+                  >
+                    <img
+                      src={driveThumbUrl(driveId)}
+                      alt={'AI Video ' + (idx + 1)}
+                      loading={idx < 4 ? 'eager' : 'lazy'}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                    <iframe
+                      src={drivePreviewUrl(driveId)}
+                      title={'AI Video ' + (idx + 1)}
+                      loading={idx < 4 ? 'eager' : 'lazy'}
+                      className="relative z-10 h-full w-full border-0"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
                   </div>
-                );
-              })}
+                  <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                    <span className="text-accent">AI & UGC #{idx + 1}</span>
+                    <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
+                      <span>Drive</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
           {tab === 'script' && (
-            <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
-                const isPlaying = playingId === 'sc-' + driveId;
-                return (
-                  <div key={'sc-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
-                    <div
-                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
-                      className="relative h-[515px] w-full overflow-hidden"
-                    >
-                      <img
-                        src={driveThumbUrl(driveId)}
-                        alt={'Script Video ' + (idx + 1)}
-                        loading={idx < 4 ? 'eager' : 'lazy'}
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                      />
-                      {isPlaying ? (
-                        <>
-                          <iframe
-                            src={drivePreviewUrl(driveId)}
-                            title={'Script Video ' + (idx + 1)}
-                            className="relative z-10 h-full w-full border-0"
-                            allow="autoplay; fullscreen"
-                            allowFullScreen
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setPlayingId(null)}
-                            className="absolute top-3 left-3 z-20 grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white shadow-lg"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setPlayingId('sc-' + driveId)}
-                          className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-                          <span
-                            style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
-                            className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition group-hover:scale-110"
-                          >
-                            <Play className="ml-1 h-7 w-7 fill-white text-white" />
-                          </span>
-                        </button>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                      <span className="text-accent">Script & Ad #{idx + 1}</span>
-                      <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
-                        <span>Drive</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    </div>
+            <div className={'run-v-drive gap-4 ' + (stopV ? 'stop-all' : '')}>
+              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => (
+                <div key={'sc-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div
+                    style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                    className="relative h-[515px] w-full overflow-hidden"
+                  >
+                    <img
+                      src={driveThumbUrl(driveId)}
+                      alt={'Script Video ' + (idx + 1)}
+                      loading={idx < 4 ? 'eager' : 'lazy'}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                    <iframe
+                      src={drivePreviewUrl(driveId)}
+                      title={'Script Video ' + (idx + 1)}
+                      loading={idx < 4 ? 'eager' : 'lazy'}
+                      className="relative z-10 h-full w-full border-0"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
                   </div>
-                );
-              })}
+                  <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                    <span className="text-accent">Script & Ad #{idx + 1}</span>
+                    <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
+                      <span>Drive</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -348,7 +292,6 @@ export default function Portfolio() {
           <img src={lightboxImg} alt="Preview" className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
-          </section>
+    </section>
   );
 }
-
