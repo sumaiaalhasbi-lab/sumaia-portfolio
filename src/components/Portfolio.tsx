@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
@@ -63,13 +63,14 @@ const DRIVE_SCRIPT_VIDEOS = [
 export default function Portfolio() {
   const { t } = useApp();
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
+  const [reels, setReels] = useState(REELS);
+  const [driveVideos, setDriveVideos] = useState(DRIVE_AI_VIDEOS);
+  const [scriptVideos, setScriptVideos] = useState(DRIVE_SCRIPT_VIDEOS);
+  const [posts, setPosts] = useState(POST_URLS);
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
-
-  const videoScrollRef = useRef<HTMLDivElement>(null);
-  const postScrollRef = useRef<HTMLDivElement>(null);
 
   const instaUrl = (code: string) => {
     const h = 'www.' + 'instagram' + '.com';
@@ -88,28 +89,29 @@ export default function Portfolio() {
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
-    if (videoScrollRef.current) {
-      const amount = dir === 'right' ? 300 : -300;
-      videoScrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    setPlayingId(null);
+    if (tab === 'ai-client') {
+      setReels((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    } else if (tab === 'ai-studio') {
+      setDriveVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
+    } else if (tab === 'script') {
+      setScriptVideos((p) => (dir === 'right' ? [...p.slice(1), ...p.slice(0, 1)] : [...p.slice(-1), ...p.slice(0, -1)]));
     }
   };
 
   const stepP = (dir: 'left' | 'right') => {
     setStopP(true);
-    if (postScrollRef.current) {
-      const amount = dir === 'right' ? 320 : -320;
-      postScrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
-    }
+    setPosts((p) => (dir === 'right' ? [...p.slice(4), ...p.slice(0, 4)] : [...p.slice(-4), ...p.slice(0, -4)]));
   };
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
         @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .run-v { display: flex; width: max-content; animation: loopX 55s linear infinite; }
-        .run-v-drive { display: flex; width: max-content; animation: loopX 95s linear infinite; }
+        .run-v { display: flex; width: max-content; animation: loopX 50s linear infinite; }
+        .run-v-drive { display: flex; width: max-content; animation: loopX 90s linear infinite; }
         .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
-        .stop-all { animation: none !important; transform: none !important; }
+        .stop-all { animation: none !important; transform: translateX(0) !important; }
       `}</style>
 
       <div className="mb-10 text-center">
@@ -154,14 +156,10 @@ export default function Portfolio() {
           </button>
         </div>
 
-        <div
-          ref={videoScrollRef}
-          dir="ltr"
-          className="no-scrollbar overflow-x-auto py-2 scroll-smooth"
-        >
+        <div dir="ltr" className="overflow-hidden py-2">
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {REELS.map((item, idx) => (
+              {reels.map((item, idx) => (
                 <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
                     <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
@@ -177,11 +175,14 @@ export default function Portfolio() {
 
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_AI_VIDEOS.map((driveId, idx) => {
+              {driveVideos.map((driveId, idx) => {
                 const isPlaying = playingId === 'ai-' + driveId;
                 return (
                   <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
-                    <div className="relative h-[515px] w-full overflow-hidden bg-[#18120e]">
+                    <div
+                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                      className="relative h-[515px] w-full overflow-hidden"
+                    >
                       {isPlaying ? (
                         <>
                           <iframe
@@ -204,9 +205,6 @@ export default function Portfolio() {
                         <button
                           type="button"
                           onClick={() => setPlayingId('ai-' + driveId)}
-                          style={{
-                            background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)',
-                          }}
                           className="group relative h-full w-full cursor-pointer overflow-hidden focus:outline-none"
                         >
                           <img
@@ -249,11 +247,14 @@ export default function Portfolio() {
 
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || playingId ? 'stop-all' : '')}>
-              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
+              {scriptVideos.map((driveId, idx) => {
                 const isPlaying = playingId === 'sc-' + driveId;
                 return (
                   <div key={driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
-                    <div className="relative h-[515px] w-full overflow-hidden bg-[#18120e]">
+                    <div
+                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                      className="relative h-[515px] w-full overflow-hidden"
+                    >
                       {isPlaying ? (
                         <>
                           <iframe
