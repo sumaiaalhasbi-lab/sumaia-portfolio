@@ -281,8 +281,13 @@ export default function Portfolio() {
                           </a>
                         </div>
                       )}
-                    </div>
+                                     </div>
                   </div>
+                );
+              })}
+            </div>
+          )}
+
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || activeDriveId ? 'stop-all' : '')}>
               {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
