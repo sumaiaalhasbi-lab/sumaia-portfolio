@@ -291,9 +291,9 @@ export default function Portfolio() {
       </div>
 
       {modalVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md" onClick={() => setModalVideo(null)}>
-          <div className="relative flex w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-[#f47b20]/60 bg-[#121215] shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between border-b border-white/10 bg-[#18181c] px-4 py-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 backdrop-blur-md" onClick={() => setModalVideo(null)}>
+          <div className="relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-3xl border border-[#f47b20]/60 bg-[#121215] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-white/10 bg-[#18181c] px-4 py-2.5">
               <span className="text-xs font-bold text-[#f47b20]">{modalVideo.title}</span>
               <button
                 type="button"
@@ -303,14 +303,20 @@ export default function Portfolio() {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="relative aspect-[9/16] max-h-[75vh] w-full overflow-hidden bg-black">
+            <div className="relative h-[82vh] max-h-[720px] w-full overflow-hidden bg-black">
               <iframe
                 src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className={modalVideo.type === 'yt' ? 'pointer-events-none h-[130%] w-full -translate-y-[11.5%] border-0' : 'h-full w-full border-0'}
+                className={modalVideo.type === 'yt' ? 'pointer-events-none h-[116%] w-full -translate-y-[8%] border-0' : 'h-full w-full border-0'}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
+              {modalVideo.type === 'yt' && (
+                <>
+                  <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/90 to-transparent" />
+                  <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-14 bg-gradient-to-t from-black via-black/90 to-transparent" />
+                </>
+              )}
             </div>
           </div>
         </div>
