@@ -63,7 +63,7 @@ export default function Portfolio() {
   const postTrackRef = useRef<HTMLDivElement>(null);
 
   const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
-  const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube' + '.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1';
+  const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1';
   const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
   const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
   const driveViewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/view';
@@ -303,11 +303,11 @@ export default function Portfolio() {
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="relative aspect-[9/16] max-h-[75vh] w-full bg-black">
+            <div className="relative aspect-[9/16] max-h-[75vh] w-full overflow-hidden bg-black">
               <iframe
                 src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className="h-full w-full border-0"
+                className={modalVideo.type === 'yt' ? 'h-[114%] w-full -translate-y-[7%] border-0' : 'h-full w-full border-0'}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
