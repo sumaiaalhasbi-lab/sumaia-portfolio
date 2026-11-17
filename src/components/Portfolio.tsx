@@ -24,26 +24,17 @@ const REELS = [
   { code: 'DebbA_0tDv7', views: '357' },
 ];
 
-const DRIVE_AI_VIDEOS = [
-  '1ebAB_D74u2Pgm2HVOHiWmJptIyCRMxhK',
-  '1gieXZNhIpwBwbWBbrlKucGvJBZkqzZnv',
-  '1-E08gdaudM1uf3Mtg1MQ92nBudsAXxfR',
-  '1EXRfF7DbxCKRAQYZC9wc1anpWhot-sgU',
-  '145utUNOvupON1LJCABp_jryPbfGEH6p3',
-  '1z3tjwD_1uNOUHsIdGLG60Uvhd6hG4iz3',
-  '1FEY36pHEub9zPmE9YGhuAYSYw6rsu_ar',
-  '1v4nV-B74uW0sDkqPzTEfh1DQyFmTPSrk',
-  '1Rh8FPjgTaZPdYDnTsNvbOcr3NNCzNUXG',
-  '1Lrokwyb4M4yOKBiphgc0ngJI_OG111ux',
-  '1zri8HTpleEHcprH7BlfsufBt1sSOu3_A',
-  '1PTjZlliWazm_-qqQQRvC8s1etx1-5ad9',
-  '1PW6hYS6TjsFf4XMnXPrlS6TEFqhuITyL',
-  '1F0brhkqTkAoyli3ht4u7d_wHEeSQ-o5N',
-  '1s4y89jYAfat-0U19X7kpiRwGbSkQYyI-',
-  '15RYtT78_fsjcyAmPiITKT5LBzdPzEakq',
-  '1M_s-2riEfO3KNZMh_d3Pd8p7YcOaURqk',
-  '1GExeXOFLCW0ILPoJB0fLZpOi0ylRUK6e',
-  '1LdOd5j6BjW-2_HLJRFuGeD4dMn0Ldqxk',
+const YT_AI_VIDEOS = [
+  'XcN-4sjAxk0',
+  'uodwo7fDVKg',
+  'h_CV4ypkoOA',
+  'cxwzSCMv_x4',
+  'hu_HZIzSafs',
+  '5Nc_4pg8TeI',
+  'kf3H2z_jUEc',
+  'o7E_4NvvX_g',
+  'XAPvYxMogVU',
+  'XbF9SjCkWJU',
 ];
 
 const DRIVE_SCRIPT_VIDEOS = [
@@ -65,29 +56,15 @@ export default function Portfolio() {
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
-  const [activeDriveId, setActiveDriveId] = useState<string | null>(null);
-  const [resetCounts, setResetCounts] = useState<Record<string, number>>({});
+  const [modalVideo, setModalVideo] = useState<{ type: 'yt' | 'drive'; id: string; title: string } | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
   const postTrackRef = useRef<HTMLDivElement>(null);
 
-  const closeActiveVideo = () => {
-    if (activeDriveId) {
-      setResetCounts((prev) => ({ ...prev, [activeDriveId]: (prev[activeDriveId] || 0) + 1 }));
-      setActiveDriveId(null);
-    }
-  };
-
-  const openVideo = (keyId: string) => {
-    if (activeDriveId && activeDriveId !== keyId) {
-      setResetCounts((prev) => ({ ...prev, [activeDriveId]: (prev[activeDriveId] || 0) + 1 }));
-    }
-    setStopV(true);
-    setActiveDriveId(keyId);
-  };
-
   const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
+  const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube' + '.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1';
+  const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
   const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
   const driveViewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/view';
   const driveThumbUrl = (id: string) => 'https://lh3.' + 'googleusercontent' + '.com/d/' + id + '=w600';
@@ -144,21 +121,21 @@ export default function Portfolio() {
 
         <div className="mb-6 flex flex-wrap gap-2.5">
           <button
-            onClick={() => { closeActiveVideo(); setTab('ai-client'); setStopV(false); }}
+            onClick={() => { setModalVideo(null); setTab('ai-client'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI على الانستقرام', 'AI Videos: Concept to Production on Instagram')}
           </button>
 
           <button
-            onClick={() => { closeActiveVideo(); setTab('ai-studio'); setStopV(false); }}
+            onClick={() => { setModalVideo(null); setTab('ai-studio'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI', 'AI Videos: Concept to Production')}
           </button>
 
           <button
-            onClick={() => { closeActiveVideo(); setTab('script'); setStopV(false); }}
+            onClick={() => { setModalVideo(null); setTab('script'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
@@ -189,197 +166,79 @@ export default function Portfolio() {
           )}
 
           {tab === 'ai-studio' && (
-            <div className={'run-v-drive gap-4 ' + (stopV || activeDriveId ? 'stop-all' : '')}>
-              {DRIVE_AI_VIDEOS.map((driveId, idx) => {
-                const keyId = 'ai-' + driveId;
-                const isOpen = activeDriveId === keyId;
+            <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
+              {YT_AI_VIDEOS.map((ytId, idx) => {
                 const label = 'AI & UGC #' + (idx + 1);
-                const iframeKey = keyId + '-' + (resetCounts[keyId] || 0);
                 return (
-                  <div
-                    key={keyId}
-                    className={
-                      isOpen
-                        ? 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md'
-                        : 'flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl'
-                    }
-                    onClick={() => { if (isOpen) closeActiveVideo(); }}
-                  >
-                    <div
-                      className={
-                        isOpen
-                          ? 'flex w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-[#f47b20]/60 bg-[#121215] shadow-2xl'
-                          : 'flex w-full flex-col'
-                      }
-                      onClick={(e) => { if (isOpen) e.stopPropagation(); }}
+                  <div key={'yt-' + ytId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                    <button
+                      type="button"
+                      onClick={() => { setStopV(true); setModalVideo({ type: 'yt', id: ytId, title: label }); }}
+                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                      className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
-                      {isOpen && (
-                        <div className="flex items-center justify-between border-b border-white/10 bg-[#18181c] px-4 py-3">
-                          <span className="text-xs font-bold text-[#f47b20]">{label}</span>
-                          <button
-                            type="button"
-                            onClick={closeActiveVideo}
-                            className="grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white transition hover:scale-110"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </div>
-                      )}
-
-                      <div
-                        style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
-                        className={isOpen ? 'relative aspect-[9/16] max-h-[75vh] w-full overflow-hidden' : 'relative h-[515px] w-full overflow-hidden'}
+                      <img
+                        src={ytThumbUrl(ytId)}
+                        alt={label}
+                        loading={idx < 5 ? 'eager' : 'lazy'}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                      <span
+                        style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
+                        className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition duration-300 group-hover:scale-110"
                       >
-                        <img
-                          src={driveThumbUrl(driveId)}
-                          alt={label}
-                          loading={idx < 5 ? 'eager' : 'lazy'}
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                        />
-
-                        <iframe
-                          key={iframeKey}
-                          src={drivePreviewUrl(driveId)}
-                          title={label}
-                          loading={idx < 4 ? 'eager' : 'lazy'}
-                          className={
-                            isOpen
-                              ? 'relative z-20 h-full w-full border-0'
-                              : 'pointer-events-none absolute inset-0 z-0 h-full w-full border-0 opacity-0'
-                          }
-                          allow="autoplay; fullscreen"
-                          allowFullScreen
-                        />
-
-                        {!isOpen && (
-                          <button
-                            type="button"
-                            onClick={() => openVideo(keyId)}
-                            className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                            <span
-                              style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
-                              className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition duration-300 group-hover:scale-110"
-                            >
-                              <Play className="ml-1 h-7 w-7 fill-white text-white" />
-                            </span>
-                            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#f47b20]/40 bg-black/65 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-                              {t('اضغط للمشاهدة', 'Click to Watch')}
-                            </span>
-                          </button>
-                        )}
-                      </div>
-
-                      {!isOpen && (
-                        <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                          <span className="text-accent">{label}</span>
-                          <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
-                            <span>Drive</span>
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          </a>
-                        </div>
-                      )}
-                                     </div>
+                        <Play className="ml-1 h-7 w-7 fill-white text-white" />
+                      </span>
+                      <span className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#f47b20]/40 bg-black/65 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+                        {t('اضغط للمشاهدة', 'Click to Watch')}
+                      </span>
+                    </button>
+                    <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                      <span className="text-accent">{label}</span>
+                      <span className="text-white/60">HD</span>
+                    </div>
                   </div>
                 );
               })}
             </div>
           )}
-
           {tab === 'script' && (
-            <div className={'run-v-drive gap-4 ' + (stopV || activeDriveId ? 'stop-all' : '')}>
+            <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
               {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
-                const keyId = 'sc-' + driveId;
-                const isOpen = activeDriveId === keyId;
                 const label = 'Script & Ad #' + (idx + 1);
-                const iframeKey = keyId + '-' + (resetCounts[keyId] || 0);
                 return (
-                  <div
-                    key={keyId}
-                    className={
-                      isOpen
-                        ? 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md'
-                        : 'flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl'
-                    }
-                    onClick={() => { if (isOpen) closeActiveVideo(); }}
-                  >
-                    <div
-                      className={
-                        isOpen
-                          ? 'flex w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-[#f47b20]/60 bg-[#121215] shadow-2xl'
-                          : 'flex w-full flex-col'
-                      }
-                      onClick={(e) => { if (isOpen) e.stopPropagation(); }}
+                  <div key={'sc-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                    <button
+                      type="button"
+                      onClick={() => { setStopV(true); setModalVideo({ type: 'drive', id: driveId, title: label }); }}
+                      style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
+                      className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
-                      {isOpen && (
-                        <div className="flex items-center justify-between border-b border-white/10 bg-[#18181c] px-4 py-3">
-                          <span className="text-xs font-bold text-[#f47b20]">{label}</span>
-                          <button
-                            type="button"
-                            onClick={closeActiveVideo}
-                            className="grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white transition hover:scale-110"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                        </div>
-                      )}
-
-                      <div
-                        style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
-                        className={isOpen ? 'relative aspect-[9/16] max-h-[75vh] w-full overflow-hidden' : 'relative h-[515px] w-full overflow-hidden'}
+                      <img
+                        src={driveThumbUrl(driveId)}
+                        alt={label}
+                        loading={idx < 5 ? 'eager' : 'lazy'}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+                      <span
+                        style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
+                        className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition duration-300 group-hover:scale-110"
                       >
-                        <img
-                          src={driveThumbUrl(driveId)}
-                          alt={label}
-                          loading={idx < 5 ? 'eager' : 'lazy'}
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                        />
-
-                        <iframe
-                          key={iframeKey}
-                          src={drivePreviewUrl(driveId)}
-                          title={label}
-                          loading={idx < 4 ? 'eager' : 'lazy'}
-                          className={
-                            isOpen
-                              ? 'relative z-20 h-full w-full border-0'
-                              : 'pointer-events-none absolute inset-0 z-0 h-full w-full border-0 opacity-0'
-                          }
-                          allow="autoplay; fullscreen"
-                          allowFullScreen
-                        />
-                        {!isOpen && (
-                          <button
-                            type="button"
-                            onClick={() => openVideo(keyId)}
-                            className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                            <span
-                              style={{ backgroundColor: '#f47b20', boxShadow: '0 8px 25px rgba(244, 123, 32, 0.55)' }}
-                              className="absolute top-1/2 left-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-white transition duration-300 group-hover:scale-110"
-                            >
-                              <Play className="ml-1 h-7 w-7 fill-white text-white" />
-                            </span>
-                            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#f47b20]/40 bg-black/65 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
-                              {t('اضغط للمشاهدة', 'Click to Watch')}
-                            </span>
-                          </button>
-                        )}
-                      </div>
-
-                      {!isOpen && (
-                        <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
-                          <span className="text-accent">{label}</span>
-                          <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
-                            <span>Drive</span>
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          </a>
-                        </div>
-                      )}
+                        <Play className="ml-1 h-7 w-7 fill-white text-white" />
+                      </span>
+                      <span className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#f47b20]/40 bg-black/65 px-3.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+                        {t('اضغط للمشاهدة', 'Click to Watch')}
+                      </span>
+                    </button>
+                    <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
+                      <span className="text-accent">{label}</span>
+                      <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
+                        <span>Drive</span>
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
                     </div>
                   </div>
                 );
@@ -430,6 +289,32 @@ export default function Portfolio() {
           <button type="button" onClick={() => stepP('right')} className="grid h-10 w-10 place-items-center rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-white"><ChevronRight className="h-5 w-5" /></button>
         </div>
       </div>
+
+      {modalVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md" onClick={() => setModalVideo(null)}>
+          <div className="relative flex w-full max-w-[380px] flex-col overflow-hidden rounded-3xl border border-[#f47b20]/60 bg-[#121215] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-white/10 bg-[#18181c] px-4 py-3">
+              <span className="text-xs font-bold text-[#f47b20]">{modalVideo.title}</span>
+              <button
+                type="button"
+                onClick={() => setModalVideo(null)}
+                className="grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white transition hover:scale-110"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="relative aspect-[9/16] max-h-[75vh] w-full bg-black">
+              <iframe
+                src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
+                title={modalVideo.title}
+                className="h-full w-full border-0"
+                allow="autoplay; fullscreen; encrypted-media"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {lightboxImg && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm" onClick={() => setLightboxImg(null)}>
