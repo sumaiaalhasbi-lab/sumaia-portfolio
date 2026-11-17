@@ -66,10 +66,26 @@ export default function Portfolio() {
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [activeDriveId, setActiveDriveId] = useState<string | null>(null);
+  const [resetCounts, setResetCounts] = useState<Record<string, number>>({});
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
   const postTrackRef = useRef<HTMLDivElement>(null);
+
+  const closeActiveVideo = () => {
+    if (activeDriveId) {
+      setResetCounts((prev) => ({ ...prev, [activeDriveId]: (prev[activeDriveId] || 0) + 1 }));
+      setActiveDriveId(null);
+    }
+  };
+
+  const openVideo = (keyId: string) => {
+    if (activeDriveId && activeDriveId !== keyId) {
+      setResetCounts((prev) => ({ ...prev, [activeDriveId]: (prev[activeDriveId] || 0) + 1 }));
+    }
+    setStopV(true);
+    setActiveDriveId(keyId);
+  };
 
   const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
   const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
@@ -128,21 +144,21 @@ export default function Portfolio() {
 
         <div className="mb-6 flex flex-wrap gap-2.5">
           <button
-            onClick={() => { setTab('ai-client'); setStopV(false); setActiveDriveId(null); }}
+            onClick={() => { closeActiveVideo(); setTab('ai-client'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI على الانستقرام', 'AI Videos: Concept to Production on Instagram')}
           </button>
 
           <button
-            onClick={() => { setTab('ai-studio'); setStopV(false); setActiveDriveId(null); }}
+            onClick={() => { closeActiveVideo(); setTab('ai-studio'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات من الفكرة للإنتاج بـ AI', 'AI Videos: Concept to Production')}
           </button>
 
           <button
-            onClick={() => { setTab('script'); setStopV(false); setActiveDriveId(null); }}
+            onClick={() => { closeActiveVideo(); setTab('script'); setStopV(false); }}
             className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
           >
             {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
@@ -178,6 +194,7 @@ export default function Portfolio() {
                 const keyId = 'ai-' + driveId;
                 const isOpen = activeDriveId === keyId;
                 const label = 'AI & UGC #' + (idx + 1);
+                const iframeKey = keyId + '-' + (resetCounts[keyId] || 0);
                 return (
                   <div
                     key={keyId}
@@ -186,7 +203,7 @@ export default function Portfolio() {
                         ? 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md'
                         : 'flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl'
                     }
-                    onClick={() => { if (isOpen) setActiveDriveId(null); }}
+                    onClick={() => { if (isOpen) closeActiveVideo(); }}
                   >
                     <div
                       className={
@@ -201,7 +218,7 @@ export default function Portfolio() {
                           <span className="text-xs font-bold text-[#f47b20]">{label}</span>
                           <button
                             type="button"
-                            onClick={() => setActiveDriveId(null)}
+                            onClick={closeActiveVideo}
                             className="grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white transition hover:scale-110"
                           >
                             <X className="h-4 w-4" />
@@ -222,6 +239,7 @@ export default function Portfolio() {
                         />
 
                         <iframe
+                          key={iframeKey}
                           src={drivePreviewUrl(driveId)}
                           title={label}
                           loading={idx < 4 ? 'eager' : 'lazy'}
@@ -237,7 +255,7 @@ export default function Portfolio() {
                         {!isOpen && (
                           <button
                             type="button"
-                            onClick={() => { setStopV(true); setActiveDriveId(keyId); }}
+                            onClick={() => openVideo(keyId)}
                             className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
                           >
                             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -265,16 +283,13 @@ export default function Portfolio() {
                       )}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || activeDriveId ? 'stop-all' : '')}>
               {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
                 const keyId = 'sc-' + driveId;
                 const isOpen = activeDriveId === keyId;
                 const label = 'Script & Ad #' + (idx + 1);
+                const iframeKey = keyId + '-' + (resetCounts[keyId] || 0);
                 return (
                   <div
                     key={keyId}
@@ -283,7 +298,7 @@ export default function Portfolio() {
                         ? 'fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md'
                         : 'flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl'
                     }
-                    onClick={() => { if (isOpen) setActiveDriveId(null); }}
+                    onClick={() => { if (isOpen) closeActiveVideo(); }}
                   >
                     <div
                       className={
@@ -298,7 +313,7 @@ export default function Portfolio() {
                           <span className="text-xs font-bold text-[#f47b20]">{label}</span>
                           <button
                             type="button"
-                            onClick={() => setActiveDriveId(null)}
+                            onClick={closeActiveVideo}
                             className="grid h-8 w-8 place-items-center rounded-full bg-[#f47b20] text-white transition hover:scale-110"
                           >
                             <X className="h-4 w-4" />
@@ -319,6 +334,7 @@ export default function Portfolio() {
                         />
 
                         <iframe
+                          key={iframeKey}
                           src={drivePreviewUrl(driveId)}
                           title={label}
                           loading={idx < 4 ? 'eager' : 'lazy'}
@@ -330,11 +346,10 @@ export default function Portfolio() {
                           allow="autoplay; fullscreen"
                           allowFullScreen
                         />
-
                         {!isOpen && (
                           <button
                             type="button"
-                            onClick={() => { setStopV(true); setActiveDriveId(keyId); }}
+                            onClick={() => openVideo(keyId)}
                             className="group relative z-10 h-full w-full cursor-pointer focus:outline-none"
                           >
                             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
