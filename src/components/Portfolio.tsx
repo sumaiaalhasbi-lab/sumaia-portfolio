@@ -64,7 +64,8 @@ export default function Portfolio() {
 
   const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
   const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&loop=1&playlist=' + id;
-  const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
+  const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/maxresdefault.jpg';
+  const ytFallbackThumb = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
   const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
   const driveViewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/view';
   const driveThumbUrl = (id: string) => 'https://lh3.' + 'googleusercontent' + '.com/d/' + id + '=w600';
@@ -181,6 +182,10 @@ export default function Portfolio() {
                         src={ytThumbUrl(ytId)}
                         alt={label}
                         loading={idx < 5 ? 'eager' : 'lazy'}
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          if (!img.src.includes('hqdefault')) img.src = ytFallbackThumb(ytId);
+                        }}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -304,17 +309,26 @@ export default function Portfolio() {
               </button>
             </div>
             <div className="relative h-[82vh] max-h-[720px] w-full overflow-hidden bg-black">
+              <img
+                src={modalVideo.type === 'yt' ? ytThumbUrl(modalVideo.id) : driveThumbUrl(modalVideo.id)}
+                alt={modalVideo.title}
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement;
+                  if (modalVideo.type === 'yt' && !img.src.includes('hqdefault')) img.src = ytFallbackThumb(modalVideo.id);
+                }}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
               <iframe
                 src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className={modalVideo.type === 'yt' ? 'pointer-events-none h-[116%] w-full -translate-y-[8%] border-0' : 'h-full w-full border-0'}
+                className={modalVideo.type === 'yt' ? 'pointer-events-none relative z-10 h-[126%] w-[116%] -translate-x-[8%] -translate-y-[13%] border-0' : 'relative z-10 h-full w-full border-0'}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
               {modalVideo.type === 'yt' && (
                 <>
-                  <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/90 to-transparent" />
-                  <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-14 bg-gradient-to-t from-black via-black/90 to-transparent" />
+                  <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/95 to-transparent" />
+                  <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-28 bg-gradient-to-t from-black via-black/95 to-transparent" />
                 </>
               )}
             </div>
