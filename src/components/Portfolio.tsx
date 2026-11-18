@@ -35,6 +35,10 @@ const YT_AI_VIDEOS = [
   'o7E_4NvvX_g',
   'XAPvYxMogVU',
   'XbF9SjCkWJU',
+  'N5OTV4MyupU',
+  'xM8v1eUocuY',
+  'y5wrUqIM-80',
+  'Gmy1HExFR8o',
 ];
 
 const DRIVE_SCRIPT_VIDEOS = [
