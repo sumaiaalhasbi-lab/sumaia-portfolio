@@ -86,17 +86,24 @@ export default function Portfolio() {
 
   const stepP = (dir: 'left' | 'right') => {
     setStopP(true);
-    if (postTrackRef.current) {
-      postTrackRef.current.scrollBy({ left: dir === 'right' ? 340 : -340, behavior: 'smooth' });
+    const el = postTrackRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (dir === 'right') {
+      if (el.scrollLeft >= maxScroll - 20) el.scrollTo({ left: 0, behavior: 'smooth' });
+      else el.scrollBy({ left: 340, behavior: 'smooth' });
+    } else {
+      if (el.scrollLeft <= 20) el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      else el.scrollBy({ left: -340, behavior: 'smooth' });
     }
   };
   return (
     <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
       <style>{`
-        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-35%); } }
+        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .run-v { display: flex; width: max-content; animation: loopX 45s linear infinite; }
         .run-v-drive { display: flex; width: max-content; animation: loopX 75s linear infinite; }
-        .run-p { display: flex; width: max-content; animation: loopX 90s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 120s linear infinite; }
         .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
         .stop-all { animation: none !important; }
       `}</style>
@@ -152,8 +159,8 @@ export default function Portfolio() {
         >
           {tab === 'ai-client' && (
             <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
-              {REELS.map((item, idx) => (
-                <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+              {[...REELS, ...REELS].map((item, idx) => (
+                <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
                     <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
                   </div>
@@ -168,10 +175,11 @@ export default function Portfolio() {
 
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
-              {YT_AI_VIDEOS.map((ytId, idx) => {
-                const label = 'AI & UGC #' + (idx + 1);
+              {[...YT_AI_VIDEOS, ...YT_AI_VIDEOS].map((ytId, idx) => {
+                const realIdx = idx % YT_AI_VIDEOS.length;
+                const label = 'AI & UGC #' + (realIdx + 1);
                 return (
-                  <div key={'yt-' + ytId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div key={'yt-' + ytId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
                       onClick={() => { setStopV(true); setModalVideo({ type: 'yt', id: ytId, title: label }); }}
@@ -210,10 +218,11 @@ export default function Portfolio() {
           )}
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
-              {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
-                const label = 'Script & Ad #' + (idx + 1);
+              {[...DRIVE_SCRIPT_VIDEOS, ...DRIVE_SCRIPT_VIDEOS].map((driveId, idx) => {
+                const realIdx = idx % DRIVE_SCRIPT_VIDEOS.length;
+                const label = 'Script & Ad #' + (realIdx + 1);
                 return (
-                  <div key={'sc-' + driveId} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div key={'sc-' + driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
                       onClick={() => { setStopV(true); setModalVideo({ type: 'drive', id: driveId, title: label }); }}
@@ -268,9 +277,15 @@ export default function Portfolio() {
           </span>
         </div>
 
-        <div ref={postTrackRef} dir="ltr" className="no-scrollbar overflow-x-auto py-2 scroll-smooth">
+        <div
+          ref={postTrackRef}
+          dir="ltr"
+          onTouchStart={() => setStopP(true)}
+          onMouseDown={() => setStopP(true)}
+          className="no-scrollbar overflow-x-auto py-2 scroll-smooth"
+        >
           <div className={'run-p gap-4 ' + (stopP || lightboxImg ? 'stop-all' : '')}>
-            {POST_URLS.map((src, i) => (
+            {[...POST_URLS, ...POST_URLS].map((src, i) => (
               <button
                 key={i}
                 type="button"
@@ -279,7 +294,7 @@ export default function Portfolio() {
               >
                 <img
                   src={src}
-                  alt={'Post ' + (i + 1)}
+                  alt={'Post ' + ((i % POST_URLS.length) + 1)}
                   loading="lazy"
                   decoding="async"
                   className="h-full w-auto object-contain transition duration-500 hover:scale-105"
