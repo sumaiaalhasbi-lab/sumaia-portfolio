@@ -1,3 +1,171 @@
+import { useState, useRef } from 'react';
+import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
+
+const IMGS = [
+  '/images/social-1.jpg', '/images/social-2.jpg', '/images/social-3.jpg',
+  '/images/social-4.jpg', '/images/social-5.jpg', '/images/social-6.jpg',
+];
+
+const POST_MODULES = import.meta.glob('../assets/posts/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG}', {
+  eager: true,
+  import: 'default',
+});
+const POST_URLS = Object.values(POST_MODULES) as string[];
+
+const REELS = [
+  { code: 'De6hCFCN0b1', views: '83K' },
+  { code: 'DewEI_rtpHt', views: '22.9K' },
+  { code: 'DeeMh8htqQA', views: '22.1K' },
+  { code: 'DfUQAh1Nq8N', views: '12.4K' },
+  { code: 'DfHga8Bthg5', views: '2,115' },
+  { code: 'DfP3FzptsoY', views: '1,617' },
+  { code: 'DePYchot5j2', views: '552' },
+  { code: 'DebbA_0tDv7', views: '357' },
+];
+
+const YT_AI_VIDEOS = [
+  'XcN-4sjAxk0',
+  'uodwo7fDVKg',
+  'h_CV4ypkoOA',
+  'cxwzSCMv_x4',
+  'hu_HZIzSafs',
+  '5Nc_4pg8TeI',
+  'kf3H2z_jUEc',
+  'o7E_4NvvX_g',
+  'XAPvYxMogVU',
+  'XbF9SjCkWJU',
+];
+
+const DRIVE_SCRIPT_VIDEOS = [
+  '1-twnDAT53vQeAxQVn0dfb2L07li9VHNt',
+  '1FUwyDEkV9QhmL9fDOQBtuw9FQzo7yP3I',
+  '1l_xegudzUUlzVzvZf3N217FlDXGD-tb9',
+  '13GsZqovRm0gQv0YpFpkUUON4u3r1QI28',
+  '1SCC0NvuqPYU-g4q_pTDDUPaqAV8LcLJ1',
+  '1DEpzzfo53WJOUj_UEtlq8TcAnRs-27Xn',
+  '16h9IZaDQUWu20EUY-LDsbgj8GIgXbjH9',
+  '1U_15wmyuTCypUosvMkRInzjyuL0Jlczb',
+  '1t7tlA8eje369tH1sDOHBdGyf1xSUBUMC',
+  '1_iZRybvUbGMg9SKVH-C9BDLs2MeGTh4z',
+  '1krDP4by45h0sTTmpgTSpdmQ68GK_sjqo',
+];
+
+export default function Portfolio() {
+  const { t } = useApp();
+  const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
+  const [stopV, setStopV] = useState(false);
+  const [stopP, setStopP] = useState(false);
+  const [modalVideo, setModalVideo] = useState<{ type: 'yt' | 'drive'; id: string; title: string } | null>(null);
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
+
+  const videoTrackRef = useRef<HTMLDivElement>(null);
+  const postTrackRef = useRef<HTMLDivElement>(null);
+
+  const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
+  const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&loop=1&playlist=' + id;
+  const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/maxresdefault.jpg';
+  const ytFallbackThumb = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
+  const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
+  const driveViewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/view';
+  const driveThumbUrl = (id: string) => 'https://lh3.' + 'googleusercontent' + '.com/d/' + id + '=w600';
+
+  const stepV = (dir: 'left' | 'right') => {
+    setStopV(true);
+    const el = videoTrackRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (dir === 'right') {
+      if (el.scrollLeft >= maxScroll - 20) el.scrollTo({ left: 0, behavior: 'smooth' });
+      else el.scrollBy({ left: 300, behavior: 'smooth' });
+    } else {
+      if (el.scrollLeft <= 20) el.scrollTo({ left: maxScroll, behavior: 'smooth' });
+      else el.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const stepP = (dir: 'left' | 'right') => {
+    setStopP(true);
+    if (postTrackRef.current) {
+      postTrackRef.current.scrollBy({ left: dir === 'right' ? 340 : -340, behavior: 'smooth' });
+    }
+  };
+  return (
+    <section id="portfolio" className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+      <style>{`
+        @keyframes loopX { 0% { transform: translateX(0); } 100% { transform: translateX(-35%); } }
+        .run-v { display: flex; width: max-content; animation: loopX 45s linear infinite; }
+        .run-v-drive { display: flex; width: max-content; animation: loopX 75s linear infinite; }
+        .run-p { display: flex; width: max-content; animation: loopX 90s linear infinite; }
+        .run-v:hover, .run-v-drive:hover, .run-p:hover { animation-play-state: paused; }
+        .stop-all { animation: none !important; }
+      `}</style>
+
+      <div className="mb-10 text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">{t('أعمالي', 'Portfolio')}</span>
+        <h2 className="mt-4 text-2xl font-extrabold text-ink-light dark:text-ink-dark sm:text-[32px]">{t('مشاريع وأعمال تثبت النتائج', 'Projects that prove results')}</h2>
+      </div>
+
+      <div id="social" className="mb-16">
+        <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">{t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}</h3>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {IMGS.map((src, i) => (
+            <div key={i} className="group overflow-hidden rounded-2xl border border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition duration-300 hover:-translate-y-2 hover:border-[#f47b20]">
+              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={'Account ' + (i + 1)} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="videos" className="mb-16">
+        <h3 className="mb-5 text-lg font-bold text-ink-light dark:text-ink-dark">{t('فيديوهاتي', 'My Videos')}</h3>
+
+        <div className="mb-6 flex flex-wrap gap-2.5">
+          <button
+            onClick={() => { setModalVideo(null); setTab('ai-client'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-client' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات من الفكرة للإنتاج بـ AI على الانستقرام', 'AI Videos: Concept to Production on Instagram')}
+          </button>
+
+          <button
+            onClick={() => { setModalVideo(null); setTab('ai-studio'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'ai-studio' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات من الفكرة للإنتاج بـ AI', 'AI Videos: Concept to Production')}
+          </button>
+
+          <button
+            onClick={() => { setModalVideo(null); setTab('script'); setStopV(false); }}
+            className={'rounded-xl px-4 py-2.5 text-xs font-bold transition ' + (tab === 'script' ? 'bg-accent text-white shadow-lg' : 'border border-accent/30 bg-accent/5 text-accent')}
+          >
+            {t('فيديوهات إعلانية (كتابة السكربت)', 'Ad Videos (Script Writing)')}
+          </button>
+        </div>
+
+        <div
+          ref={videoTrackRef}
+          dir="ltr"
+          onTouchStart={() => setStopV(true)}
+          onMouseDown={() => setStopV(true)}
+          className="no-scrollbar overflow-x-auto py-2 scroll-smooth"
+        >
+          {tab === 'ai-client' && (
+            <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
+              {REELS.map((item, idx) => (
+                <div key={item.code} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
+                  <div className="h-[515px] w-full overflow-hidden">
+                    <iframe src={instaUrl(item.code)} title={'Reel ' + (idx + 1)} loading="lazy" className="h-full w-full border-0" allowFullScreen />
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-[#121215] px-3.5 py-2 text-xs font-bold text-white">
+                    <Eye className="h-4 w-4 text-white/90" />
+                    <span>{item.views}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {tab === 'ai-studio' && (
             <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
               {YT_AI_VIDEOS.map((ytId, idx) => {
@@ -40,7 +208,6 @@
               })}
             </div>
           )}
-
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
               {DRIVE_SCRIPT_VIDEOS.map((driveId, idx) => {
