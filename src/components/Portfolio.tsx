@@ -340,7 +340,7 @@ export default function Portfolio() {
               <iframe
                 src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className={modalVideo.type === 'yt' ? 'pointer-events-none relative z-10 h-[126%] w-[116%] -translate-x-[8%] -translate-y-[13%] border-0' : 'relative z-10 h-full w-full border-0'}
+                className={modalVideo.type === 'yt' ? 'pointer-events-none relative z-10 h-[126%] w-full -translate-y-[13%] border-0' : 'relative z-10 h-full w-full border-0'}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
