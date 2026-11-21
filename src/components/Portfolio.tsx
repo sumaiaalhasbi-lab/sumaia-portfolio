@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye, Play } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const IMGS = [
@@ -41,18 +41,21 @@ const YT_AI_VIDEOS = [
   'Gmy1HExFR8o',
 ];
 
-const DRIVE_SCRIPT_VIDEOS = [
-  '1-twnDAT53vQeAxQVn0dfb2L07li9VHNt',
-  '1FUwyDEkV9QhmL9fDOQBtuw9FQzo7yP3I',
-  '1l_xegudzUUlzVzvZf3N217FlDXGD-tb9',
-  '13GsZqovRm0gQv0YpFpkUUON4u3r1QI28',
-  '1SCC0NvuqPYU-g4q_pTDDUPaqAV8LcLJ1',
-  '1DEpzzfo53WJOUj_UEtlq8TcAnRs-27Xn',
-  '16h9IZaDQUWu20EUY-LDsbgj8GIgXbjH9',
-  '1U_15wmyuTCypUosvMkRInzjyuL0Jlczb',
-  '1t7tlA8eje369tH1sDOHBdGyf1xSUBUMC',
-  '1_iZRybvUbGMg9SKVH-C9BDLs2MeGTh4z',
-  '1krDP4by45h0sTTmpgTSpdmQ68GK_sjqo',
+const YT_SCRIPT_VIDEOS = [
+  'bN9TpmqTXNw',
+  'EfzfIHPNbwA',
+  'hwh34SseYTU',
+  'tdq7segc8nE',
+  'zADtOgmfunE',
+  'ELSh4XAqG1o',
+  'WIAaxB8NMzE',
+  '66kb3lkswXg',
+  '1HxOdGFigBY',
+  'OQvCHuxAtV8',
+  'sLkyfzgr2js',
+  'zpjialaVBik',
+  'M4JN9LFL6Lw',
+  '4PL97SGH-JE',
 ];
 
 export default function Portfolio() {
@@ -60,7 +63,7 @@ export default function Portfolio() {
   const [tab, setTab] = useState<'ai-client' | 'ai-studio' | 'script'>('ai-client');
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
-  const [modalVideo, setModalVideo] = useState<{ type: 'yt' | 'drive'; id: string; title: string } | null>(null);
+  const [modalVideo, setModalVideo] = useState<{ id: string; title: string } | null>(null);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
@@ -81,9 +84,6 @@ export default function Portfolio() {
   const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&loop=1&playlist=' + id;
   const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/maxresdefault.jpg';
   const ytFallbackThumb = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
-  const drivePreviewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/preview';
-  const driveViewUrl = (id: string) => 'https://drive.' + 'google' + '.com/file/d/' + id + '/view';
-  const driveThumbUrl = (id: string) => 'https://lh3.' + 'googleusercontent' + '.com/d/' + id + '=w600';
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
@@ -212,7 +212,7 @@ export default function Portfolio() {
                   <div key={'yt-' + ytId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
-                      onClick={() => { setStopV(true); setModalVideo({ type: 'yt', id: ytId, title: label }); }}
+                      onClick={() => { setStopV(true); setModalVideo({ id: ytId, title: label }); }}
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
@@ -248,22 +248,25 @@ export default function Portfolio() {
           )}
           {tab === 'script' && (
             <div className={'run-v-drive gap-4 ' + (stopV || modalVideo ? 'stop-all' : '')}>
-              {[...DRIVE_SCRIPT_VIDEOS, ...DRIVE_SCRIPT_VIDEOS].map((driveId, idx) => {
-                const realIdx = idx % DRIVE_SCRIPT_VIDEOS.length;
+              {[...YT_SCRIPT_VIDEOS, ...YT_SCRIPT_VIDEOS].map((ytId, idx) => {
+                const realIdx = idx % YT_SCRIPT_VIDEOS.length;
                 const label = 'Script & Ad #' + (realIdx + 1);
                 return (
-                  <div key={'sc-' + driveId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
+                  <div key={'sc-' + ytId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
-                      onClick={() => { setStopV(true); setModalVideo({ type: 'drive', id: driveId, title: label }); }}
+                      onClick={() => { setStopV(true); setModalVideo({ id: ytId, title: label }); }}
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
                       <img
-                        src={driveThumbUrl(driveId)}
+                        src={ytThumbUrl(ytId)}
                         alt={label}
                         loading={idx < 5 ? 'eager' : 'lazy'}
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          if (!img.src.includes('hqdefault')) img.src = ytFallbackThumb(ytId);
+                        }}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
@@ -279,10 +282,7 @@ export default function Portfolio() {
                     </button>
                     <div className="flex items-center justify-between bg-[#121215] px-3.5 py-2 text-xs font-bold text-white border-t border-white/10">
                       <span className="text-accent">{label}</span>
-                      <a href={driveViewUrl(driveId)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-white/80 hover:text-accent transition">
-                        <span>Drive</span>
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
+                      <span className="text-white/60">HD</span>
                     </div>
                   </div>
                 );
@@ -355,27 +355,23 @@ export default function Portfolio() {
             </div>
             <div className="relative h-[82vh] max-h-[720px] w-full overflow-hidden bg-black">
               <img
-                src={modalVideo.type === 'yt' ? ytThumbUrl(modalVideo.id) : driveThumbUrl(modalVideo.id)}
+                src={ytThumbUrl(modalVideo.id)}
                 alt={modalVideo.title}
                 onError={(e) => {
                   const img = e.currentTarget as HTMLImageElement;
-                  if (modalVideo.type === 'yt' && !img.src.includes('hqdefault')) img.src = ytFallbackThumb(modalVideo.id);
+                  if (!img.src.includes('hqdefault')) img.src = ytFallbackThumb(modalVideo.id);
                 }}
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <iframe
-                src={modalVideo.type === 'yt' ? ytEmbedUrl(modalVideo.id) : drivePreviewUrl(modalVideo.id)}
+                src={ytEmbedUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className={modalVideo.type === 'yt' ? 'pointer-events-none relative z-10 h-[126%] w-full -translate-y-[13%] border-0' : 'relative z-10 h-full w-full border-0'}
+                className="pointer-events-none relative z-10 h-[126%] w-full -translate-y-[13%] border-0"
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
-              {modalVideo.type === 'yt' && (
-                <>
-                  <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/95 to-transparent" />
-                  <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-28 bg-gradient-to-t from-black via-black/95 to-transparent" />
-                </>
-              )}
+              <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/95 to-transparent" />
+              <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-28 bg-gradient-to-t from-black via-black/95 to-transparent" />
             </div>
           </div>
         </div>
