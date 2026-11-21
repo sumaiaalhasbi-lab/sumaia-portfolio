@@ -129,3 +129,22 @@ export default function Ticker() {
     </div>
   );
 }
+export function About() {
+  const { t } = useApp();
+  return (
+    <section id="about" className="mx-auto max-w-5xl px-5 py-16 sm:py-20 text-center">
+      <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">
+        {t('من أنا', 'About Me')}
+      </span>
+      <h2 className="mt-4 text-2xl font-extrabold text-ink-light dark:text-ink-dark sm:text-[32px]">
+        {t('سمية الحاصبي — شريكك الإبداعي في صناعة المحتوى والتسويق الرقمي', 'Sumaia Al-Hasbi — Your Creative Partner in Content & Digital Marketing')}
+      </h2>
+      <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-ink-light/80 dark:text-ink-dark/80 sm:text-lg">
+        {t(
+          'كاتبة محتوى تسويقي وإعلاني بخبرة تتجاوز 4 سنوات في السوق الخليجي، متخصصة في إدارة حسابات السوشيال ميديا، تخطيط الحملات الإعلانية، كتابة وصف منتجات المتاجر الإلكترونية (SEO & GEO)، وإنتاج الفيديوهات الإعلانية بالذكاء الاصطناعي (AI & UGC) لتحويل الزوار إلى عملاء دائمين.',
+          'Marketing and advertising copywriter with +4 years of experience in the Gulf market, specializing in social media management, ad campaign planning, e-commerce product descriptions (SEO & GEO), and AI & UGC video production to turn visitors into loyal customers.'
+        )}
+      </p>
+    </section>
+  );
+}
