@@ -5,10 +5,12 @@ import { useApp } from '@/context/AppContext';
 export default function Ticker() {
   const { t } = useApp();
   const trackRef = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
+  const pausedRef = useRef(false);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollStart = useRef(0);
+  const resumeTimer = useRef<number | null>(null);
+  const [, forceRender] = useState(0);
 
   const items = [
     {
@@ -39,11 +41,11 @@ export default function Ticker() {
     let rafId: number;
 
     const tick = () => {
-      if (!paused && !isDragging.current && el) {
-        el.scrollLeft += 0.8;
-        const half = el.scrollWidth / 2;
-        if (el.scrollLeft >= half) {
-          el.scrollLeft -= half;
+      if (!pausedRef.current && !isDragging.current && el) {
+        el.scrollLeft += 1;
+        const third = el.scrollWidth / 3;
+        if (third > 0 && el.scrollLeft >= third * 2) {
+          el.scrollLeft -= third;
         }
       }
       rafId = requestAnimationFrame(tick);
@@ -51,13 +53,27 @@ export default function Ticker() {
 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [paused]);
+  }, []);
+
+  const pauseAuto = () => {
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    pausedRef.current = true;
+    forceRender((n) => n + 1);
+  };
+
+  const resumeLater = (delay = 2500) => {
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => {
+      pausedRef.current = false;
+      forceRender((n) => n + 1);
+    }, delay);
+  };
 
   const onMouseDown = (e: React.MouseEvent) => {
     const el = trackRef.current;
     if (!el) return;
     isDragging.current = true;
-    setPaused(true);
+    pauseAuto();
     startX.current = e.pageX - el.offsetLeft;
     scrollStart.current = el.scrollLeft;
   };
@@ -71,25 +87,29 @@ export default function Ticker() {
   };
 
   const stopDrag = () => {
-    isDragging.current = false;
+    if (isDragging.current) {
+      isDragging.current = false;
+      resumeLater(2000);
+    }
   };
 
   return (
-    <div className="border-y border-accent/20 bg-card-light/80 dark:bg-[#0d0d10] py-4 select-none">
+    <div dir="ltr" className="border-y border-accent/20 bg-card-light/80 dark:bg-[#0d0d10] py-4 select-none">
       <div
         ref={trackRef}
         dir="ltr"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => { isDragging.current = false; setPaused(false); }}
+        onMouseEnter={pauseAuto}
+        onMouseLeave={() => { isDragging.current = false; resumeLater(500); }}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={stopDrag}
-        onTouchStart={() => setPaused(true)}
-        onTouchEnd={() => setTimeout(() => setPaused(false), 2500)}
+        onTouchStart={pauseAuto}
+        onTouchEnd={() => resumeLater(2500)}
+        style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
         className="no-scrollbar flex overflow-x-auto cursor-grab active:cursor-grabbing"
       >
         <div className="flex w-max items-center gap-6 px-4">
-          {[...items, ...items].map((item, idx) => {
+          {[...items, ...items, ...items].map((item, idx) => {
             const Icon = item.icon;
             return (
               <div key={idx} dir="rtl" className="flex shrink-0 items-center gap-3.5">
