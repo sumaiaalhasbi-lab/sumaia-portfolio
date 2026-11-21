@@ -121,8 +121,19 @@ export default function Portfolio() {
         <h3 className="mb-6 text-lg font-bold text-ink-light dark:text-ink-dark">{t('إدارة حسابات السوشيال ميديا', 'Social Media Management')}</h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {IMGS.map((src, i) => (
-            <div key={i} className="group overflow-hidden rounded-2xl border border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition duration-300 hover:-translate-y-2 hover:border-[#f47b20]">
-              <div className="aspect-[9/16] overflow-hidden"><img src={src} alt={'Account ' + (i + 1)} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
+            <div
+              key={i}
+              tabIndex={0}
+              className="group cursor-pointer overflow-hidden rounded-2xl border-2 border-accent/25 bg-card-light dark:bg-card-dark shadow-md transition-all duration-300 hover:-translate-y-2 hover:border-[#f47b20] hover:shadow-[0_10px_25px_rgba(244,123,32,0.35)] active:-translate-y-2 active:border-[#f47b20] active:shadow-[0_10px_25px_rgba(244,123,32,0.45)] focus:-translate-y-2 focus:border-[#f47b20] focus:shadow-[0_10px_25px_rgba(244,123,32,0.45)] focus:outline-none"
+            >
+              <div className="aspect-[9/16] overflow-hidden">
+                <img
+                  src={src}
+                  alt={'Account ' + (i + 1)}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 group-active:scale-105 group-focus:scale-105"
+                />
+              </div>
             </div>
           ))}
         </div>
