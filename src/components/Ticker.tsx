@@ -1,135 +1,111 @@
+import { useEffect, useRef, useState } from 'react';
+import { Award, Briefcase, ShoppingCart, Sparkles } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { Award, Users, ShoppingCart, Briefcase } from 'lucide-react';
-
-const ITEMS = [
-  {
-    icon: Award,
-    ar: {
-      title: '+4 سنوات خبرة',
-      sub: 'في السوق الخليجي · كتابة المحتوى والتسويق وإدارة حسابات التواصل والمتاجر',
-    },
-    en: {
-      title: '+4 Years Experience',
-      sub: 'Gulf market · Content, Marketing, Social Media & E-commerce Management',
-    },
-  },
-  {
-    icon: Users,
-    ar: {
-      title: '+15 شركة وعميل',
-      sub: 'مشاريع ناجحة عن بُعد في السوق الخليجي واليمن وتركيا',
-    },
-    en: {
-      title: '+15 Clients & Companies',
-      sub: 'Successful remote projects across the Gulf, Yemen & Turkey',
-    },
-  },
-  {
-    icon: ShoppingCart,
-    ar: {
-      title: 'إدارة متكاملة للمتاجر الإلكترونية و SEO',
-      sub: 'محتوى بيعي · إدخال بيانات · صور · تحسين الظهور (SEO / GEO / AEO)',
-    },
-    en: {
-      title: 'Full E-commerce Management & SEO',
-      sub: 'Sales copy · Data entry · Images · Visibility (SEO / GEO / AEO)',
-    },
-  },
-  {
-    icon: Briefcase,
-    ar: {
-      title: 'نموذج عمل مرن',
-      sub: 'توظيف شهري عن بُعد · تنفيذ مشاريع مستقلة',
-    },
-    en: {
-      title: 'Flexible Work Model',
-      sub: 'Monthly remote hiring · Freelance project execution',
-    },
-  },
-];
 
 export default function Ticker() {
-  const { lang, t } = useApp();
-  const items = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
+  const { t } = useApp();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [paused, setPaused] = useState(false);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollStart = useRef(0);
+
+  const items = [
+    {
+      icon: Award,
+      title: t('+4 سنوات خبرة', '+4 Years Experience'),
+      sub: t('في السوق الخليجي - كتابة المحتوى، والتسويق وإدارة حسابات التواصل والمتاجر', 'In the Gulf market - Content writing, marketing & social/store management'),
+    },
+    {
+      icon: Briefcase,
+      title: t('نموذج عمل مرن', 'Flexible Work Model'),
+      sub: t('توظيف شهري، عن بُعد • تنفيذ مشاريع مستقلة', 'Monthly remote hiring • Freelance project execution'),
+    },
+    {
+      icon: ShoppingCart,
+      title: t('إدارة متكاملة للمتاجر الإلكترونية و SEO', 'Full E-commerce & SEO Management'),
+      sub: t('محتوى بيعي • إدخال بيانات • صور • تحسين الظهور (AEO / GEO)', 'Sales copy • Data entry • Images • Search visibility (AEO / GEO)'),
+    },
+    {
+      icon: Sparkles,
+      title: t('صناعة محتوى إعلاني بالذكاء الاصطناعي AI', 'AI Advertising Content Creation'),
+      sub: t('فيديوهات إعلانية احترافية وكتابة سكربتات بيعية مقنعة', 'Professional ad videos & persuasive sales scripts'),
+    },
+  ];
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    let rafId: number;
+
+    const tick = () => {
+      if (!paused && !isDragging.current && el) {
+        el.scrollLeft += 0.8;
+        const half = el.scrollWidth / 2;
+        if (el.scrollLeft >= half) {
+          el.scrollLeft -= half;
+        }
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [paused]);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    const el = trackRef.current;
+    if (!el) return;
+    isDragging.current = true;
+    setPaused(true);
+    startX.current = e.pageX - el.offsetLeft;
+    scrollStart.current = el.scrollLeft;
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    const el = trackRef.current;
+    if (!isDragging.current || !el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    el.scrollLeft = scrollStart.current - (x - startX.current);
+  };
+
+  const stopDrag = () => {
+    isDragging.current = false;
+  };
 
   return (
-    <section className="relative border-y border-accent/15 bg-card-light/50 dark:bg-card-dark/50 py-5">
-      <style>{`
-        @keyframes tickerSmooth {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .ticker-track {
-          display: flex;
-          width: max-content;
-          animation: tickerSmooth 35s linear infinite;
-        }
-        .ticker-track:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
-      <div dir="ltr" className="overflow-hidden">
-        <div className="ticker-track gap-8">
-          {items.map((item, i) => {
+    <div className="border-y border-accent/20 bg-card-light/80 dark:bg-[#0d0d10] py-4 select-none">
+      <div
+        ref={trackRef}
+        dir="ltr"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => { isDragging.current = false; setPaused(false); }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={stopDrag}
+        onTouchStart={() => setPaused(true)}
+        onTouchEnd={() => setTimeout(() => setPaused(false), 2500)}
+        className="no-scrollbar flex overflow-x-auto cursor-grab active:cursor-grabbing"
+      >
+        <div className="flex w-max items-center gap-6 px-4">
+          {[...items, ...items].map((item, idx) => {
             const Icon = item.icon;
-            const txt = lang === 'ar' ? item.ar : item.en;
             return (
-              <div
-                key={i}
-                dir={lang === 'ar' ? 'rtl' : 'ltr'}
-                className="flex items-center gap-3 whitespace-nowrap px-2"
-              >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
+              <div key={idx} dir="rtl" className="flex shrink-0 items-center gap-3.5">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[#f47b20]/30 bg-[#f47b20]/10 text-[#f47b20]">
                   <Icon className="h-5 w-5" />
-                </span>
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-ink-light dark:text-ink-dark">{txt.title}</span>
-                  <span className="text-[11px] text-ink-light/60 dark:text-ink-dark/60">{txt.sub}</span>
                 </div>
-                <span className="mx-3 h-1.5 w-1.5 rounded-full bg-accent/50" />
+                <div>
+                  <div className="text-sm font-extrabold text-ink-light dark:text-white">{item.title}</div>
+                  <div className="text-xs text-ink-light/70 dark:text-white/65">{item.sub}</div>
+                </div>
+                <span className="mr-4 h-2 w-2 rounded-full bg-[#f47b20]" />
               </div>
             );
           })}
         </div>
       </div>
-    </section>
-  );
-}
-
-export function About() {
-  const { lang, t } = useApp();
-  return (
-    <section id="about" className="mx-auto max-w-5xl px-5 py-14 sm:py-16">
-      <div className="relative overflow-hidden rounded-3xl border border-accent/20 bg-card-light dark:bg-card-dark p-7 sm:p-10">
-        <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-accent/15 blur-3xl" />
-        <div className="relative">
-          <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-base font-bold text-accent">
-            {t('من أنا', 'Who I Am')}
-          </span>
-          <h2 className="mt-4 text-xl font-extrabold text-ink-light dark:text-ink-dark sm:text-2xl">
-            {t('سمية الحاصبي', 'Sumaia Al-Hasbi')}
-          </h2>
-          <p className="mt-4 text-[15px] leading-[1.9] text-ink-light/75 dark:text-ink-dark/75">
-            {lang === 'ar' ? (
-              <>
-                أنا سمية الحاصبي — كاتبة محتوى تسويقي وأخصائية إدارة حسابات التواصل الاجتماعي عن بُعد، أعمل في السوق
-                الخليجي منذ أكثر من 4 سنوات مع الشركات وأصحاب المتاجر الإلكترونية. أقدم حلولاً عملية تشمل كتابة المحتوى
-                الإعلاني، إعداد الخطط التحريرية وتقويم المحتوى، إدارة المتاجر وإدخال البيانات ووصف المنتجات المتوافق مع{' '}
-                <span dir="ltr">(SEO / GEO / AEO)</span>، بالإضافة إلى كتابة سيناريوهات وصناعة فيديوهات الذكاء
-                الاصطناعي بأسلوب إعلاني وفيديوهات الـ <span dir="ltr">UGC</span>.
-              </>
-            ) : (
-              <>
-                I'm Sumaia Al-Hasbi — a marketing content writer and social media management specialist working remotely,
-                serving the Gulf market for over 4 years with companies and e-commerce store owners. I deliver practical
-                solutions including advertising content, editorial plans and content calendars, store management, data
-                entry, and product descriptions aligned with <span dir="ltr">(SEO / GEO / AEO)</span>, as well as
-                scriptwriting and AI video creation in an advertising style and <span dir="ltr">UGC</span> videos.
-              </>
-            )}
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
