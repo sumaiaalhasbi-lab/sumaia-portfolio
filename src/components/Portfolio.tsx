@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, Eye, ExternalLink, Play } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
@@ -65,6 +65,17 @@ export default function Portfolio() {
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
   const postTrackRef = useRef<HTMLDivElement>(null);
+  const hoveringInstaRef = useRef(false);
+
+  useEffect(() => {
+    const handleWindowBlur = () => {
+      if (hoveringInstaRef.current || document.activeElement?.tagName === 'IFRAME') {
+        setStopV(true);
+      }
+    };
+    window.addEventListener('blur', handleWindowBlur);
+    return () => window.removeEventListener('blur', handleWindowBlur);
+  }, []);
 
   const instaUrl = (code: string) => 'https://www.' + 'instagram' + '.com/reel/' + code + '/embed/';
   const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&loop=1&playlist=' + id;
@@ -173,7 +184,11 @@ export default function Portfolio() {
           className="no-scrollbar overflow-x-auto py-2 scroll-smooth"
         >
           {tab === 'ai-client' && (
-            <div className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}>
+            <div
+              onMouseEnter={() => { hoveringInstaRef.current = true; }}
+              onMouseLeave={() => { hoveringInstaRef.current = false; }}
+              className={'run-v gap-4 ' + (stopV ? 'stop-all' : '')}
+            >
               {[...REELS, ...REELS].map((item, idx) => (
                 <div key={item.code + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-white shadow-xl">
                   <div className="h-[515px] w-full overflow-hidden">
