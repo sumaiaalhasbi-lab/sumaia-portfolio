@@ -64,6 +64,7 @@ export default function Portfolio() {
   const [stopV, setStopV] = useState(false);
   const [stopP, setStopP] = useState(false);
   const [modalVideo, setModalVideo] = useState<{ id: string; title: string } | null>(null);
+  const [frameReady, setFrameReady] = useState(false);
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const videoTrackRef = useRef<HTMLDivElement>(null);
@@ -84,6 +85,12 @@ export default function Portfolio() {
   const ytEmbedUrl = (id: string) => 'https://www.' + 'youtube-nocookie' + '.com/embed/' + id + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&loop=1&playlist=' + id;
   const ytThumbUrl = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/maxresdefault.jpg';
   const ytFallbackThumb = (id: string) => 'https://i.' + 'ytimg' + '.com/vi/' + id + '/hqdefault.jpg';
+
+  const openModal = (id: string, title: string) => {
+    setStopV(true);
+    setFrameReady(false);
+    setModalVideo({ id, title });
+  };
 
   const stepV = (dir: 'left' | 'right') => {
     setStopV(true);
@@ -212,7 +219,7 @@ export default function Portfolio() {
                   <div key={'yt-' + ytId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
-                      onClick={() => { setStopV(true); setModalVideo({ id: ytId, title: label }); }}
+                      onClick={() => openModal(ytId, label)}
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
@@ -255,7 +262,7 @@ export default function Portfolio() {
                   <div key={'sc-' + ytId + '-' + idx} className="flex w-[275px] shrink-0 flex-col overflow-hidden rounded-2xl border border-accent/30 bg-[#121215] shadow-xl">
                     <button
                       type="button"
-                      onClick={() => { setStopV(true); setModalVideo({ id: ytId, title: label }); }}
+                      onClick={() => openModal(ytId, label)}
                       style={{ background: 'linear-gradient(145deg, #1a120b 0%, #2d180a 50%, #121215 100%)' }}
                       className="group relative h-[515px] w-full cursor-pointer overflow-hidden focus:outline-none"
                     >
@@ -363,15 +370,22 @@ export default function Portfolio() {
                 }}
                 className="absolute inset-0 h-full w-full object-cover"
               />
+              {!frameReady && (
+                <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black/30">
+                  <span className="h-11 w-11 animate-spin rounded-full border-4 border-[#f47b20] border-t-transparent" />
+                </div>
+              )}
               <iframe
                 src={ytEmbedUrl(modalVideo.id)}
                 title={modalVideo.title}
-                className="pointer-events-none relative z-10 h-[126%] w-full -translate-y-[13%] border-0"
+                onLoad={() => setTimeout(() => setFrameReady(true), 350)}
+                className={'pointer-events-none relative z-10 h-[126%] w-full -translate-y-[13%] border-0 transition-opacity duration-300 ' + (frameReady ? 'opacity-100' : 'opacity-0')}
                 allow="autoplay; fullscreen; encrypted-media"
                 allowFullScreen
               />
               <div className="pointer-events-none absolute top-0 inset-x-0 z-20 h-14 bg-gradient-to-b from-black via-black/95 to-transparent" />
               <div className="pointer-events-none absolute bottom-0 inset-x-0 z-20 h-28 bg-gradient-to-t from-black via-black/95 to-transparent" />
+              <div className="pointer-events-none absolute right-0 bottom-0 z-20 h-72 w-16 bg-gradient-to-l from-black/95 via-black/60 to-transparent" />
             </div>
           </div>
         </div>
